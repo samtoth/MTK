@@ -1,15 +1,15 @@
  # MTK (Music ToolKit)
  A C++ API designed for Music software
 
- ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/qoolander/MTK?sort=semver)
+ ![GitHub Version](https://img.shields.io/github/v/tag/qoolander/MTK?label=Version)
  ![Build](https://github.com/qoolander/MTK/workflows/Build/badge.svg)
 
  This project is a work in progress, many features are not implemented and API likely to change. 
 
  ## Contents
  * [Goals](#Goals)
- * [Current features](#Current features)
- * [Building from source](#Building from source)
+ * [Current features](#Current-features)
+ * [Building from source](#Building-from-source)
  * [License](#License)
  
 
