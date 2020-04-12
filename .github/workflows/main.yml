@@ -1,0 +1,32 @@
+name: Build
+
+on: [push]
+
+
+jobs:
+  linux:
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: get-cmake
+        uses: lukka/get-cmake@v2.3
+
+      - name: Configure
+        run: mkdir build && cd build && cmake -DCMAKE_CXX_COMPILER="/usr/bin/g++" -DCMAKE_C_COMPILER="/usr/bin/gcc" -DCMAKE_BUILD_TYPE=release ..
+
+      - name: Build
+        run: cmake --build build --target all -- -j 4
+  windows:
+    runs-on: [windows-latest]
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: get-cmake
+        uses: lukka/get-cmake@v2.3
+
+      - name: Configure
+        run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=release -G "CodeBlocks - MinGW Makefiles" ..
+
+      - name: Build
+        run: cmake --build build --target all -- -j 4

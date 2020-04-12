@@ -1,0 +1,11 @@
+DOXYFILE_ENCODING      = UTF-8
+PROJECT_NAME           = "@CMAKE_PROJECT_NAME@"
+PROJECT_NUMBER         = @CMAKE_PROJECT_VERSION@
+STRIP_FROM_PATH        = @PROJECT_SOURCE_DIR@/core \
+                         @PROJECT_BINARY_DIR@/core
+INPUT                  = @PROJECT_SOURCE_DIR@/core \
+                         @PROJECT_BINARY_DIR@/core
+FILE_PATTERNS          = *.h \
+                         *.cpp
+RECURSIVE              = YES
+CREATE_SUBDIRS         = YES

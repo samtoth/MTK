@@ -1,0 +1,1 @@
+add_library(MTKCore SHARED Pitch.cpp TuningSystemInterface.h)
