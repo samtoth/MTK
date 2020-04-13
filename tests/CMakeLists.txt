@@ -9,5 +9,5 @@ SETUP_TARGET_FOR_COVERAGE(
         runTests        # Name of the test driver executable that runs the tests.
         # NOTE! This should always have a ZERO as exit code
         # otherwise the coverage generation will not complete.
-        coverage_runTests            # Name of output directory.
+        coverage            # Name of output directory.
 )

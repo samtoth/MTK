@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.11)
 project(MusicToolkit VERSION 0.1.0)
 
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 MESSAGE(STATUS "Music ToolKit Version ${PROJECT_VERSION}")
@@ -18,13 +17,16 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 SET(CMAKE_CXX_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
 SET(CMAKE_C_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
 
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+
 add_subdirectory(core)
 include_directories(core)
 
 include(FetchContent)
 find_package(Threads REQUIRED)
-option(PACKAGE_TESTS "Build the tests" ON)
-if(PACKAGE_TESTS)
+option(TESTS "Build the tests" ON)
+if(TESTS)
     enable_testing()
     FetchContent_Declare(
             googletest
@@ -36,6 +38,5 @@ if(PACKAGE_TESTS)
     include(CodeCoverage)
     add_subdirectory(tests)
 endif()
-
 
 add_subdirectory(docs)
