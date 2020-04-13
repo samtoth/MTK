@@ -12,6 +12,9 @@ jobs:
       - name: get-cmake
         uses: lukka/get-cmake@v2.3
         
+      - name: get-doxygen
+        run: sudo apt-get install doxygen
+        
       - name: get-gcovr
         run: sudo apt-get install gcovr
           
