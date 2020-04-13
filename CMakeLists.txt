@@ -18,7 +18,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 add_subdirectory(core)
 include_directories(core)
 
-include(fetchContent)
+include(FetchContent)
 find_package(Threads REQUIRED)
 option(PACKAGE_TESTS "Build the tests" ON)
 if(PACKAGE_TESTS)
