@@ -13,10 +13,18 @@ jobs:
         uses: lukka/get-cmake@v2.3
 
       - name: Configure
-        run: mkdir build && cd build && cmake -DCMAKE_CXX_COMPILER="/usr/bin/g++" -DCMAKE_C_COMPILER="/usr/bin/gcc" -DCMAKE_BUILD_TYPE=release ..
+        run: pip install gcovr && mkdir build && cd build && cmake -DCMAKE_CXX_COMPILER="/usr/bin/g++" -DCMAKE_C_COMPILER="/usr/bin/gcc" -DCMAKE_BUILD_TYPE=release ..
 
       - name: Build
-        run: cmake --build build --target all -- -j 4
+        run: cmake --build build --target MTKCore -- -j 4
+
+      - name: Run-tests
+        run: cmake --build build --target generateCoverage -- -j 4
+
+      - name: Codecov
+          uses: codecov/codecov-action@v1.0.6
+          with:
+            file: coverage.xml
   windows:
     runs-on: [windows-latest]
     steps:
@@ -26,7 +34,15 @@ jobs:
         uses: lukka/get-cmake@v2.3
 
       - name: Configure
-        run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=release -G "CodeBlocks - MinGW Makefiles" ..
+        run: pip install gcovr && mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=release -G "MinGW Makefiles" ..
 
       - name: Build
-        run: cmake --build build --target all -- -j 4
+        run: cmake --build build --target MTKCore -- -j 4
+
+      - name: Run-tests
+          run: cmake --build build --target generateCoverage -- -j 4
+
+      - name: Codecov
+        uses: codecov/codecov-action@v1.0.6
+        with:
+          file: coverage.xml
