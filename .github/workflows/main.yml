@@ -12,10 +12,8 @@ jobs:
       - name: get-cmake
         uses: lukka/get-cmake@v2.3
         
-      - name: Pip Installer
-        uses: BSFishy/pip-action@v1
-        with:
-          packages: gcovr
+      - name: get-gcovr
+        run: sudo apt-get install gcovr
           
       - name: Configure
         run:  mkdir build && cd build && cmake -DCMAKE_CXX_COMPILER="/usr/bin/g++" -DCMAKE_C_COMPILER="/usr/bin/gcc" -DCMAKE_BUILD_TYPE=release ..
@@ -29,7 +27,7 @@ jobs:
       - name: Codecov
         uses: codecov/codecov-action@v1.0.6
         with:
-          file: coverage.xml
+          file: ./coverage.xml
           
         
   windows:
@@ -43,7 +41,7 @@ jobs:
       - name: get-doxygen
         run: choco install doxygen.install
 
-      - name: Pip Installer
+      - name: get-gcovr
         uses: BSFishy/pip-action@v1
         with:
           packages: gcovr
@@ -60,4 +58,4 @@ jobs:
       - name: Codecov
         uses: codecov/codecov-action@v1.0.6
         with:
-          file: coverage.xml
+          file: ./coverage.xml
