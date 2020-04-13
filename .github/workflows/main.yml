@@ -56,9 +56,4 @@ jobs:
         run: cmake --build build --target MTKCore -- -j 4
 
       - name: Run-tests
-        run: cmake --build build --target generateCoverage -- -j 4
-
-      - name: Codecov
-        uses: codecov/codecov-action@v1.0.6
-        with:
-          file: ./build/coverage.xml
+        run: cmake --build build --target runTests -- -j 4
