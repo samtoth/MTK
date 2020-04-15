@@ -20,6 +20,8 @@ SET(CMAKE_C_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
+
+
 add_subdirectory(core)
 include_directories(core)
 
