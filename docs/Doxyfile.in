@@ -2,10 +2,19 @@ DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "@CMAKE_PROJECT_NAME@"
 PROJECT_NUMBER         = @CMAKE_PROJECT_VERSION@
 STRIP_FROM_PATH        = @PROJECT_SOURCE_DIR@/core \
-                         @PROJECT_BINARY_DIR@/core
+                         @PROJECT_BINARY_DIR@/core \
+                         @PROJECT_SOURCE_DIR@/MuDa \
+                         @PROJECT_SOURCE_DIR@/audio
 INPUT                  = @PROJECT_SOURCE_DIR@/core \
-                         @PROJECT_BINARY_DIR@/core
+                          @PROJECT_BINARY_DIR@/core \
+                          @PROJECT_SOURCE_DIR@/MuDa \
+                          @PROJECT_SOURCE_DIR@/audio
+
 FILE_PATTERNS          = *.h \
                          *.cpp
 RECURSIVE              = YES
 CREATE_SUBDIRS         = YES
+HTML_HEADER            = header.html
+HTML_FOOTER            = footer.html
+HTML_EXTRA_STYLESHEET  = customdoxygen.css
+HTML_EXTRA_FILES       = doxy-boot.js
