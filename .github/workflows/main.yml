@@ -16,7 +16,7 @@ jobs:
         run: sudo apt-get install doxygen
       
       - name: get-Eigen3
-        run: sudo apt-get install eigen3
+        run: sudo apt-get install libeigen3-dev
         
       - name: get-gcovr
         run: sudo apt-get install gcovr
@@ -48,11 +48,9 @@ jobs:
         run: choco install doxygen.install
         
       - name: Download Eigen3
-        uses: Legion2/download-release-action@v2.1.0
+        uses: fabriciobastian/download-release-asset-action@v1.0.6
         with:
           repository: ros2/choco-packages 
-          tag: "2020-02-04"
-          # The file which should be downloaded.
           file: eigen.3.3.4.nupkg
     
       - name: Install eigen3
