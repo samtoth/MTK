@@ -24,6 +24,10 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 add_subdirectory(core)
 include_directories(core)
+add_subdirectory(audio)
+include_directories(audio)
+add_subdirectory(MuDa)
+
 
 include(FetchContent)
 find_package(Threads REQUIRED)

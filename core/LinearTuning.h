@@ -1,7 +1,7 @@
-//
-// Created by samt on 15/04/2020.
-//
-
+/**
+ * \class LinearTuning
+ * \brief A child of IRegularTuning. LinearTuning implements a Rank 2 Regular temperament as defined by https://en.xen.wiki/w/Tour_of_Regular_Temperaments#Rank-2_.28including_linear.29_temperaments
+ */
 #ifndef MUSICTOOLKIT_LINEARTUNING_H
 #define MUSICTOOLKIT_LINEARTUNING_H
 
