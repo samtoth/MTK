@@ -1,7 +1,7 @@
 
 ADD_EXECUTABLE(runTests PitchTest.cpp main.cpp RegularTuningTest.cpp)
 
-TARGET_LINK_LIBRARIES(runTests MTKCore gtest gtest_main)
+TARGET_LINK_LIBRARIES(runTests MTKCore audio MuDa gtest gtest_main)
 gtest_discover_tests(runTests)
 
 SETUP_TARGET_FOR_COVERAGE(
