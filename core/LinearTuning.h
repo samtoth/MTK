@@ -6,21 +6,28 @@
 #define MUSICTOOLKIT_LINEARTUNING_H
 
 #include <IRegularTuning.h>
+namespace MTKCore{
+#define Vector Eigen::Vector2i
+        class LinearTuning :
+        public IRegularTuning<Vector> {
+            public:
+            LinearTuning(float period, float generator, float _fundamentalFrequency);
 
-class LinearTuning : public IRegularTuning {
-public:
-    LinearTuning(float period, float generator, float _fundamentalFrequency);
+            std::string getNoteName(float frequency) override;
 
-    std::string getNoteName(float frequency) override;
+            std::string getNoteName(Vector coordinate) override;
 
-    std::string getNoteName(Eigen::VectorXf coordinate) override;
+            float distanceFromNote(float frequency) override;
 
-    float distanceFromNote(float frequency) override;
+            Vector getCoordinate(float frequency) override;
 
-    Eigen::VectorXf getCoordinate(float frequency) override;
+            float getFrequency(Vector coordinate)
+            override;
 
-    float getFrequency(Eigen::VectorXf coordinate) override;
-};
-
+            private:
+            float generator;
+            float period;
+        };
+}
 
 #endif //MUSICTOOLKIT_LINEARTUNING_H

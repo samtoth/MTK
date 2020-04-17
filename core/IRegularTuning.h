@@ -9,27 +9,37 @@
 
 #include <string>
 #include <Eigen/Dense>
+namespace MTKCore {
+    template<typename Vector>
+    class IRegularTuning {
+    public:
 
-class IRegularTuning {
-public:
 
-    ///
-    /// \param frequency
-    /// \return The name of the note that the given frequency is closest to
-    virtual std::string getNoteName(float frequency) = 0;
-    virtual std::string getNoteName(Eigen::VectorXf coordinate) = 0;
-    virtual float distanceFromNote(float frequency) = 0;
+        /// \param frequency
+        /// \return The name of the note that the given frequency is closest to
+        virtual std::string getNoteName(float frequency) = 0;
 
-    virtual float getFrequency(Eigen::VectorXf coordinate) = 0;
-    virtual Eigen::VectorXf getCoordinate(float frequency) = 0;
+        virtual float distanceFromNote(float frequency) = 0;
 
-    virtual float getFundamentalFrequency() const {return fundamentalFrequency;}
-    virtual void setFundamentalFrequency(float fundamentalFrequency) { IRegularTuning::fundamentalFrequency = fundamentalFrequency;}
+        virtual float getFrequency(Vector coordinate) = 0;
 
-private:
-    float fundamentalFrequency{};
-};
+        /// \param coordinate
+        /// \return The name of the note at the coordinate point
+        virtual std::string getNoteName(Vector coordinate) = 0;
 
+        /// \param frequency
+        /// \return The frequency of the note at the given coordinate
+        virtual Vector getCoordinate(float frequency) = 0;
+
+        virtual float getFundamentalFrequency() const { return fundamentalFrequency; }
+
+        virtual void setFundamentalFrequency(
+                float fundamentalFrequency) { IRegularTuning::fundamentalFrequency = fundamentalFrequency; }
+
+    protected:
+        float fundamentalFrequency{};
+    };
+}
 
 
 #endif //MUSICTOOLKIT_IREGULARTUNING_H

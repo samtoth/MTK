@@ -4,7 +4,7 @@
 
 #include <LinearTuning.h>
 #include <gtest/gtest.h>
-
+using namespace MTKCore;
 class LinearTuningTest : public ::testing::Test {
 
 public:
@@ -25,7 +25,7 @@ protected:
 
     // You can define per-test set-up logic as usual.
     virtual void SetUp() {
-        t = new LinearTuning(2, std::pow(2, 7.f/12.f), 440.f);
+        t = new LinearTuning(2, 2*std::pow(5, 1.f/4), 440.f);
     }
 
     // You can define per-test tear-down logic as usual.
@@ -38,5 +38,5 @@ protected:
 
 TEST_F(LinearTuningTest, checkFundamentalFrequency){
     EXPECT_FLOAT_EQ(t->getFundamentalFrequency(), 440.f);
-    EXPECT_FLOAT_EQ(t->getFrequency(Eigen::Vector2f(0,0)), t->getFundamentalFrequency());
+    EXPECT_FLOAT_EQ(t->getFrequency(Eigen::Vector2i(0,0)), t->getFundamentalFrequency());
 }
