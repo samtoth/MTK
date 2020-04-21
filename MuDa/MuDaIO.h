@@ -8,7 +8,7 @@
 
 #include <IAudioManager.h>
 #include <IMuDaStream.h>
-#include "MuDaFormat.h"
+#include "MuDaFileFormat.h"
 #include <thread>
 #include <functional>
 
@@ -26,7 +26,7 @@ private:
     void timerStart(unsigned int interval, bool* run);
 
     bool run;
-    MuDaFormat* format;
+    MuDaFileFormat* format;
     IMuDaStream* muDaStream;
     IAudioManager* audioManager;
 };
