@@ -14,6 +14,8 @@
 
 
 namespace MuDa {
+    #define PARAMS std::vector<std::pair<uint32_t /*paramId*/, float>>
+
     enum MessageCodes{
         start = 0x00,
         end = 0x01,
@@ -44,7 +46,7 @@ namespace MuDa {
     struct MuDaNoteMessageData{
         uint32_t channelId;
         uint32_t voiceId;
-        std::vector<std::pair<uint32_t /*paramId*/, float>> parameters;
+        PARAMS parameters;
     };
 
     struct MuDaMessage {
@@ -56,8 +58,8 @@ namespace MuDa {
         //TODO: Add static functions to generate specific MuDa messages with correct data eg:
         //      static MuDaMessage NoteOnMessage(int channelID, vector<pair<int paramID, float value>> parameters)
 
-        static MuDaMessage StartMessage(){MuDaMessage m; m.messageType = MessageCodes::start; m.delta = 0; m.data = 0; return m;}
-        static MuDaMessage EndMessage(uint32_t _delta){MuDaMessage m; m.messageType = MessageCodes::end; m.delta = _delta; m.data = 0; return m;}
+        static MuDaMessage StartMessage(){MuDaMessage m; m.messageType = MessageCodes::start; m.delta = 0; m.data = nullptr; return m;}
+        static MuDaMessage EndMessage(uint32_t _delta){MuDaMessage m; m.messageType = MessageCodes::end; m.delta = _delta; m.data = nullptr; return m;}
         static MuDaMessage NoteMessage(uint32_t _delta, uint16_t _messageType, MuDaNoteMessageData _data) {
             if(!(_messageType == MessageCodes::noteOn || _messageType == MessageCodes::noteChange || _messageType == MessageCodes::noteOff)){
                 throw std::runtime_error("Invalid messageCode");
@@ -66,7 +68,7 @@ namespace MuDa {
             m.messageType = _messageType;
             m.delta = _delta;
             uint32_t nParams = _data.parameters.size();
-            m.data = (char *)malloc(DataSizes::channelNumber + DataSizes::paramCount + nParams*(DataSizes::paramId+ DataSizes::floatData));
+            m.data = (char *)malloc(DataSizes::channelNumber+  DataSizes::voiceNumber + DataSizes::paramCount + nParams*(DataSizes::paramId+ DataSizes::floatData));
             char * temp = m.data;
             memcpy(temp, (char *)(&_data.channelId), DataSizes::channelNumber);
             temp += DataSizes::channelNumber;
@@ -82,10 +84,35 @@ namespace MuDa {
             }
             return m;
         }
+        static MuDaMessage SystemParamMessage(uint32_t _delta, PARAMS parameters){
+            MuDaMessage m;
+            m.delta = _delta;
+            m.messageType = MessageCodes::systemParamChange;
+            uint32_t nParams = parameters.size();
+            m.data = (char *)malloc(DataSizes::paramCount + nParams*(DataSizes::paramId+ DataSizes::floatData));
+            char * temp = m.data;
+            memcpy(temp, (char *)(&nParams), DataSizes::paramCount);
+            temp += DataSizes::paramCount;
+            for(int i; i < nParams; i++){
+                memcpy(temp, (char *)(&(parameters[i].first)), DataSizes::paramId);
+                temp += DataSizes::paramId;
+                memcpy(temp, (char *)(&(parameters[i].second)), DataSizes::floatData);
+                temp += DataSizes::floatData;
+            }
+            return m;
+        }
+        static MuDaMessage PanicMessage(uint32_t _delta, uint32_t channelNumber){
+            MuDaMessage m;
+            m.delta = _delta;
+            m.messageType = MessageCodes::panic;
+            m.data = (char *)malloc(DataSizes::channelNumber);
+            memcpy(m.data, (char *)(&channelNumber), DataSizes::channelNumber);
+            return m;
+        }
 
         std::optional<MuDaNoteMessageData> getNoteEventData(){
             if(!(messageType == MessageCodes::noteOn || messageType == MessageCodes::noteChange || messageType == MessageCodes::noteOff)){
-                std::cout << "Requested note event data from a non note MuDa even... aborting..."  << std::endl;
+                std::cout << "Requested note event data from a non note MuDa event... aborting..."  << std::endl;
                 return std::nullopt;
             }
 
@@ -104,8 +131,39 @@ namespace MuDa {
                 temp += DataSizes::paramId;
                 memcpy((char *)&tData, temp, DataSizes::floatData);
                 temp += DataSizes::floatData;
-                ret.parameters.push_back({tParamId, tData});
+                ret.parameters.emplace_back(tParamId, tData);
             }
+            return ret;
+        }
+        std::optional<PARAMS> getSystemParamData(){
+            if(messageType != MessageCodes::systemParamChange){
+                std::cout << "Requested systemParam event data from a non systemParam MuDa event... aborting..."  << std::endl;
+                return std::nullopt;
+            }
+
+            PARAMS ret;
+            char * temp = data;
+            int32_t nParams = 0;
+            memcpy((char *) (&nParams), temp, DataSizes::paramCount); //Copy the number of parameters to memory
+            temp += DataSizes::paramCount;  //Increment the pointer by the size of (paramCount) in bytes
+            uint32_t tParamId = 0; float tData = 0;
+            for (int k = 0; k < nParams; k++) {
+                memcpy((char *)&tParamId, temp, DataSizes::paramId);
+                temp += DataSizes::paramId;
+                memcpy((char *)&tData, temp, DataSizes::floatData);
+                temp += DataSizes::floatData;
+                ret.emplace_back(tParamId, tData);
+            }
+            return ret;
+        }
+        std::optional<uint32_t> getPanicData(){
+            if(messageType != MessageCodes::panic){
+                std::cout << "Requested panic event data from a non panic MuDa event... aborting..."  << std::endl;
+                return std::nullopt;
+            }
+            uint32_t ret;
+            char * temp = data;
+            memcpy((char *)&(ret), temp, DataSizes::channelNumber); //Read channel number
             return ret;
         }
 
@@ -264,7 +322,7 @@ namespace MuDa {
 
                         char * temp = message.data;
                         rf.read(temp, DataSizes::paramCount); //Read the param count to data
-                        int16_t nParams = 0;
+                        int32_t nParams = 0;
                         memcpy((char *) (&nParams), temp, DataSizes::paramCount); //Copy the number of parameters to memory
 
                         message.data = (char *)realloc(message.data,DataSizes::paramCount + nParams*(DataSizes::paramId + DataSizes::floatData)); //Reallocate enough memory for the message now we know how many parameters are included

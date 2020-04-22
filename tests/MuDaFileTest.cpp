@@ -17,8 +17,8 @@ TEST(MuDaFileTest, writeFile){
     Mf.add(MuDaMessage::StartMessage());
     Mf.add(MuDaMessage::NoteMessage(512, MessageCodes::noteOn, {0, 0, params}));
     Mf.add(MuDaMessage::NoteMessage(600, MessageCodes::noteChange, {0, 0, {{0, 442}}}));
-    //Mf.add(MuDaMessage::systemChangeMessage());
-    //Mf.add(MuDaMessage::panicMessage());
+    Mf.add(MuDaMessage::SystemParamMessage(700, {{3, 440.f}}));
+    Mf.add(MuDaMessage::PanicMessage(750, 1));
     Mf.add(MuDaMessage::NoteMessage(1024, MessageCodes::noteOff, {0, 0, {{0, 442}}}));
     Mf.add(MuDaMessage::EndMessage(1536));
 
@@ -44,6 +44,19 @@ TEST(MuDaFileTest, writeFile){
                 ASSERT_SAME(MfN, MfN2, channelId);
                 ASSERT_SAME(MfN, MfN2, voiceId);
                 ASSERT_SAME(MfN, MfN2, parameters.size());
+            }else if(Mf.messages.at(i).messageType == MessageCodes::systemParamChange){
+                std::optional<PARAMS> MfP;
+                std::optional<PARAMS> MfP2;
+                if(!(MfP = Mf.messages.at(i).getSystemParamData())){ FAIL(); }
+                if(!(MfP2 = Mf2.messages.at(i).getSystemParamData())){FAIL(); }
+                ASSERT_SAME((*MfP), (*MfP2), size());
+
+            }else if(Mf.messages.at(i).messageType == MessageCodes::panic){
+                uint32_t MfP;
+                uint32_t MfP2;
+                MfP = *Mf.messages.at(i).getPanicData();
+                MfP2 = *Mf2.messages.at(i).getPanicData();
+                ASSERT_EQ(MfP, MfP2);
             }
         }
 
