@@ -86,7 +86,7 @@ namespace MuDa {
                 case noteOff: {
                     outFile->write(temp, DataSizes::channelNumber); //Write channel number
                     temp += DataSizes::channelNumber; //Increment the pointer by the size of (ChannelNumber) in bytes
-                    int16_t nParams = 0;
+                    int32_t nParams = 0;
                     memcpy((char *) (&nParams), temp, DataSizes::paramCount); //Copy the number of parameters to memory
                     outFile->write(temp, DataSizes::paramCount); //Write the number of parameters to file
                     temp += DataSizes::paramCount;  //Increment the pointer by the size of (paramCount) in bytes
