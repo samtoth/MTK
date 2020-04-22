@@ -11,25 +11,28 @@
 #include "MuDaFileFormat.h"
 #include <thread>
 #include <functional>
+namespace MuDa {
+    class MuDaIO {
+    public:
+        MuDaIO(IMuDaStream *_muDaStream, IAudioManager *_audioManager) : muDaStream(_muDaStream),
+                                                                         audioManager(_audioManager) {}
 
-class MuDaIO {
-public:
-    MuDaIO(IMuDaStream* _muDaStream, IAudioManager* _audioManager) : muDaStream(_muDaStream), audioManager(_audioManager){}
+        void start();
 
-    void start();
-    void stop();
+        void stop();
 
-private:
-    void tick();
-    void parseHeader();
+    private:
+        void tick();
 
-    void timerStart(unsigned int interval, bool* run);
+        void parseHeader();
 
-    bool run;
-    MuDaFileFormat* format;
-    IMuDaStream* muDaStream;
-    IAudioManager* audioManager;
-};
+        void timerStart(unsigned int interval, bool *run);
 
+        bool run;
+        MuDaFileFormat *format;
+        IMuDaStream *muDaStream;
+        IAudioManager *audioManager;
+    };
+}
 
 #endif //MUSICTOOLKIT_MUDAIO_H
