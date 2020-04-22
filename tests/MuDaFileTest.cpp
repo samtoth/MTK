@@ -6,16 +6,20 @@
 #include <gtest/gtest.h>
 #include <MuDaFileFormat.h>
 
-#define ASSERT_SAME(a, b, value) ASSERT_EQ(a.value,b.value);
+#define ASSERT_SAME(a, b, value) ASSERT_EQ(a.value,b.value)
 
 using namespace MuDa;
-TEST(MuDaFileTestm, writeFile){
-    MuDaFileFormat Mf(512);
+
+TEST(MuDaFileTest, writeFile){
+    auto Mf = MuDaFileFormat(512);
     std::vector<std::pair<uint32_t, float>> params = {{0, 440.f}};
 
     Mf.add(MuDaMessage::StartMessage());
-    Mf.add(MuDaMessage::NoteMessage(MessageCodes::noteOn, 512, 0, params));
-    Mf.add(MuDaMessage::NoteMessage(MessageCodes::noteOff, 1024, 0, params));
+    Mf.add(MuDaMessage::NoteMessage(512, MessageCodes::noteOn, {0, 0, params}));
+    Mf.add(MuDaMessage::NoteMessage(600, MessageCodes::noteChange, {0, 0, {{0, 442}}}));
+    //Mf.add(MuDaMessage::systemChangeMessage());
+    //Mf.add(MuDaMessage::panicMessage());
+    Mf.add(MuDaMessage::NoteMessage(1024, MessageCodes::noteOff, {0, 0, {{0, 442}}}));
     Mf.add(MuDaMessage::EndMessage(1536));
 
     Mf.writeToFile("testOutput.MuDa");
@@ -25,18 +29,61 @@ TEST(MuDaFileTestm, writeFile){
 
 #define ASSERT_SAME_MF(value) ASSERT_SAME(Mf, Mf2, value)
 
-        ASSERT_SAME_MF(header.version)
-        ASSERT_SAME_MF(header.deltaPerSecond)
-        ASSERT_SAME_MF(data.size())
-        for(int i = 0; i < Mf.data.size(); i++){
-            ASSERT_SAME_MF(data.at(i).delta);
-            ASSERT_SAME_MF(data.at(i).messageType)
+        ASSERT_SAME_MF(header.version);
+        ASSERT_SAME_MF(header.deltaPerSecond);
+        ASSERT_SAME_MF(messages.size());
+        for(int i = 0; i < Mf.messages.size(); i++){
+            ASSERT_SAME_MF(messages.at(i).delta);
+            ASSERT_SAME_MF(messages.at(i).messageType);
             //Check data is exactly the same
+            if(Mf.messages.at(i).messageType == MessageCodes::noteOn || Mf.messages.at(i).messageType == MessageCodes::noteChange || Mf.messages.at(i).messageType == MessageCodes::noteOff){
+                MuDaNoteMessageData MfN;
+                MuDaNoteMessageData MfN2;
+                MfN = *Mf.messages.at(i).getNoteEventData();
+                MfN2 = *Mf2.messages.at(i).getNoteEventData();
+                ASSERT_SAME(MfN, MfN2, channelId);
+                ASSERT_SAME(MfN, MfN2, voiceId);
+                ASSERT_SAME(MfN, MfN2, parameters.size());
+            }
         }
 
         SUCCEED();
     } else {
         std::cout << "Error in passing file" << std::endl;
+        FAIL();
+    }
+}
+
+TEST(MuDaFileTest, testGetNoteEvent){
+    MuDaFileFormat mf = MuDaFileFormat();
+    MuDaNoteMessageData mData = {0, 0, {{0, 1}}};
+    mf.add(MuDaMessage::NoteMessage(0, MessageCodes::noteOn, {0, 0, {{0, 1}}}));
+
+    MuDaNoteMessageData mData2 = *mf.messages[0].getNoteEventData();
+
+    ASSERT_EQ(mData.channelId, mData2.channelId);
+    ASSERT_EQ(mData.voiceId, mData2.voiceId);
+    ASSERT_EQ(mData.parameters.size(), mData2.parameters.size());
+    for(int i = 0; i< mData.parameters.size(); i++){
+        ASSERT_SAME(mData, mData2, parameters[i].first);
+        ASSERT_SAME(mData, mData2, parameters[i].second);
+    }
+}
+
+TEST(MuDaFileTest, readnonExistingFile){
+    auto mf = MuDaFileFormat::readFromFile("BlahBlah.nonexistant.MuDa");
+    EXPECT_FALSE(mf);
+}
+
+
+TEST(MuDaFileTest, badNoteMessage){
+    try{
+        auto Mm = MuDaMessage::NoteMessage(0, MessageCodes::start, {0, 0, {}});
+        FAIL();
+    }catch(std::runtime_error &e){
+        std::string ec = "Invalid messageCode";
+        ASSERT_EQ(ec.compare(e.what()), 0);
+    }catch(std::exception &e) {
         FAIL();
     }
 }

@@ -30,6 +30,7 @@ namespace MuDa {
         deltaVal = sizeof(uint64_t),
         channelNumber = sizeof(uint32_t),
         paramCount = sizeof(uint32_t),
+        voiceNumber = sizeof(uint32_t),
         paramId = sizeof(uint32_t),
         floatData = sizeof(float)
     };
@@ -38,6 +39,12 @@ namespace MuDa {
         char signature[4];
         uint16_t version;
         uint32_t deltaPerSecond;
+    };
+
+    struct MuDaNoteMessageData{
+        uint32_t channelId;
+        uint32_t voiceId;
+        std::vector<std::pair<uint32_t /*paramId*/, float>> parameters;
     };
 
     struct MuDaMessage {
@@ -51,29 +58,58 @@ namespace MuDa {
 
         static MuDaMessage StartMessage(){MuDaMessage m; m.messageType = MessageCodes::start; m.delta = 0; m.data = 0; return m;}
         static MuDaMessage EndMessage(uint32_t _delta){MuDaMessage m; m.messageType = MessageCodes::end; m.delta = _delta; m.data = 0; return m;}
-
-        static MuDaMessage NoteMessage(uint16_t _messageType, uint32_t _delta, uint32_t _channelNumber, std::vector<std::pair<uint32_t /*paramId*/, float>> parameters){
-            assert(_messageType == MessageCodes::noteOn || _messageType == MessageCodes::noteChange || _messageType == MessageCodes::noteOff);
+        static MuDaMessage NoteMessage(uint32_t _delta, uint16_t _messageType, MuDaNoteMessageData _data) {
+            if(!(_messageType == MessageCodes::noteOn || _messageType == MessageCodes::noteChange || _messageType == MessageCodes::noteOff)){
+                throw std::runtime_error("Invalid messageCode");
+            }
             MuDaMessage m;
             m.messageType = _messageType;
             m.delta = _delta;
-            uint32_t nParams = parameters.size();
+            uint32_t nParams = _data.parameters.size();
             m.data = (char *)malloc(DataSizes::channelNumber + DataSizes::paramCount + nParams*(DataSizes::paramId+ DataSizes::floatData));
             char * temp = m.data;
-            memcpy(temp, (char *)(&_channelNumber), DataSizes::channelNumber);
+            memcpy(temp, (char *)(&_data.channelId), DataSizes::channelNumber);
             temp += DataSizes::channelNumber;
+            memcpy(temp, (char *)(&_data.voiceId), DataSizes::voiceNumber);
+            temp += DataSizes::voiceNumber;
             memcpy(temp, (char *)(&nParams), DataSizes::paramCount);
             temp += DataSizes::paramCount;
             for(int i = 0; i < nParams; i++){
-                memcpy(temp, (char *)(&(parameters[i].first)), DataSizes::paramId);
+                memcpy(temp, (char *)(&(_data.parameters[i].first)), DataSizes::paramId);
                 temp += DataSizes::paramId;
-                memcpy(temp, (char *)(&(parameters[i].second)), DataSizes::floatData);
+                memcpy(temp, (char *)(&(_data.parameters[i].second)), DataSizes::floatData);
                 temp += DataSizes::floatData;
             }
             return m;
         }
 
-        void write(std::ofstream *outFile){
+        std::optional<MuDaNoteMessageData> getNoteEventData(){
+            if(!(messageType == MessageCodes::noteOn || messageType == MessageCodes::noteChange || messageType == MessageCodes::noteOff)){
+                std::cout << "Requested note event data from a non note MuDa even... aborting..."  << std::endl;
+                return std::nullopt;
+            }
+
+            MuDaNoteMessageData ret;
+            char * temp = data;
+            memcpy((char *)&(ret.channelId), temp, DataSizes::channelNumber); //Read channel number
+            temp += DataSizes::channelNumber; //Increment the pointer by the size of (ChannelNumber) in bytes
+            memcpy((char *)&(ret.voiceId), temp,  DataSizes::voiceNumber); //Read voice number
+            temp += DataSizes::voiceNumber; //Increment the pointer by the size of (voiceNumber) in bytes
+            int32_t nParams = 0;
+            memcpy((char *) (&nParams), temp, DataSizes::paramCount); //Copy the number of parameters to memory
+            temp += DataSizes::paramCount;  //Increment the pointer by the size of (paramCount) in bytes
+            uint32_t tParamId = 0; float tData = 0;
+            for (int k = 0; k < nParams; k++) {
+                memcpy((char *)&tParamId, temp, DataSizes::paramId);
+                temp += DataSizes::paramId;
+                memcpy((char *)&tData, temp, DataSizes::floatData);
+                temp += DataSizes::floatData;
+                ret.parameters.push_back({tParamId, tData});
+            }
+            return ret;
+        }
+
+        void writeF(std::ofstream *outFile){
             outFile->write((char *) &(delta), DataSizes::deltaVal);
             outFile->write((char *) &(messageType), DataSizes::messageType);
             char *temp = data;
@@ -86,6 +122,8 @@ namespace MuDa {
                 case noteOff: {
                     outFile->write(temp, DataSizes::channelNumber); //Write channel number
                     temp += DataSizes::channelNumber; //Increment the pointer by the size of (ChannelNumber) in bytes
+                    outFile->write(temp, DataSizes::voiceNumber); //Write voiceId
+                    temp += DataSizes::voiceNumber; //Increment the pointer by the size of (voiceNumber) in bytes
                     int32_t nParams = 0;
                     memcpy((char *) (&nParams), temp, DataSizes::paramCount); //Copy the number of parameters to memory
                     outFile->write(temp, DataSizes::paramCount); //Write the number of parameters to file
@@ -121,11 +159,16 @@ namespace MuDa {
         }
     };
 
+
+
     struct MuDaFileFormat {
         MuDaHeader header;
-        std::vector<MuDaMessage> data;
+        std::vector<MuDaMessage> messages;
 
-        MuDaFileFormat(){}
+        MuDaFileFormat(){
+            strncpy(header.signature, "MuDa", 4);
+            header.version = 1;
+        }
 
         MuDaFileFormat(int32_t _deltaPerSecond){
             strncpy(header.signature, "MuDa", 4);
@@ -133,8 +176,8 @@ namespace MuDa {
             header.deltaPerSecond = _deltaPerSecond;
         }
 
-        void add(MuDaMessage message){
-            data.push_back(message);
+        void add(MuDaMessage _message){
+            messages.push_back(_message);
         }
 
         bool writeToFile(std::string file){
@@ -145,11 +188,11 @@ namespace MuDa {
             }
             //Write the header to file
             wf.write((char *) &header, sizeof(MuDaHeader));
-            uint64_t nMessage = data.size();
+            uint64_t nMessage = messages.size();
             wf.write((char *)&(nMessage), DataSizes::messageCount);
 
-            for(auto message : data){
-                message.write(&wf);
+            for(auto message : messages){
+                message.writeF(&wf);
             }
 
             wf.close();
@@ -172,6 +215,7 @@ namespace MuDa {
 
             rf.read((char *)(&ret.header), sizeof(MuDaHeader));
             if(ret.header.signature[0] != 'M' || ret.header.signature[1] != 'u' || ret.header.signature[2] != 'D' || ret.header.signature[3] != 'a'){
+                std::cout << "MuDa signature not found" << std::endl;
                 return std::nullopt;
             }
 
@@ -191,19 +235,21 @@ namespace MuDa {
                     case noteOn:
                     case noteChange:
                     case noteOff: {
-                        // allocate enough data to at least store channel number and param count
-                        message.data = (char*)malloc(DataSizes::channelNumber + DataSizes::paramCount);
+                        // allocate enough data to at least store channel number, voiceNumber and param count
+                        message.data = (char*)malloc(DataSizes::channelNumber + DataSizes::voiceNumber + DataSizes::paramCount);
 
                         char * temp = message.data;
                         rf.read(temp, DataSizes::channelNumber); //Read channel number
                         temp += DataSizes::channelNumber; //Increment the pointer by the size of (ChannelNumber) in bytes
+                        rf.read(temp, DataSizes::voiceNumber); //Read voice number
+                        temp += DataSizes::voiceNumber; //Increment the pointer by the size of (voiceNumber) in bytes
                         rf.read(temp, DataSizes::paramCount); //Read the param count to data
                         int32_t nParams = 0;
                         memcpy((char *) (&nParams), temp, DataSizes::paramCount); //Copy the number of parameters to memory
                         temp += DataSizes::paramCount;  //Increment the pointer by the size of (paramCount) in bytes
                         message.data = (char *)realloc(message.data,DataSizes::channelNumber + DataSizes::paramCount
                             + nParams*(DataSizes::paramId + DataSizes::floatData)); //Reallocate enough memory for the message now we know how many parameters are included
-                        temp = message.data + DataSizes::channelNumber + DataSizes::paramCount;
+                        temp = message.data + DataSizes::channelNumber  + DataSizes::voiceNumber + DataSizes::paramCount;
                         for (int k = 0; k < nParams; k++) {
                             rf.read(temp, DataSizes::paramId);
                             temp += DataSizes::paramId;
