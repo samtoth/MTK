@@ -3,7 +3,7 @@
 
  ![MTK Version](https://img.shields.io/github/v/tag/qoolander/MTK?label=Version)
  ![Build](https://github.com/qoolander/MTK/workflows/Build/badge.svg?branch=Development)
- ![codecov](https://codecov.io/gh/qoolander/MTK/branch/Development/graph/badge.svg)]
+ ![codecov](https://codecov.io/gh/qoolander/MTK/branch/Development/graph/badge.svg)
 
 
 
