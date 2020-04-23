@@ -25,7 +25,7 @@ jobs:
         run:  mkdir build && cd build && cmake -DCMAKE_CXX_COMPILER="/usr/bin/g++" -DCMAKE_C_COMPILER="/usr/bin/gcc" -DCMAKE_BUILD_TYPE=release ..
 
       - name: Build
-        run: cmake --build build --target MTKCore -- -j 4
+        run: cmake --build build --target all -- -j 4
 
       - name: Run-tests
         run: cmake --build build --target generateCoverage -- -j 4
