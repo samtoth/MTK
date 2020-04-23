@@ -1,2 +1,2 @@
 todo:
-  keyword: ['//TODO:', '//TODO']
+  keyword: ['//TODO:', '//TODO', 'TODO', 'TODO:', '@todo']
