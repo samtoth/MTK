@@ -58,6 +58,8 @@ protected:
 
 TEST_F(LinearTuningTestF, checkFundamentalFrequency){
     EXPECT_FLOAT_EQ(t->getFundamentalFrequency(), 440.f);
+    t->setFundamentalFrequency(441.f);
+    EXPECT_FLOAT_EQ(t->getFundamentalFrequency(), 441.f);
 }
 TEST_F(LinearTuningTestF, checkCoordinate00){
     EXPECT_FLOAT_EQ(t->getFrequency(Eigen::Vector2i(0,0)), t->getFundamentalFrequency());

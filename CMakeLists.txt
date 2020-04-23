@@ -27,6 +27,7 @@ include_directories(core)
 add_subdirectory(audio)
 include_directories(audio)
 add_subdirectory(MuDa)
+include_directories(MuDa)
 
 
 include(FetchContent)

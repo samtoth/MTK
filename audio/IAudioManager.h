@@ -7,18 +7,16 @@
 #include <cstdint>
 #include <vector>
 
-#define UINT16 uint16_t
-
+#define UINT32 uint32_t
+#define PARAM_t std::vector<std::pair<UINT32 /*paramID*/, float /*value*/>>
 class IAudioManager {
 
 public:
-    virtual void NoteOn(UINT16 chanel, UINT16 noParams, std::vector<std::pair<short /*paramID*/, float /*value*/>>) = 0;
-    virtual void NoteChange(UINT16 chanel, UINT16 noParams, std::vector<std::pair<short /*paramID*/, float /*value*/>>) = 0;
-    virtual void NoteOff(UINT16 chanel, UINT16 noParams, std::vector<std::pair<short /*paramID*/, float /*value*/>>) = 0;
-
-
-
+    virtual void NoteOn(UINT32 chanel, UINT32 noParams, PARAM_t parameters) = 0;
+    virtual void NoteChange(UINT32 chanel, UINT32 noParams, PARAM_t parameters) = 0;
+    virtual void NoteOff(UINT32 chanel, UINT32 noParams, PARAM_t parameters) = 0;
+    virtual void SystemParamChange(PARAM_t parameters) = 0;
+    virtual void Panic(UINT32 channel) = 0;
 };
-
 
 #endif //MUSICTOOLKIT_IAUDIOMANAGER_H
