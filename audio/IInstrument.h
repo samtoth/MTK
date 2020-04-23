@@ -1,17 +1,18 @@
-//
-// Created by samt on 15/04/2020.
-//
+///
+/// \class IInstrument
+///
 
-#ifndef MUSICTOOLKIT_IAUDIOMANAGER_H
-#define MUSICTOOLKIT_IAUDIOMANAGER_H
+#ifndef MUSICTOOLKIT_IINSTRUMENT_H
+#define MUSICTOOLKIT_IINSTRUMENT_H
+
 #include <cstdint>
 #include <vector>
 #include "IGenerator.h"
 
 #define PARAM_t std::vector<std::pair<uint32_t /*paramID*/, float /*value*/>>
-class IAudioManager : public IGenerator {
 
-public:
+class IInstrument : public IGenerator{
+
     virtual void NoteOn(uint32_t chanel, uint32_t noParams, PARAM_t parameters) = 0;
     virtual void NoteChange(uint32_t chanel, uint32_t noParams, PARAM_t parameters) = 0;
     virtual void NoteOff(uint32_t chanel, uint32_t noParams, PARAM_t parameters) = 0;
@@ -19,4 +20,4 @@ public:
     virtual void Panic(uint32_t channel) = 0;
 };
 
-#endif //MUSICTOOLKIT_IAUDIOMANAGER_H
+#endif //MUSICTOOLKIT_IINSTRUMENT_H
