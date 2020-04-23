@@ -14,8 +14,7 @@
 namespace MuDa {
     class MuDaFilePlayer {
     public:
-        MuDaFilePlayer(MuDaFileFormat _MuDaFile, IAudioManager *_audioManager) : format(_MuDaFile),
-                                                                                 audioManager(_audioManager) {}
+        MuDaFilePlayer(MuDaFileFormat *MuDaFile, IAudioManager *_audioManager) : audioManager(_audioManager) { format = MuDaFile;}
 
         bool start();
 
@@ -31,7 +30,7 @@ namespace MuDa {
         int currentMessage;
         uint64_t delta;
         bool run;
-        MuDaFileFormat format;
+        MuDaFileFormat *format;
         IAudioManager *audioManager;
     };
 }

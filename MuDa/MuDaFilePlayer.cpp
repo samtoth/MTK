@@ -10,8 +10,8 @@ namespace MuDa {
     /// \returns success of start
     bool MuDaFilePlayer::start() {
         parseHeader();
-        int interval = 1000 / format.header.deltaPerSecond;
-        if(format.messages.size()==0){
+        int interval = 1000 / format->header.deltaPerSecond;
+        if(format->messages.empty()){
             return false;
         }
         currentMessage = 0;
@@ -36,8 +36,9 @@ namespace MuDa {
     }
 
     void MuDaFilePlayer::tick() {
-        if(delta==format.messages[currentMessage].delta){
-            switch (format.messages[currentMessage].messageType) {
+        //TODO: check if message delta is greater than current message delta
+        while(delta==format->messages[currentMessage]->delta){
+            switch (format->messages[currentMessage]->messageType) {
                 case MessageCodes::start: {
                     //TODO: do something?? notify audio manager?
                     break;
@@ -48,32 +49,31 @@ namespace MuDa {
                     break;
                 }
                 case MessageCodes::noteOn: {
-                    auto mDat = format.messages[currentMessage].getNoteEventData();
+                    auto mDat = format->messages[currentMessage]->getNoteEventData();
                     audioManager->NoteOn((*mDat).channelId, (*mDat).voiceId, (*mDat).parameters);
                     break;
                 }
                 case MessageCodes::noteChange: {
-                    auto mDat = format.messages[currentMessage].getNoteEventData();
+                    auto mDat = format->messages[currentMessage]->getNoteEventData();
                     audioManager->NoteChange((*mDat).channelId, (*mDat).voiceId, (*mDat).parameters);
                     break;
                 }
                 case MessageCodes::noteOff: {
-                    auto mDat = format.messages[currentMessage].getNoteEventData();
+                    auto mDat = format->messages[currentMessage]->getNoteEventData();
                     audioManager->NoteOff((*mDat).channelId, (*mDat).voiceId, (*mDat).parameters);
                     break;
                 }
                 case MessageCodes::systemParamChange: {
-                    auto mDat = format.messages[currentMessage].getSystemParamData();
+                    auto mDat = format->messages[currentMessage]->getSystemParamData();
                     audioManager->SystemParamChange((*mDat));
                     break;
                 }
                 case MessageCodes::panic: {
-                    auto mDat = format.messages[currentMessage].getPanicData();
+                    auto mDat = format->messages[currentMessage]->getPanicData();
                     audioManager->Panic((*mDat));
                     break;
                 }
             }
-
             currentMessage++;
         }
         delta++;

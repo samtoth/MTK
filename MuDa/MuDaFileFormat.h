@@ -10,7 +10,10 @@
 #include <iostream>
 #include <cstring>
 #include <cassert>
+#include <memory>
 #include <optional>
+#include <utility>
+#include <memory>
 
 
 namespace MuDa {
@@ -49,27 +52,36 @@ namespace MuDa {
         PARAMS parameters;
     };
 
+
     struct MuDaMessage {
         uint64_t delta;
         uint16_t messageType;
         char* data;
 
+        MuDaMessage(){
+            delta = 0;
+            messageType = 0;
+            data = nullptr;
+        }
 
-        //TODO: Add static functions to generate specific MuDa messages with correct data eg:
-        //      static MuDaMessage NoteOnMessage(int channelID, vector<pair<int paramID, float value>> parameters)
+        MuDaMessage(uint64_t _delta, uint16_t _messageType){
+            delta = _delta;
+            messageType = _messageType;
+            data = nullptr;
+        }
 
-        static MuDaMessage StartMessage(){MuDaMessage m; m.messageType = MessageCodes::start; m.delta = 0; m.data = nullptr; return m;}
-        static MuDaMessage EndMessage(uint32_t _delta){MuDaMessage m; m.messageType = MessageCodes::end; m.delta = _delta; m.data = nullptr; return m;}
-        static MuDaMessage NoteMessage(uint32_t _delta, uint16_t _messageType, MuDaNoteMessageData _data) {
-            if(!(_messageType == MessageCodes::noteOn || _messageType == MessageCodes::noteChange || _messageType == MessageCodes::noteOff)){
-                throw std::runtime_error("Invalid messageCode");
+        ~MuDaMessage(){
+            if(data!=nullptr){
+                free(data);
+                data = nullptr;
             }
-            MuDaMessage m;
-            m.messageType = _messageType;
-            m.delta = _delta;
+        }
+
+        static char *CreateNoteMessageData(MuDaNoteMessageData _data) {
+            char * ret;
             uint32_t nParams = _data.parameters.size();
-            m.data = (char *)malloc(DataSizes::channelNumber+  DataSizes::voiceNumber + DataSizes::paramCount + nParams*(DataSizes::paramId+ DataSizes::floatData));
-            char * temp = m.data;
+            ret = (char *)malloc(DataSizes::channelNumber+  DataSizes::voiceNumber + DataSizes::paramCount + nParams*(DataSizes::paramId+ DataSizes::floatData));
+            char * temp = ret;
             memcpy(temp, (char *)(&_data.channelId), DataSizes::channelNumber);
             temp += DataSizes::channelNumber;
             memcpy(temp, (char *)(&_data.voiceId), DataSizes::voiceNumber);
@@ -82,35 +94,29 @@ namespace MuDa {
                 memcpy(temp, (char *)(&(_data.parameters[i].second)), DataSizes::floatData);
                 temp += DataSizes::floatData;
             }
-            return m;
+            return ret;
         }
-        static MuDaMessage SystemParamMessage(uint32_t _delta, PARAMS parameters){
-            MuDaMessage m;
-            m.delta = _delta;
-            m.messageType = MessageCodes::systemParamChange;
+        static char *CreateSystemParamMessageData(PARAMS parameters){
             uint32_t nParams = parameters.size();
-            m.data = (char *)malloc(DataSizes::paramCount + nParams*(DataSizes::paramId+ DataSizes::floatData));
-            char * temp = m.data;
+            char *ret = (char *)malloc(DataSizes::paramCount + nParams*(DataSizes::paramId+ DataSizes::floatData));
+            char *temp = ret;
             memcpy(temp, (char *)(&nParams), DataSizes::paramCount);
             temp += DataSizes::paramCount;
-            for(int i; i < nParams; i++){
+            for(int i = 0; i < nParams; i++){
                 memcpy(temp, (char *)(&(parameters[i].first)), DataSizes::paramId);
                 temp += DataSizes::paramId;
                 memcpy(temp, (char *)(&(parameters[i].second)), DataSizes::floatData);
                 temp += DataSizes::floatData;
             }
-            return m;
+            return ret;
         }
-        static MuDaMessage PanicMessage(uint32_t _delta, uint32_t channelNumber){
-            MuDaMessage m;
-            m.delta = _delta;
-            m.messageType = MessageCodes::panic;
-            m.data = (char *)malloc(DataSizes::channelNumber);
-            memcpy(m.data, (char *)(&channelNumber), DataSizes::channelNumber);
-            return m;
+        static char *CreatePanicMessageData(uint32_t channelNumber){
+            char *ret = (char *)malloc(DataSizes::channelNumber);
+            memcpy(ret, (char *)(&channelNumber), DataSizes::channelNumber);
+            return ret;
         }
 
-        std::optional<MuDaNoteMessageData> getNoteEventData(){
+        std::optional<MuDaNoteMessageData> getNoteEventData() const{
             if(!(messageType == MessageCodes::noteOn || messageType == MessageCodes::noteChange || messageType == MessageCodes::noteOff)){
                 std::cout << "Requested note event data from a non note MuDa event... aborting..."  << std::endl;
                 return std::nullopt;
@@ -135,7 +141,7 @@ namespace MuDa {
             }
             return ret;
         }
-        std::optional<PARAMS> getSystemParamData(){
+        std::optional<PARAMS> getSystemParamData() const{
             if(messageType != MessageCodes::systemParamChange){
                 std::cout << "Requested systemParam event data from a non systemParam MuDa event... aborting..."  << std::endl;
                 return std::nullopt;
@@ -156,7 +162,7 @@ namespace MuDa {
             }
             return ret;
         }
-        std::optional<uint32_t> getPanicData(){
+        std::optional<uint32_t> getPanicData() const{
             if(messageType != MessageCodes::panic){
                 std::cout << "Requested panic event data from a non panic MuDa event... aborting..."  << std::endl;
                 return std::nullopt;
@@ -196,7 +202,7 @@ namespace MuDa {
                     return;
                 }
                 case systemParamChange: {
-                    int16_t nParams = 0;
+                    int32_t nParams = 0;
                     memcpy((char *) (&nParams), temp, DataSizes::paramCount); //Copy the number of parameters to memory
                     outFile->write(temp, DataSizes::paramCount); //Write the number of parameters to file
                     temp += DataSizes::paramCount;  //Increment the pointer by the size of (paramCount) in bytes
@@ -218,15 +224,11 @@ namespace MuDa {
     };
 
 
-
     struct MuDaFileFormat {
         MuDaHeader header;
-        std::vector<MuDaMessage> messages;
+        std::vector<std::unique_ptr<MuDaMessage>> messages;
 
-        MuDaFileFormat(){
-            strncpy(header.signature, "MuDa", 4);
-            header.version = 1;
-        }
+        MuDaFileFormat(){}
 
         MuDaFileFormat(int32_t _deltaPerSecond){
             strncpy(header.signature, "MuDa", 4);
@@ -234,8 +236,31 @@ namespace MuDa {
             header.deltaPerSecond = _deltaPerSecond;
         }
 
-        void add(MuDaMessage _message){
-            messages.push_back(_message);
+        void appendStartMessage(){
+            std::unique_ptr<MuDaMessage> ret(new MuDaMessage(0, MessageCodes::start));
+            messages.push_back(std::move(ret));
+        }
+        void appendEndMessage(uint64_t _delta){
+            std::unique_ptr<MuDaMessage> ret(new MuDaMessage(_delta, MessageCodes::end));
+            messages.push_back(std::move(ret));
+        }
+        void appendNoteMessage(uint64_t _delta, uint16_t _messageType, MuDaNoteMessageData _data){
+            if(!(_messageType == MessageCodes::noteOn || _messageType == MessageCodes::noteChange || _messageType == MessageCodes::noteOff)){
+                throw std::runtime_error("Invalid messageCode");
+            }
+            std::unique_ptr<MuDaMessage> ret(new MuDaMessage(_delta, _messageType));
+            ret->data = MuDaMessage::CreateNoteMessageData(std::move(_data));
+            messages.push_back(std::move(ret));
+        }
+        void appendSystemParamMessage(uint64_t _delta, PARAMS _params){
+            std::unique_ptr<MuDaMessage> ret(new MuDaMessage(_delta, MessageCodes::systemParamChange));
+            ret->data = MuDaMessage::CreateSystemParamMessageData(std::move(_params));
+            messages.push_back(std::move(ret));
+        }
+        void appendPanicMessage(uint64_t _delta, uint32_t channelId){
+            std::unique_ptr<MuDaMessage> ret(new MuDaMessage(_delta, MessageCodes::panic));
+            ret->data = MuDaMessage::CreatePanicMessageData(channelId);
+            messages.push_back(std::move(ret));
         }
 
         bool writeToFile(std::string file){
@@ -249,8 +274,8 @@ namespace MuDa {
             uint64_t nMessage = messages.size();
             wf.write((char *)&(nMessage), DataSizes::messageCount);
 
-            for(auto message : messages){
-                message.writeF(&wf);
+            for(auto const& message: messages){
+                message->writeF(&wf);
             }
 
             wf.close();
@@ -262,8 +287,8 @@ namespace MuDa {
             return true;
         }
 
-        static std::optional<MuDaFileFormat> readFromFile(std::string file){
-            MuDaFileFormat ret;
+        static std::optional<std::shared_ptr<MuDaFileFormat>> readFromFile(const std::string& file){
+            auto ret = std::make_shared<MuDaFileFormat>();
 
             std::ifstream rf(file, std::ios::in | std::ios::binary);
             if(!rf) {
@@ -271,8 +296,8 @@ namespace MuDa {
                 return std::nullopt;
             }
 
-            rf.read((char *)(&ret.header), sizeof(MuDaHeader));
-            if(ret.header.signature[0] != 'M' || ret.header.signature[1] != 'u' || ret.header.signature[2] != 'D' || ret.header.signature[3] != 'a'){
+            rf.read((char *)&(ret->header), sizeof(MuDaHeader));
+            if(ret->header.signature[0] != 'M' || ret->header.signature[1] != 'u' || ret->header.signature[2] != 'D' || ret->header.signature[3] != 'a'){
                 std::cout << "MuDa signature not found" << std::endl;
                 return std::nullopt;
             }
@@ -281,22 +306,22 @@ namespace MuDa {
             rf.read((char *)(&nMessages), DataSizes::messageCount);
             for(int i =0; i < nMessages; i++){
                 //for each message:
-                MuDaMessage message;
-                rf.read((char *)&(message.delta), DataSizes::deltaVal);
-                rf.read((char *)&(message.messageType), DataSizes::messageType);
+                auto *message = new MuDaMessage();
+                rf.read((char *)&(message->delta), DataSizes::deltaVal);
+                rf.read((char *)&(message->messageType), DataSizes::messageType);
 
-                switch(message.messageType){
+                switch(message->messageType){
                     case start:
                     case end:
-                        message.data = 0;
+                        message->data = nullptr;
                         break;
                     case noteOn:
                     case noteChange:
                     case noteOff: {
                         // allocate enough data to at least store channel number, voiceNumber and param count
-                        message.data = (char*)malloc(DataSizes::channelNumber + DataSizes::voiceNumber + DataSizes::paramCount);
+                        message->data = (char*)malloc(DataSizes::channelNumber + DataSizes::voiceNumber + DataSizes::paramCount);
 
-                        char * temp = message.data;
+                        char * temp = message->data;
                         rf.read(temp, DataSizes::channelNumber); //Read channel number
                         temp += DataSizes::channelNumber; //Increment the pointer by the size of (ChannelNumber) in bytes
                         rf.read(temp, DataSizes::voiceNumber); //Read voice number
@@ -304,10 +329,9 @@ namespace MuDa {
                         rf.read(temp, DataSizes::paramCount); //Read the param count to data
                         int32_t nParams = 0;
                         memcpy((char *) (&nParams), temp, DataSizes::paramCount); //Copy the number of parameters to memory
-                        temp += DataSizes::paramCount;  //Increment the pointer by the size of (paramCount) in bytes
-                        message.data = (char *)realloc(message.data,DataSizes::channelNumber + DataSizes::paramCount
+                        message->data = (char *)realloc(message->data,DataSizes::channelNumber + DataSizes::voiceNumber + DataSizes::paramCount
                             + nParams*(DataSizes::paramId + DataSizes::floatData)); //Reallocate enough memory for the message now we know how many parameters are included
-                        temp = message.data + DataSizes::channelNumber  + DataSizes::voiceNumber + DataSizes::paramCount;
+                        temp = message->data + DataSizes::channelNumber  + DataSizes::voiceNumber + DataSizes::paramCount;
                         for (int k = 0; k < nParams; k++) {
                             rf.read(temp, DataSizes::paramId);
                             temp += DataSizes::paramId;
@@ -318,15 +342,15 @@ namespace MuDa {
                     }
                     case systemParamChange: {
                         // allocate enough data to at least store param count
-                        message.data = (char*)malloc(DataSizes::paramCount);
+                        message->data = (char*)malloc(DataSizes::paramCount);
 
-                        char * temp = message.data;
+                        char * temp = message->data;
                         rf.read(temp, DataSizes::paramCount); //Read the param count to data
                         int32_t nParams = 0;
                         memcpy((char *) (&nParams), temp, DataSizes::paramCount); //Copy the number of parameters to memory
 
-                        message.data = (char *)realloc(message.data,DataSizes::paramCount + nParams*(DataSizes::paramId + DataSizes::floatData)); //Reallocate enough memory for the message now we know how many parameters are included
-                        temp = message.data + DataSizes::paramCount;
+                        message->data = (char *)realloc(message->data,DataSizes::paramCount + nParams*(DataSizes::paramId + DataSizes::floatData)); //Reallocate enough memory for the message now we know how many parameters are included
+                        temp = message->data + DataSizes::paramCount;
                         for (int k = 0; k < nParams; k++) {
                             rf.read(temp, DataSizes::paramId);
                             temp += DataSizes::paramId;
@@ -336,14 +360,14 @@ namespace MuDa {
                         break;
                     }
                     case panic:{
-                        message.data = (char*)malloc(DataSizes::channelNumber);
+                        message->data = (char*)malloc(DataSizes::channelNumber);
 
-                        rf.read(message.data, DataSizes::channelNumber); //Read channel number
+                        rf.read(message->data, DataSizes::channelNumber); //Read channel number
                         break;
                     }
                 }
 
-                ret.add(message);
+                ret->messages.push_back(std::unique_ptr<MuDaMessage>(message));
             }
 
             rf.close();
