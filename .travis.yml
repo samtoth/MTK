@@ -22,14 +22,13 @@ matrix:
           packages: &precise_latest_boost_packages
             - gcc
             - g++
-            - gcov
             - clang
             - valgrind
             # Misc
             - python-yaml
             - gcovr
             - doxygen
-            - eigen3
+            - libeigen3-dev
           sources: &precise_latest_boost_sources
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.7
