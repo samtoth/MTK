@@ -22,6 +22,14 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 
 
+include(FetchContent)
+
+FetchContent_Declare(
+        portaudio
+        GIT_REPOSITORY https://git.assembla.com/portaudio.git
+)
+FetchContent_MakeAvailable(portaudio)
+
 add_subdirectory(core)
 include_directories(core)
 add_subdirectory(audio)
@@ -29,8 +37,6 @@ include_directories(audio)
 add_subdirectory(MuDa)
 include_directories(MuDa)
 
-
-include(FetchContent)
 find_package(Threads REQUIRED)
 option(TESTS "Build the tests" ON)
 if(TESTS)

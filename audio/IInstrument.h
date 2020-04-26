@@ -7,11 +7,11 @@
 
 #include <cstdint>
 #include <vector>
-#include "IGenerator.h"
+#include "IAudioUnit.h"
 
 #define PARAM_t std::vector<std::pair<uint32_t /*paramID*/, float /*value*/>>
 
-class IInstrument : public IGenerator{
+class IInstrument : public IAudioUnit{
 
     virtual void NoteOn(uint32_t chanel, uint32_t noParams, PARAM_t parameters) = 0;
     virtual void NoteChange(uint32_t chanel, uint32_t noParams, PARAM_t parameters) = 0;

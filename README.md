@@ -46,6 +46,7 @@
  * [gtest](https://github.com/google/googletest)
  * [Doxygen](https://github.com/doxygen/doxygen)
  * [Eigen3](https://gitlab.com/libeigen/eigen)
+ * [PortAudio](http://portaudio.com/docs/v19-doxydocs/index.html)
  
  ## License
 Developed under GNU General Public License Version 3. [See full LICENSE](LICENSE) 

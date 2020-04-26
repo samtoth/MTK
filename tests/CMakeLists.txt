@@ -1,5 +1,5 @@
 
-ADD_EXECUTABLE(runTests PitchTest.cpp main.cpp RegularTuningTest.cpp PeriodicScaleTest.cpp MuDaFileTest.cpp)
+ADD_EXECUTABLE(runTests PitchTest.cpp main.cpp RegularTuningTest.cpp PeriodicScaleTest.cpp MuDaFileTest.cpp audioIOTest.cpp)
 
 TARGET_LINK_LIBRARIES(runTests MTKCore audio MuDa gtest gtest_main)
 gtest_discover_tests(runTests)

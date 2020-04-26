@@ -2,14 +2,14 @@
 // Created by samt on 23/04/2020.
 //
 
-#ifndef MUSICTOOLKIT_IGENERATOR_H
-#define MUSICTOOLKIT_IGENERATOR_H
+#ifndef MUSICTOOLKIT_IAUDIOUNIT_H
+#define MUSICTOOLKIT_IAUDIOUNIT_H
 
-/// \class IGenerator
+/// \class IAudioUnit
 /// \brief Defines the functionality for a generator.
 ///
 
-class IGenerator{
+class IAudioUnit{
 public:
     virtual float tick() = 0;
 
@@ -17,4 +17,4 @@ public:
 };
 
 
-#endif //MUSICTOOLKIT_IGENERATOR_H
+#endif //MUSICTOOLKIT_IAUDIOUNIT_H

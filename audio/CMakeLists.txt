@@ -1,3 +1,3 @@
-add_library(audio SHARED test.cpp IAudioManager.h IGenerator.h IInstrument.h)
+add_library(audio SHARED IAudioManager.h IAudioUnit.h IInstrument.h AudioOutput.cpp AudioOutput.h BasicAudioManager.cpp BasicAudioManager.h)
 
-target_link_libraries(audio)
+target_link_libraries(audio portaudio)
