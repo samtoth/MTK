@@ -36,6 +36,8 @@ add_subdirectory(audio)
 include_directories(audio)
 add_subdirectory(MuDa)
 include_directories(MuDa)
+add_subdirectory(examples)
+include_directories(examples)
 
 find_package(Threads REQUIRED)
 option(TESTS "Build the tests" ON)
