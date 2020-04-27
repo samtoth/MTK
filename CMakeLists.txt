@@ -69,4 +69,7 @@ if(BUILD_TESTS)
     add_subdirectory(tests)
 endif()
 
-add_subdirectory(docs)
+option(BUILD_DOCS "Build documentation" ON)
+if(BUILD_DOCS)
+    add_subdirectory(docs)
+ENDIF()

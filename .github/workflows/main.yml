@@ -53,10 +53,10 @@ jobs:
           packages: gcovr
 
       - name: Configure
-        run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=release -G "MinGW Makefiles" ..
+        run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=release -G "MinGW Makefiles" -DBUILD_DOCS=OFF ..
 
       - name: Build
-        run: cmake --build build --target MTKCore -- -j 4
+        run: cmake --build build --target all -- -j 4
 
       - name: Run-tests
         run: cmake --build build --target runTests -- -j 4
