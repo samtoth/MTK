@@ -53,8 +53,8 @@ script:
   - mkdir -p build
   - cd build
   - cmake ${CMAKE_OPTIONS} -DCMAKE_CXX_FLAGS=${CXX_FLAGS} -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON ..
-  - cmake --build build --target all -- -j 4
-  - cmake --build build --target generateCoverage -- -j 4
+  - cmake --build . --target all -- -j 4
+  - cmake --build . --target generateCoverage -- -j 4
 
 
 after_success:

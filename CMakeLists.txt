@@ -20,9 +20,20 @@ SET(CMAKE_C_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
-
-
 include(FetchContent)
+
+find_package (Eigen3 3.3 NO_MODULE)
+if(NOT Eigen3_FOUND)
+    MESSAGE(STATUS "No Eigen3 (>3.3). Installing Eigen 3 from git repository")
+    FetchContent_Declare(
+            Eigen3
+            GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
+            GIT_TAG 3.3.7
+    )
+    FetchContent_MakeAvailable(Eigen3)
+    find_package(Eigen3 3.3 NO_MODULE)
+endif()
+
 
 FetchContent_Declare(
         portaudio
@@ -36,12 +47,16 @@ add_subdirectory(audio)
 include_directories(audio)
 add_subdirectory(MuDa)
 include_directories(MuDa)
-add_subdirectory(examples)
-include_directories(examples)
+
+option(BUILD_EXAMPLES "Build the example projects" ON)
+if(BUILD_EXAMPLES)
+    add_subdirectory(examples)
+    include_directories(examples)
+endif()
 
 find_package(Threads REQUIRED)
-option(TESTS "Build the tests" ON)
-if(TESTS)
+option(BUILD_TESTS "Build the tests" ON)
+if(BUILD_TESTS)
     enable_testing()
     FetchContent_Declare(
             googletest

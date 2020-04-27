@@ -1,4 +1,6 @@
 
+//TODO: AudioIOTests need to be completely re worked
+
 #include <gtest/gtest.h>
 #include <AudioOutput.h>
 #include <thread>
