@@ -23,22 +23,22 @@ IInstrument *BasicAudioManager::instrument(int i) {
     return instruments[i].first;
 }
 
-void BasicAudioManager::NoteOn(uint32_t chanel, uint32_t voiceID, std::map<float> parameters) {
+void BasicAudioManager::NoteOn(uint32_t chanel, uint32_t voiceID, std::map<uint32_t, float> parameters) {
     CHECK_INDEX(chanel)
     instruments[chanel].first->NoteOn(voiceID, parameters);
 }
 
-void BasicAudioManager::NoteChange(uint32_t chanel, uint32_t voiceID, std::vector<std::pair<uint32_t, float>> parameters) {
+void BasicAudioManager::NoteChange(uint32_t chanel, uint32_t voiceID, std::map<uint32_t, float> parameters) {
     CHECK_INDEX(chanel)
     instruments[chanel].first->NoteChange(voiceID, parameters);
 }
 
-void BasicAudioManager::NoteOff(uint32_t chanel, uint32_t voiceID, std::vector<std::pair<uint32_t, float>> parameters) {
+void BasicAudioManager::NoteOff(uint32_t chanel, uint32_t voiceID, std::map<uint32_t, float> parameters) {
     CHECK_INDEX(chanel)
     instruments[chanel].first->NoteOff(voiceID, parameters);
 }
 
-void BasicAudioManager::SystemParamChange(std::vector<std::pair<uint32_t, float>> parameters) {
+void BasicAudioManager::SystemParamChange(std::map<uint32_t, float> parameters) {
 
 }
 

@@ -11,18 +11,19 @@ float Beep::output(float delta) {
 
 #define CHECK_VOICE_ID(id) if(id<generators.size()){throw std::out_of_range("Beep instrument does not contain enough voices");}id
 
-void Beep::NoteOn(uint32_t voiceID, std::vector<std::pair<uint32_t, float>> parameters) {
+void Beep::NoteOn(uint32_t voiceID, std::map<uint32_t, float> parameters) {
     CHECK_VOICE_ID(voiceID);
+    if(parameters.find(0)!=parameters.end()){
+        generators[voiceID].SinGen->setFrequency(parameters[0]);
+    }
     generators[voiceID].adsr->NoteOn();
-//TODO: This is bad!! Need to turn parameters into a map
-    generators[voiceID].SinGen->setFrequency(parameters[0].second);
 }
 
-void Beep::NoteChange(uint32_t voiceID, std::vector<std::pair<uint32_t, float>> parameters) {
+void Beep::NoteChange(uint32_t voiceID, std::map<uint32_t, float> parameters) {
     CHECK_VOICE_ID(voiceID);
 }
 
-void Beep::NoteOff(uint32_t voiceID, std::vector<std::pair<uint32_t, float>> parameters) {
+void Beep::NoteOff(uint32_t voiceID, std::map<uint32_t, float> parameters) {
     CHECK_VOICE_ID(voiceID);
 }
 

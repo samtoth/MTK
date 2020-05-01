@@ -23,10 +23,10 @@ public:
 
     IInstrument *instrument(int i);
 
-    void NoteOn(uint32_t chanel, uint32_t voiceID, std::map<float> parameters) override;
-    void NoteChange(uint32_t chanel, uint32_t voiceID, std::vector<std::pair<uint32_t, float>> parameters) override;
-    void NoteOff(uint32_t chanel, uint32_t voiceID, std::vector<std::pair<uint32_t, float>> parameters) override;
-    void SystemParamChange(std::vector<std::pair<uint32_t, float>> parameters) override;
+    void NoteOn(uint32_t chanel, uint32_t voiceID, std::map<uint32_t, float> parameters) override;
+    void NoteChange(uint32_t chanel, uint32_t voiceID, std::map<uint32_t, float> parameters) override;
+    void NoteOff(uint32_t chanel, uint32_t voiceID, std::map<uint32_t, float> parameters) override;
+    void SystemParamChange(std::map<uint32_t, float> parameters) override;
     void Panic(uint32_t channel) override;
 
     float output(float delta) override;

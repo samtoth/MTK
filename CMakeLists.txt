@@ -22,18 +22,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 include(FetchContent)
 
-find_package (Eigen3 3.3 NO_MODULE)
-if(NOT Eigen3_FOUND)
-    MESSAGE(STATUS "No Eigen3 (>3.3). Installing Eigen 3 from git repository")
-    FetchContent_Declare(
-            Eigen3
-            GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
-            GIT_TAG 3.3.7
-    )
-    FetchContent_MakeAvailable(Eigen3)
-    find_package(Eigen3 3.3 NO_MODULE)
-endif()
-
+include_directories(ext)
 
 FetchContent_Declare(
         portaudio

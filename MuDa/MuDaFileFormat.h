@@ -17,7 +17,7 @@
 
 
 namespace MuDa {
-    #define PARAMS std::vector<std::pair<uint32_t /*paramId*/, float>>
+    #define PARAMS std::map<uint32_t, float>
 
     enum MessageCodes{
         start = 0x00,
@@ -89,9 +89,9 @@ namespace MuDa {
             memcpy(temp, (char *)(&nParams), DataSizes::paramCount);
             temp += DataSizes::paramCount;
             for(int i = 0; i < nParams; i++){
-                memcpy(temp, (char *)(&(_data.parameters[i].first)), DataSizes::paramId);
+                memcpy(temp, (char *)(&(i)), DataSizes::paramId);
                 temp += DataSizes::paramId;
-                memcpy(temp, (char *)(&(_data.parameters[i].second)), DataSizes::floatData);
+                memcpy(temp, (char *)(&(_data.parameters[i])), DataSizes::floatData);
                 temp += DataSizes::floatData;
             }
             return ret;
@@ -103,9 +103,9 @@ namespace MuDa {
             memcpy(temp, (char *)(&nParams), DataSizes::paramCount);
             temp += DataSizes::paramCount;
             for(int i = 0; i < nParams; i++){
-                memcpy(temp, (char *)(&(parameters[i].first)), DataSizes::paramId);
+                memcpy(temp, (char *)(&(i)), DataSizes::paramId);
                 temp += DataSizes::paramId;
-                memcpy(temp, (char *)(&(parameters[i].second)), DataSizes::floatData);
+                memcpy(temp, (char *)(&(parameters[i])), DataSizes::floatData);
                 temp += DataSizes::floatData;
             }
             return ret;
@@ -137,7 +137,7 @@ namespace MuDa {
                 temp += DataSizes::paramId;
                 memcpy((char *)&tData, temp, DataSizes::floatData);
                 temp += DataSizes::floatData;
-                ret.parameters.emplace_back(tParamId, tData);
+                ret.parameters.insert(std::make_pair(tParamId, tData));
             }
             return ret;
         }
@@ -158,7 +158,7 @@ namespace MuDa {
                 temp += DataSizes::paramId;
                 memcpy((char *)&tData, temp, DataSizes::floatData);
                 temp += DataSizes::floatData;
-                ret.emplace_back(tParamId, tData);
+                ret.insert(std::make_pair(tParamId, tData));
             }
             return ret;
         }
