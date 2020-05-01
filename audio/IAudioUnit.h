@@ -11,9 +11,12 @@
 
 class IAudioUnit{
 public:
-    virtual float tick() = 0;
+    IAudioUnit(){}
 
+    virtual float output(float delta) = 0;
 
+protected:
+    float sampleRate;
 };
 
 

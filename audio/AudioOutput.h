@@ -10,6 +10,7 @@
 #include <cstdint>
 #include <vector>
 #include <optional>
+#include "IAudioUnit.h"
 
 /// \brief data structure for setting up output device
 struct deviceSettings{
@@ -28,9 +29,8 @@ public:
     int startStream();
     int stopStream();
 
-    //TODO: Support multichannel output
-    //      Currently this only supports single channel output. In theory the the AudioManager should have the option to send as many channels as it likes. Generator should be single channel but perhaps at the instrument level multi channel output should be supported
-    float (*outputFunction)();
+
+    IAudioUnit *generator;
 
     int deviceCount();
 
@@ -39,6 +39,8 @@ public:
 
 private:
     PaStream *stream;
+
+    deviceSettings devSettings;
 
     static int callback( const void *input,
                           void *output,

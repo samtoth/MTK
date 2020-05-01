@@ -19,12 +19,15 @@ int AudioOutput::initialize(deviceSettings settings) {
     }else {
         framesPerBuffer = 1000 / settings.bufferSize;
     }
+
+    devSettings = settings;
+
     /* Open an audio I/O stream. */
     auto err = Pa_OpenDefaultStream( &stream,
                                 0,          /* no input channels */
                                 1,          /* stereo output FOR NOW */
                                 paFloat32,  /* 32 bit floating point output */
-                                settings.sampleRate,
+                                devSettings.sampleRate,
                                 framesPerBuffer,        /* frames per buffer, i.e. the number
                                                    of sample frames that PortAudio will
                                                    request from the callback. Many apps
@@ -59,6 +62,8 @@ int AudioOutput::terminate() {
     return 0;
 }
 
+unsigned long int counter = 0;
+
 int AudioOutput::callback(const void *inputBuffer, void *outputBuffer,
                           unsigned long framesPerBuffer,
                           const PaStreamCallbackTimeInfo* timeInfo,
@@ -72,12 +77,14 @@ int AudioOutput::callback(const void *inputBuffer, void *outputBuffer,
 
     for( i=0; i<framesPerBuffer; i++ )
     {
-        *out++ = audioOutput->outputFunction();
+        *out++ = audioOutput->generator->output((counter+i)*(1000/audioOutput->devSettings.sampleRate));
     }
+    counter += framesPerBuffer;
     return 0;
 }
 
 int AudioOutput::startStream() {
+    //TODO: Assert callback function is set
     auto err = Pa_StartStream(stream);
     if(err!= paNoError){printErr(err); return 1;}
     return 0;
