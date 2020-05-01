@@ -3,7 +3,7 @@ language: cpp
 env:
   global:
     # Ubuntu version
-    - LINUX_DIST=xenial
+    - LINUX_DIST=bionic
     - DEPS_DIR=${TRAVIS_BUILD_DIR}/deps
     # Global build options and C++ flags
     - CXX_FLAGS="-Wall -pedantic -Werror -Wno-variadic-macros -Wno-long-long -Wno-shadow"
@@ -19,7 +19,7 @@ matrix:
       compiler: gcc
       addons:
         apt:
-          packages: &xenial_latest_boost_packages
+          packages: &bionic_latest_boost_packages
             - gcc
             - g++
             - clang
@@ -27,9 +27,8 @@ matrix:
             # Misc
             - python-yaml
             - doxygen
-          sources: &xenial_latest_boost_sources
+          sources: &bionic_latest_boost_sources
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.7
 
 before_install:
   # Combine global build options with OS/compiler-dependent options
