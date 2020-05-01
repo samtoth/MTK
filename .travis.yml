@@ -26,9 +26,7 @@ matrix:
             - valgrind
             # Misc
             - python-yaml
-            - gcovr
             - doxygen
-            - libeigen3-dev
           sources: &precise_latest_boost_sources
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.7
@@ -45,6 +43,7 @@ install:
   - ${CXX} --version
   - ${CXX} -v
   - sudo pip install codecov
+  - sudo pip install gcovr
 
 script:
   ############################################################################

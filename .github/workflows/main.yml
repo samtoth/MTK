@@ -14,10 +14,7 @@ jobs:
         
       - name: get-doxygen
         run: sudo apt-get install doxygen
-      
-      - name: get-Eigen3
-        run: sudo apt-get install libeigen3-dev
-        
+
       - name: get-gcovr
         run: sudo apt-get install gcovr
           
