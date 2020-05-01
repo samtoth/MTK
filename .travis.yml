@@ -44,7 +44,6 @@ install:
   - ${CXX} -v
   - sudo pip install codecov
   - sudo pip install gcovr
-  - sudo apt get cmake
 script:
   ############################################################################
   # Build main and tests
