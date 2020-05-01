@@ -19,7 +19,7 @@ matrix:
       compiler: gcc
       addons:
         apt:
-          packages: &precise_latest_boost_packages
+          packages: &xenial_latest_boost_packages
             - gcc
             - g++
             - clang
@@ -27,7 +27,7 @@ matrix:
             # Misc
             - python-yaml
             - doxygen
-          sources: &precise_latest_boost_sources
+          sources: &xenial_latest_boost_sources
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.7
 
@@ -44,7 +44,7 @@ install:
   - ${CXX} -v
   - sudo pip install codecov
   - sudo pip install gcovr
-
+  - sudo apt get cmake
 script:
   ############################################################################
   # Build main and tests

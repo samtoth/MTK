@@ -14,7 +14,7 @@ using namespace MuDa;
 
 TEST(MuDaFileTest, writeFile){
     auto Mf = std::make_shared<MuDaFileFormat>(512);
-    std::vector<std::pair<uint32_t, float>> params = {{0, 440.f}};
+    std::map<uint32_t, float> params = {{0, 440.f}};
 
 
     Mf->appendStartMessage();
@@ -89,8 +89,7 @@ TEST(MuDaFileTest, testGetNoteEvent){
     ASSERT_EQ(mData.voiceId, mData2.voiceId);
     ASSERT_EQ(mData.parameters.size(), mData2.parameters.size());
     for(int i = 0; i< mData.parameters.size(); i++){
-        ASSERT_SAME(mData, mData2, parameters[i].first);
-        ASSERT_SAME(mData, mData2, parameters[i].second);
+        ASSERT_SAME(mData, mData2, parameters[i]);
     }
 }
 
