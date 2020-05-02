@@ -40,6 +40,8 @@ public:
 private:
     PaStream *stream;
 
+    unsigned long int counter = 0;
+
     deviceSettings devSettings;
 
     static int callback( const void *input,

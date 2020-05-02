@@ -15,8 +15,6 @@ public:
 
     virtual float output(float delta) = 0;
 
-protected:
-    float sampleRate;
 };
 
 

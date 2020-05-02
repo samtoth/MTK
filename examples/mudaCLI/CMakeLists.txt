@@ -1,2 +1,2 @@
-add_executable(mudaCLI main.cpp)
-target_link_libraries(mudaCLI MTKCore MuDa audio)
+add_executable(testBeep ../testBeep/main.cpp)
+target_link_libraries(testBeep MTKCore audio)

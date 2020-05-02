@@ -19,6 +19,7 @@ public:
     };
 
     ADSR();
+    ADSR(float aTime, float aLevel, float dTime, float sLev, float rTime);
 
     void NoteOn();
     void NoteOff();

@@ -21,7 +21,7 @@ TEST(MuDaFileTest, writeFile){
     Mf->appendNoteMessage(512, MessageCodes::noteOn, {0, 0, params});
     Mf->appendNoteMessage(600, MessageCodes::noteChange, {0, 0, {{0, 442}}});
     Mf->appendSystemParamMessage(700, {{3, 440.f}});
-    Mf->appendPanicMessage(750.5f, 1);
+    //Mf->appendPanicMessage(750.5f, 1);
     Mf->appendNoteMessage(1024, MessageCodes::noteOff, {0, 0, {{0, 442}}});
     Mf->appendEndMessage(1536);
 

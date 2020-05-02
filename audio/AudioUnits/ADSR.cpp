@@ -4,7 +4,20 @@
 
 #include "ADSR.h"
 
-ADSR::ADSR(){}
+ADSR::ADSR(){
+    attackLevel = 1;
+    attackTime = 1;
+    decayTime = 1;
+    sustainLevel = 1;
+    releaseTime = 1;
+
+    current = 0;
+    state = NoState;
+    stateStart = 0;
+    stateEnd = 0;
+    stateStartValue = 0;
+}
+
 
 float ADSR::output(float delta) {
 
@@ -59,6 +72,14 @@ void ADSR::NoteOff() {
     state = Release;
     stateStart = 0;
     stateEnd = 0;
+}
+
+ADSR::ADSR(float aTime, float aLev, float dTime, float sLev, float rTime) : ADSR() {
+    attackTime = aTime;
+    attackLevel = aLev;
+    decayTime  = dTime;
+    sustainLevel = sLev;
+    releaseTime = rTime;
 }
 
 

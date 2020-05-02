@@ -1,1 +1,2 @@
 add_subdirectory(mudaCLI)
+add_subdirectory(testBeep)

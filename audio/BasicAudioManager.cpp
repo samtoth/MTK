@@ -1,6 +1,7 @@
 
 #include <stdexcept>
 #include <map>
+#include <math.h>
 #include "BasicAudioManager.h"
 
 #define CHECK_INDEX(i) if(i>=instruments.size()){/* TODO: Add logging functionality */ throw std::out_of_range("Channel number out of range"); }
@@ -48,5 +49,9 @@ void BasicAudioManager::Panic(uint32_t chanel) {
 }
 
 float BasicAudioManager::output(float delta) {
-    return 0;
+    float result = 0;
+    for(int i =0; i<instruments.size(); i++){
+        result += instruments[i].first->output(delta)*(1/(2.f*instruments.size()))* powf(2, instruments[i].second);
+    }
+    return result;
 }

@@ -62,7 +62,6 @@ int AudioOutput::terminate() {
     return 0;
 }
 
-unsigned long int counter = 0;
 
 int AudioOutput::callback(const void *inputBuffer, void *outputBuffer,
                           unsigned long framesPerBuffer,
@@ -77,9 +76,9 @@ int AudioOutput::callback(const void *inputBuffer, void *outputBuffer,
 
     for( i=0; i<framesPerBuffer; i++ )
     {
-        *out++ = audioOutput->generator->output((counter+i)*(1000/audioOutput->devSettings.sampleRate));
+        *out++ = audioOutput->generator->output((audioOutput->counter+i)*(1000/audioOutput->devSettings.sampleRate));
     }
-    counter += framesPerBuffer;
+    audioOutput->counter += framesPerBuffer;
     return 0;
 }
 
@@ -120,6 +119,8 @@ int AudioOutput::printDevices() {
     }
     return 0;
 }
+
+
 
 
 
