@@ -236,6 +236,7 @@ namespace MuDa {
             header.deltaPerSecond = _deltaPerSecond;
         }
 
+
         void appendStartMessage(){
             std::unique_ptr<MuDaMessage> ret(new MuDaMessage(0, MessageCodes::start));
             messages.push_back(std::move(ret));

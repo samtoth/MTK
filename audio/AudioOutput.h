@@ -21,7 +21,13 @@ struct deviceSettings{
 
 class AudioOutput {
 public:
-    AudioOutput();
+
+    static AudioOutput *instance(){
+        if(!_instance){
+            _instance = new AudioOutput();
+        }
+        return _instance;
+    }
 
     int initialize(deviceSettings settings);
     int terminate();
@@ -38,6 +44,9 @@ public:
     int printDevices();
 
 private:
+    static AudioOutput* _instance;
+    AudioOutput();
+
     PaStream *stream;
 
     unsigned long int counter = 0;
@@ -52,6 +61,9 @@ private:
                           void *userData ) ;
 
 };
+
+
+AudioOutput *AudioOutput::_instance = nullptr;
 
 
 #endif //MUSICTOOLKIT_AUDIOOUTPUT_H
