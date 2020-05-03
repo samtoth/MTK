@@ -24,13 +24,7 @@ struct audioSettings{
 class AudioOutput {
 public:
 
-    static AudioOutput& instance(){
-        std::call_once(m_onceFlag,
-                       [] {
-                           _instance.reset(new AudioOutput);
-                       });
-        return *_instance.get();
-    }
+    AudioOutput();
 
     uint64_t delta = 0;
 
@@ -42,31 +36,17 @@ public:
     int startStream();
     int stopStream();
 
-
-    static audioSettings &getDevSettings();
-
-    static void setDevSettings(const audioSettings &devSettings);
-
-    static IAudioUnit *getGenerator();
-
-    static void setGenerator(IAudioUnit *generator);
-
     int deviceCount();
 
     std::optional<const PaDeviceInfo*> getDeviceInfo(int i);
     int printDevices();
 
-
-private:
-    static std::unique_ptr<AudioOutput> _instance;
-    static std::once_flag m_onceFlag;
-
-    AudioOutput();
-
-    PaStream *stream;
-
     audioSettings devSettings;
     IAudioUnit *generator;
+
+private:
+    PaStream *stream;
+
 
     static int callback( const void *input,
                           void *output,
