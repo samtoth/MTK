@@ -3,7 +3,7 @@
 //
 
 #include <cmath>
-#include <AudioOutput.h>
+#include <Audio.h>
 #include "SinWave.h"
 
 SinWave::SinWave() {
@@ -12,7 +12,7 @@ SinWave::SinWave() {
 
 float SinWave::output() {
 
-    return sinf((float)(AudioOutput::instance().delta * M_2_PI * frequency)/(float)(AudioOutput::instance().getDevSettings().sampleRate));
+    return sinf((float)(audio::delta() * M_2_PI * frequency)/(float)(audio::audioSettings().sampleRate));
 }
 
 float SinWave::getFrequency() const {

@@ -2,8 +2,8 @@
 // Created by samt on 28/04/2020.
 //
 
-#include <AudioOutput.h>
 #include "ADSR.h"
+#include <Audio.h>
 
 ADSR::ADSR(){
     attackLevel = 1;
@@ -21,7 +21,7 @@ ADSR::ADSR(){
 
 
 float ADSR::output() {
-    unsigned long delta = AudioOutput::instance().delta;
+    unsigned long delta = audio::delta();
     switch(state){
         case NoState:
             break;
