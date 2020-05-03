@@ -48,10 +48,10 @@ void BasicAudioManager::Panic(uint32_t chanel) {
     instruments[chanel].first->Panic();
 }
 
-float BasicAudioManager::output(float delta) {
+float BasicAudioManager::output() {
     float result = 0;
     for(int i =0; i<instruments.size(); i++){
-        result += instruments[i].first->output(delta)*(1/(2.f*instruments.size()))* powf(2, instruments[i].second);
+        result += instruments[i].first->output() * (1 / (2.f * instruments.size())) * powf(2, instruments[i].second);
     }
     return result;
 }

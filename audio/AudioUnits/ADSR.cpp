@@ -2,6 +2,7 @@
 // Created by samt on 28/04/2020.
 //
 
+#include <AudioOutput.h>
 #include "ADSR.h"
 
 ADSR::ADSR(){
@@ -19,8 +20,8 @@ ADSR::ADSR(){
 }
 
 
-float ADSR::output(float delta) {
-
+float ADSR::output() {
+    unsigned long delta = AudioOutput::instance().delta;
     switch(state){
         case NoState:
             break;

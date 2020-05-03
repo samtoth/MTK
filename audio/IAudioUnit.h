@@ -13,7 +13,7 @@ class IAudioUnit{
 public:
     IAudioUnit(){}
 
-    virtual float output(float delta) = 0;
+    virtual float output() = 0;
 
 };
 

@@ -10,10 +10,12 @@
 #include <cstdint>
 #include <vector>
 #include <optional>
+#include <memory>
+#include <mutex>
 #include "IAudioUnit.h"
 
 /// \brief data structure for setting up output device
-struct deviceSettings{
+struct audioSettings{
     int outputChannels;
     double sampleRate;
     int bufferSize; //!< bufferSize in ms. set to 0 to autocalculate optimum bufferSize
@@ -22,36 +24,49 @@ struct deviceSettings{
 class AudioOutput {
 public:
 
-    static AudioOutput *instance(){
-        if(!_instance){
-            _instance = new AudioOutput();
-        }
-        return _instance;
+    static AudioOutput& instance(){
+        std::call_once(m_onceFlag,
+                       [] {
+                           _instance.reset(new AudioOutput);
+                       });
+        return *_instance.get();
     }
 
-    int initialize(deviceSettings settings);
+    uint64_t delta = 0;
+
+    virtual ~AudioOutput() = default;
+
+    int initialize(audioSettings settings);
     int terminate();
 
     int startStream();
     int stopStream();
 
 
-    IAudioUnit *generator;
+    static audioSettings &getDevSettings();
+
+    static void setDevSettings(const audioSettings &devSettings);
+
+    static IAudioUnit *getGenerator();
+
+    static void setGenerator(IAudioUnit *generator);
 
     int deviceCount();
 
     std::optional<const PaDeviceInfo*> getDeviceInfo(int i);
     int printDevices();
 
+
 private:
-    static AudioOutput* _instance;
+    static std::unique_ptr<AudioOutput> _instance;
+    static std::once_flag m_onceFlag;
+
     AudioOutput();
 
     PaStream *stream;
 
-    unsigned long int counter = 0;
-
-    deviceSettings devSettings;
+    audioSettings devSettings;
+    IAudioUnit *generator;
 
     static int callback( const void *input,
                           void *output,
@@ -62,8 +77,6 @@ private:
 
 };
 
-
-AudioOutput *AudioOutput::_instance = nullptr;
 
 
 #endif //MUSICTOOLKIT_AUDIOOUTPUT_H

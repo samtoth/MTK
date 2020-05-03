@@ -5,6 +5,10 @@
 
 #define printErr(em) printf("PortAudio error: %s\n", Pa_GetErrorText(em))
 
+
+std::unique_ptr<AudioOutput> AudioOutput::_instance;
+std::once_flag AudioOutput::m_onceFlag;
+
 AudioOutput::AudioOutput() {
     auto err = Pa_Initialize();
     if( err != paNoError ) {
@@ -12,7 +16,7 @@ AudioOutput::AudioOutput() {
     }
 }
 
-int AudioOutput::initialize(deviceSettings settings) {
+int AudioOutput::initialize(audioSettings settings) {
     int framesPerBuffer;
     if(settings.bufferSize==0){
         framesPerBuffer = paFramesPerBufferUnspecified;
@@ -76,9 +80,9 @@ int AudioOutput::callback(const void *inputBuffer, void *outputBuffer,
 
     for( i=0; i<framesPerBuffer; i++ )
     {
-        *out++ = audioOutput->generator->output((audioOutput->counter+i)*(1000/audioOutput->devSettings.sampleRate));
+        *out++ = audioOutput->generator->output();
+        audioOutput->delta++;
     }
-    audioOutput->counter += framesPerBuffer;
     return 0;
 }
 
@@ -118,6 +122,22 @@ int AudioOutput::printDevices() {
         std::cout << getDeviceInfo(i).value()->name << std::endl;
     }
     return 0;
+}
+
+audioSettings &AudioOutput::getDevSettings() {
+    return AudioOutput::instance().devSettings;
+}
+
+void AudioOutput::setDevSettings(const audioSettings &devSettings) {
+    AudioOutput::instance().devSettings = devSettings;
+}
+
+IAudioUnit *AudioOutput::getGenerator() {
+    return AudioOutput::instance().generator;
+}
+
+void AudioOutput::setGenerator(IAudioUnit *generator) {
+    AudioOutput::instance().generator = generator;
 }
 
 

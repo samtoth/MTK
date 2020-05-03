@@ -23,7 +23,7 @@ class Beep : public IInstrument{
 public:
     Beep(int voices);
 
-    float output(float delta) override;
+    float output() override;
 
     void NoteOn(uint32_t voiceID, std::map<uint32_t, float> parameters) override;
     void NoteChange(uint32_t voiceID, std::map<uint32_t, float> parameters) override;

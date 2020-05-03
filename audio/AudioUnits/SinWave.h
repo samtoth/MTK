@@ -11,7 +11,7 @@
 class SinWave : public IAudioUnit {
 public:
     SinWave();
-    float output(float delta) override;
+    float output() override;
 
     float getFrequency() const;
 

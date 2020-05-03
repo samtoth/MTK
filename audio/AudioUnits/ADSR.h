@@ -32,7 +32,7 @@ public:
 
     State getState() const{return state;}
 
-    float output(float delta) override;
+    float output() override;
 protected:
     State state;
 

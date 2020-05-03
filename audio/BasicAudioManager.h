@@ -29,7 +29,7 @@ public:
     void SystemParamChange(std::map<uint32_t, float> parameters) override;
     void Panic(uint32_t channel) override;
 
-    float output(float delta) override;
+    float output() override;
 
 private:
     std::vector<std::pair<IInstrument*, float>> instruments;

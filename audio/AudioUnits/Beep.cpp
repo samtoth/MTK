@@ -5,10 +5,10 @@
 #include <map>
 #include "Beep.h"
 
-float Beep::output(float delta) {
+float Beep::output() {
     float result = 0;
     for(int i = 0; i<generators.size(); i++){
-        result += generators[i].SinGen->output(delta)*generators[i].adsr->output(delta)*0.3f;
+        result += generators[i].SinGen->output() * generators[i].adsr->output() *(1/generators.size());
     }
     return result;
 }
