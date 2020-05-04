@@ -8,7 +8,7 @@
 
 int BasicAudioManager::addInstrument(IInstrument *instrument) {
     instruments.emplace_back(instrument, 0.f);
-    return instruments.size();
+    return instruments.size()-1;
 }
 
 void BasicAudioManager::setLevel(int i, float l) {
@@ -51,7 +51,7 @@ void BasicAudioManager::Panic(uint32_t chanel) {
 float BasicAudioManager::output() {
     float result = 0;
     for(int i =0; i<instruments.size(); i++){
-        result += instruments[i].first->output() * (1 / (2.f * instruments.size())) * powf(2, instruments[i].second);
+        result += instruments[i].first->output() * (1.f / (float)(2.f * instruments.size())) * (float)powf(2.f, instruments[i].second);
     }
     return result;
 }

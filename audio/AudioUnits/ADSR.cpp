@@ -14,9 +14,6 @@ ADSR::ADSR(){
 
     current = 0;
     state = NoState;
-    stateStart = 0;
-    stateEnd = 0;
-    stateStartValue = 0;
 }
 
 
@@ -26,35 +23,25 @@ float ADSR::output() {
         case NoState:
             break;
         case Attack:
-            if(stateStart <= 0.0001f){
-                stateStart = delta;
-                stateEnd = delta+attackTime;
-            }
-            current = ((delta-stateStart)/stateEnd)*attackLevel;
-            stateStartValue = current; //If released before attack is complete
-            if(delta>=stateEnd){
+            current += 1/(attackTime*audio::audioSettings().sampleRate);
+            if(current>=attackLevel){
+                current = attackLevel;
                 state = Decay;
-                stateStart = delta;
-                stateEnd = delta+decayTime;
-                stateStartValue = attackLevel;
             }
             break;
         case Decay:
-            current = attackLevel - ((delta-stateStart)/stateEnd) * (attackLevel-sustainLevel);
-            stateStartValue = current;
-            if(delta>=stateEnd){
+            current -= 1/(decayTime*audio::audioSettings().sampleRate);
+            if(current<=sustainLevel){
+                current = sustainLevel;
                 state = Sustain;
             }
             break;
         case Sustain:
             break;
         case Release:
-            if(stateStart <= 0.0001f){
-                stateStart = delta;
-                stateEnd = delta+releaseTime;
-            }
-            current = (1-((delta-stateStart)/stateEnd)) * stateStartValue;
-            if(delta>=stateEnd){
+            current -= 1/(releaseTime*audio::audioSettings().sampleRate);
+            if(current<=0){
+                current = 0;
                 state = NoState;
             }
             break;
@@ -65,14 +52,10 @@ float ADSR::output() {
 
 void ADSR::NoteOn() {
     state = Attack;
-    stateStart = 0;
-    stateEnd = 0;
 }
 
 void ADSR::NoteOff() {
     state = Release;
-    stateStart = 0;
-    stateEnd = 0;
 }
 
 ADSR::ADSR(float aTime, float aLev, float dTime, float sLev, float rTime) : ADSR() {

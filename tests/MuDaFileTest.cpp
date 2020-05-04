@@ -19,10 +19,10 @@ TEST(MuDaFileTest, writeFile){
 
     Mf->appendStartMessage();
     Mf->appendNoteMessage(0, MessageCodes::noteOn, {0, 0, params});
-    Mf->appendNoteMessage(600, MessageCodes::noteChange, {0, 0, {{0, 441.f}}});
+    Mf->appendNoteMessage(512, MessageCodes::noteChange, {0, 0, {{0, 550.f}}});
     Mf->appendSystemParamMessage(700, {{3, 440.f}});
     //Mf->appendPanicMessage(750.5f, 1);
-    Mf->appendNoteMessage(1024, MessageCodes::noteOff, {0, 0, {{0, 441.f}}});
+    Mf->appendNoteMessage(1024, MessageCodes::noteOff, {0, 0, {{}}});
     Mf->appendEndMessage(1536);
 
     Mf->writeToFile("testOutput.MuDa");

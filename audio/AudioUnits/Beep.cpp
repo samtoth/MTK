@@ -8,7 +8,7 @@
 float Beep::output() {
     float result = 0;
     for(int i = 0; i<generators.size(); i++){
-        result += generators[i].SinGen->output() * generators[i].adsr->output() *(1/generators.size());
+        result += generators[i].SinGen->output() * generators[i].adsr->output() * (float)(1.f/generators.size());
     }
     return result;
 }
@@ -41,6 +41,6 @@ void Beep::Panic() {
 
 Beep::Beep(int voices) {
     for(int i = 0; i<voices; i++){
-        generators.emplace_back(std::make_shared<SinWave>(), std::make_shared<ADSR>(0.4f, 1, 0.2f, 0.8f, 0.3f));
+        generators.emplace_back(std::make_shared<SinWave>(), std::make_shared<ADSR>(0.1f, 1, 0.09f, 0.8f, 0.1f));
     }
 }

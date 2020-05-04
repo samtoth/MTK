@@ -37,7 +37,21 @@ namespace audio{
 
         uint64_t delta = 0;
 
-        virtual ~AudioOutput() = default;
+        virtual ~AudioOutput(){
+            auto err = Pa_IsStreamStopped(stream);
+            //if not stopped: stop it
+            if(err == 0) {
+                auto err = Pa_CloseStream(stream);
+                if (err != paNoError) {
+                    printErr(err);
+                }
+            }
+
+            err = Pa_Terminate();
+            if( err != paNoError ) {
+                printErr(err);
+            }
+        }
 
         int setup(audioSettings settings){
             int framesPerBuffer;
@@ -70,24 +84,6 @@ namespace audio{
             return 0;
         }
 
-        int terminate(){
-            auto err = Pa_IsStreamStopped(stream);
-            //if not stopped: stop it
-            if(err == 0) {
-                auto err = Pa_CloseStream(stream);
-                if (err != paNoError) {
-                    printErr(err);
-                    return err;
-                }
-            }
-
-            err = Pa_Terminate();
-            if( err != paNoError ) {
-                printErr(err);
-                return err;
-            }
-            return 0;
-        }
 
         int startStream() {
             //TODO: Assert callback function is set
@@ -144,10 +140,6 @@ namespace audio{
 
     inline void terminate(){
         std::call_once(delFlag, [](){
-            auto err = audioInstance->terminate();
-            if(err!=paNoError){
-                throw std::runtime_error("terminate failed");
-            }
             audioInstance.release();
         });
     }

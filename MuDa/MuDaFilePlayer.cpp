@@ -24,7 +24,7 @@ namespace MuDa {
     /// \returns success of the file player
     bool MuDaFilePlayer::start() {
         parseHeader();
-        int interval = 1000 / format->header.deltaPerSecond;
+        int interval = 1000.f / (float)format->header.deltaPerSecond;
         if(format->messages.empty()){
             return false;
         }
@@ -73,6 +73,7 @@ namespace MuDa {
                 case MessageCodes::end: {
                     stop();
                     //TODO: notify audio manager
+                    std::cout << "End of file reached";
                     return;
                 }
                 case MessageCodes::noteOn: {

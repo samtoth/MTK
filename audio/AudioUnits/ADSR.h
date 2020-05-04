@@ -43,9 +43,6 @@ protected:
     float releaseTime;
 
     float current;
-    float stateStartValue;
-    float stateStart;
-    float stateEnd;
 };
 
 
