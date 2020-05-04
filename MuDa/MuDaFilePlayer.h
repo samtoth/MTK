@@ -24,7 +24,6 @@ namespace MuDa {
     private:
         void tick();
 
-        void parseHeader();
 
         void timerStart(unsigned int interval, bool *run);
 

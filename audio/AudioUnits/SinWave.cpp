@@ -13,7 +13,7 @@ SinWave::SinWave() {
 }
 
 float SinWave::output() {
-    phase += (2*M_PI*frequency)/(float)audio::audioSettings().sampleRate;
+    phase += (2*M_PI*frequency)/(float) audio::getAudioSettings().sampleRate;
     if(phase>=2*M_PI) {
         phase -= 2*M_PI;
     }

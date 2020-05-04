@@ -41,6 +41,6 @@ void Beep::Panic() {
 
 Beep::Beep(int voices) {
     for(int i = 0; i<voices; i++){
-        generators.emplace_back(std::make_shared<SinWave>(), std::make_shared<ADSR>(0.1f, 1, 0.09f, 0.8f, 0.1f));
+        generators.emplace_back(std::make_shared<SinWave>(), std::make_shared<ADSR>(0.1f, 0.7, 0.09f, 0.6f, 0.1f));
     }
 }

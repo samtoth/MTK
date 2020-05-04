@@ -2,6 +2,7 @@
 // Created by samt on 15/04/2020.
 //
 
+#include <cmath>
 #include "MuDaFilePlayer.h"
 
 namespace MuDa {
@@ -9,7 +10,6 @@ namespace MuDa {
     /// Starts the file player in new thread
     /// \returns success of start
     bool MuDaFilePlayer::startAsync() {
-        parseHeader();
         int interval = 1000 / format->header.deltaPerSecond;
         if(format->messages.empty()){
             return false;
@@ -23,8 +23,8 @@ namespace MuDa {
     /// Starts the file player in the main thread
     /// \returns success of the file player
     bool MuDaFilePlayer::start() {
-        parseHeader();
-        int interval = 1000.f / (float)format->header.deltaPerSecond;
+        //TODO: Fix timing the file player
+        int interval = roundf(1000.f / (float)format->header.deltaPerSecond);
         if(format->messages.empty()){
             return false;
         }
@@ -107,8 +107,4 @@ namespace MuDa {
         delta++;
     }
 
-
-    void MuDaFilePlayer::parseHeader() {
-
-    }
 }

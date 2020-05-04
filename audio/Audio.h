@@ -54,12 +54,6 @@ namespace audio{
         }
 
         int setup(audioSettings settings){
-            int framesPerBuffer;
-            if(settings.bufferSize==0){
-                framesPerBuffer = paFramesPerBufferUnspecified;
-            }else {
-                framesPerBuffer = 1000 / settings.bufferSize;
-            }
 
             devSettings = settings;
 
@@ -69,7 +63,7 @@ namespace audio{
                                              1,          /* stereo output FOR NOW */
                                              paFloat32,  /* 32 bit floating point output */
                                              devSettings.sampleRate,
-                                             framesPerBuffer,        /* frames per buffer, i.e. the number
+                                             devSettings.bufferSize,        /* frames per buffer, i.e. the number
                                                of sample frames that PortAudio will
                                                request from the callback. Many apps
                                                may want to use
@@ -88,19 +82,15 @@ namespace audio{
         int startStream() {
             //TODO: Assert callback function is set
             auto err = Pa_StartStream(stream);
-            if(err!= paNoError){printErr(err); return 1;}
+            if(err!= paNoError){printErr(err); return err;}
             return 0;
         }
 
         int stopStream(){
             auto err = Pa_StopStream(stream);
-            if(err!= paNoError){printErr(err); return 1;}
+            if(err!= paNoError){printErr(err); return err;}
             return 0;
         }
-
-
-
-
 
         audioSettings devSettings;
         IAudioUnit *generator;
@@ -130,71 +120,19 @@ namespace audio{
 
     };
 
-    inline std::unique_ptr<AudioOutput> audioInstance;
-    inline std::once_flag initFlag;
-    inline std::once_flag delFlag;
 
-    inline void initialize(){
-        std::call_once(initFlag, [](){ audioInstance = std::make_unique<AudioOutput>();});
-    }
-
-    inline void terminate(){
-        std::call_once(delFlag, [](){
-            audioInstance.release();
-        });
-    }
-
-    inline int setup(audioSettings settings){
-        return audioInstance->setup(settings);
-    }
-
-    inline int deviceCount(){
-        int numDevices;
-        numDevices = Pa_GetDeviceCount();
-        if(numDevices<0){
-            printErr(numDevices);
-            return 0;
-        }
-        return numDevices;
-    }
-
-    inline std::optional<const PaDeviceInfo*> getDeviceInfo(int i){
-        auto n = deviceCount();
-        if(i<0 || i>n){return std::nullopt;}
-        return Pa_GetDeviceInfo(i);
-    }
-
-    inline int printDevices(){
-        auto n = deviceCount();
-        for(int i = 0; i<n; i++){
-            std::cout << getDeviceInfo(i).value()->name << std::endl;
-        }
-        return 0;
-    }
-
-    inline int startStream(){
-        return audioInstance->startStream();
-    }
-
-    inline int stopStream(){
-        return audioInstance->stopStream();
-    }
-
-    inline void setGenerator(IAudioUnit* generator){
-        audioInstance->generator = generator;
-    }
-
-    inline IAudioUnit *generator(){
-        return audioInstance->generator;
-    }
-
-    inline audioSettings audioSettings(){
-        return audioInstance->devSettings;
-    }
-
-    inline uint64_t delta(){
-        return audioInstance->delta;
-    }
+    void initialize();
+    void terminate();
+    int setup(audioSettings settings);
+    int deviceCount();
+    std::optional<const PaDeviceInfo*> getDeviceInfo(int i);
+    int printDevices();
+    int startStream();
+    int stopStream();
+    void setGenerator(IAudioUnit* generator);
+    IAudioUnit *generator();
+    audioSettings getAudioSettings();
+    uint64_t delta();
 }
 
 #endif //MUSICTOOLKIT_AUDIO_H

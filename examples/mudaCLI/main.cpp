@@ -32,23 +32,23 @@ int playFile(const std::string& fileName ){
 }
 
 int writeFile(std::string fileName){
-    auto Mf = std::make_shared<MuDa::MuDaFileFormat>(512);
+    auto Mf = std::make_shared<MuDa::MuDaFileFormat>(1000);
     std::map<uint32_t, float> params = {{0, 525.f}};
 
     Mf->appendStartMessage();
 
     Mf->appendNoteMessage(0, MuDa::MessageCodes::noteOn, {0, 0, params});
-    Mf->appendNoteMessage(400/2, MuDa::MessageCodes::noteOff, {0, 0, {}});
+    Mf->appendNoteMessage(30, MuDa::MessageCodes::noteOff, {0, 0, {}});
 
-    Mf->appendNoteMessage(512/2, MuDa::MessageCodes::noteOn, {0, 0, params});
-    Mf->appendNoteMessage(400, MuDa::MessageCodes::noteOff, {0, 0, {}});
+    Mf->appendNoteMessage(50, MuDa::MessageCodes::noteOn, {0, 0, params});
+    Mf->appendNoteMessage(80, MuDa::MessageCodes::noteOff, {0, 0, {}});
 
-    Mf->appendNoteMessage(512, MuDa::MessageCodes::noteOn, {0, 0, params});
+    Mf->appendNoteMessage(100, MuDa::MessageCodes::noteOn, {0, 0, params});
 
-    Mf->appendNoteMessage(1024*3/4, MuDa::MessageCodes::noteChange, {0, 0, {{0, 440.f}}});
-    Mf->appendNoteMessage(1350, MuDa::MessageCodes::noteOff,{0, 0, {}});
+    Mf->appendNoteMessage(150, MuDa::MessageCodes::noteChange, {0, 0, {{0, 440.f}}});
+    Mf->appendNoteMessage(300, MuDa::MessageCodes::noteOff,{0, 0, {}});
 
-    Mf->appendEndMessage(1536);
+    Mf->appendEndMessage(500);
 
     if(Mf->writeToFile(std::move(fileName))){
         return 0;

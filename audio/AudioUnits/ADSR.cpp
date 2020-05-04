@@ -23,14 +23,14 @@ float ADSR::output() {
         case NoState:
             break;
         case Attack:
-            current += 1/(attackTime*audio::audioSettings().sampleRate);
+            current += 1/(attackTime* audio::getAudioSettings().sampleRate);
             if(current>=attackLevel){
                 current = attackLevel;
                 state = Decay;
             }
             break;
         case Decay:
-            current -= 1/(decayTime*audio::audioSettings().sampleRate);
+            current -= 1/(decayTime* audio::getAudioSettings().sampleRate);
             if(current<=sustainLevel){
                 current = sustainLevel;
                 state = Sustain;
@@ -39,7 +39,7 @@ float ADSR::output() {
         case Sustain:
             break;
         case Release:
-            current -= 1/(releaseTime*audio::audioSettings().sampleRate);
+            current -= 1/(releaseTime* audio::getAudioSettings().sampleRate);
             if(current<=0){
                 current = 0;
                 state = NoState;

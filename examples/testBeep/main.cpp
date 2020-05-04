@@ -20,12 +20,17 @@ int main(int argc, char *argv[]){
     auto x = std::chrono::steady_clock::now() + std::chrono::milliseconds(4000);
     beep->NoteOn(0, {{0, 440.f}});
     std::this_thread::sleep_until(x);
-    x = std::chrono::steady_clock::now() + std::chrono::milliseconds(300);
+    x = std::chrono::steady_clock::now() + std::chrono::milliseconds(500);
     beep->NoteOff(0, {});
     std::this_thread::sleep_until(x);
 
-    audio::stopStream();
-    audio::terminate();
+
+    if(auto err = audio::stopStream()==0) {
+        audio::terminate();
+    }else{
+        std::cout << "stream not stopped";
+        return err;
+    }
     delete beep;
     return 0;
 }
