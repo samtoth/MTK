@@ -32,7 +32,7 @@ int playFile(const std::string& fileName ){
 }
 
 int writeFile(std::string fileName){
-    auto Mf = std::make_shared<MuDa::MuDaFileFormat>(1000);
+    auto Mf = std::make_shared<MuDa::MuDaFileFormat>(140);
     std::map<uint32_t, float> params = {{0, 525.f}};
 
     Mf->appendStartMessage();

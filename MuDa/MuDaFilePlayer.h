@@ -22,7 +22,8 @@ namespace MuDa {
         void stop();
 
     private:
-        void tick();
+        /// \returns milliseconds until next messages
+        int tick();
 
 
         void timerStart(unsigned int interval, bool *run);

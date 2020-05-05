@@ -23,17 +23,17 @@ namespace MuDa {
     /// Starts the file player in the main thread
     /// \returns success of the file player
     bool MuDaFilePlayer::start() {
-        //TODO: Fix timing the file player
-        int interval = roundf(1000.f / (float)format->header.deltaPerSecond);
         if(format->messages.empty()){
             return false;
         }
         currentMessage = 0;
         delta = 0;
         run = true;
+        int millisPerDelta = roundf(1000.f/format->header.deltaPerSecond);
         while (run) {
-            auto x = std::chrono::steady_clock::now() + std::chrono::milliseconds(interval);
-            this->tick();
+            int time = this->tick();
+            auto x = std::chrono::steady_clock::now() + std::chrono::milliseconds(time * millisPerDelta);
+            delta += time;
             std::this_thread::sleep_until(x);
         }
         return true;
@@ -54,15 +54,11 @@ namespace MuDa {
         run = false;
     }
 
-    void MuDaFilePlayer::tick() {
+    int MuDaFilePlayer::tick() {
         if(currentMessage>=format->messages.size()){
             stop();
             std::cout << "Warning file might not have been correctly played";
-            return;
-        }
-        //check if message delta is greater than current message delta
-        if(delta>format->messages[currentMessage]->delta){
-            currentMessage++;
+            return -1;
         }
         while(delta==format->messages[currentMessage]->delta){
             switch (format->messages[currentMessage]->messageType) {
@@ -74,7 +70,7 @@ namespace MuDa {
                     stop();
                     //TODO: notify audio manager
                     std::cout << "End of file reached";
-                    return;
+                    return 0;
                 }
                 case MessageCodes::noteOn: {
                     auto mDat = format->messages[currentMessage]->getNoteEventData();
@@ -104,7 +100,11 @@ namespace MuDa {
             }
             currentMessage++;
         }
-        delta++;
+
+        if(currentMessage < format->messages.size()){
+            return (format->messages[currentMessage]->delta - delta);
+        }
+        return 0;
     }
 
 }

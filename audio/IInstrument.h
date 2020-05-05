@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <vector>
 #include "IAudioUnit.h"
+#include <map>
 
 #define PARAM_t std::map<uint32_t, float>
 
