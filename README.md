@@ -37,24 +37,28 @@
     * (Only currently tested with MinGW on Windows and gcc on Linux)
   ###### Optional
   * Doxygen (with option -DBUILD_DOCS=ON)
+  
+  ### Run:
  ```
  git clone https://github.com/qoolander/MTK.git
  cd MTK
- mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=debug -DBUILD_TESTS=OFF -BUILD_DOCS=OFF ..
- cmake --build build --target all -- -j 4
+ mkdir build
+ cd build
+ cmake -DCMAKE_BUILD_TYPE=debug -DBUILD_TESTS=OFF -DBUILD_DOCS=OFF ..
+ cmake --build . --target all -- -j 4
  ```
 ##### Note
 If using windows replace
-```cmake -DCMAKE_BUILD_TYPE=debug -DBUILD_TESTS=OFF -BUILD_DOCS=OFF ..``` with ```cmake -DCMAKE_BUILD_TYPE=debug -DBUILD_TESTS=OFF -BUILD_DOCS=OFF -G "MinGW Makefiles" ..```
+```cmake -DCMAKE_BUILD_TYPE=debug -DBUILD_TESTS=OFF -DBUILD_DOCS=OFF ..``` with ```cmake -DCMAKE_BUILD_TYPE=debug -DBUILD_TESTS=OFF -DBUILD_DOCS=OFF -G "MinGW Makefiles" ..```
  
  ## Getting started
  
 First make sure you have successfully [built MTK](#Building-from-source). 
 
-To play an example file, first confirm audio output is working by navigating to the {build_directory}/bin, and from the command line running `./testBeep`.
+To play an example file, first confirm audio output is working by navigating to the {build_directory}/bin, and from the command line running `./testBeep(.exe)`.
 If you hear a tone that lasts a few second before stopping then everything appears to be working!
 
-To play a .MuDa file run `./MuDaCLI -p <filename.MuDa>`. To begin with we can have the program generate an example file for us by running the command `./MuDaCLI -e example.MuDa`. Finally run `./MuDaCLI -p example.MuDa` to hear the result.
+To play a .MuDa file run `./MuDaCLI(.exe) -p <filename.MuDa>`. To begin with we can have the program generate an example file for us by running the command `./MuDaCLI(.exe) -e example.MuDa`. Finally run `./MuDaCLI(.exe) -p example.MuDa` to hear the result.
  
  ## Built using
  * [gtest](https://github.com/google/googletest)
