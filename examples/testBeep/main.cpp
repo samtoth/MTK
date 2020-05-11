@@ -27,8 +27,11 @@ int main(int argc, char *argv[]){
     if(auto err = audio::stopStream()!=0) {
         std::cout << "stream may not have stopped correctly";
     }
+    std::cout << "Stream stopped" << std::endl;
 
     audio::terminate();
+
+    std::cout << "Pa terminated";
     delete beep;
     return 0;
 }

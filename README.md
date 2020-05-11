@@ -6,7 +6,6 @@
  ![codecov](https://codecov.io/gh/qoolander/MTK/branch/Development/graph/badge.svg)
 
 
-
  This project is a work in progress, many features are not implemented and API likely to change. 
 
  ## Contents
@@ -27,19 +26,38 @@
  * Notation rendering 
  
  ## Current features
+ * Reading, writing and primitive play back of  [MuDa files](/docs/MuDaSpec.md)
  * See the state of the current API in [the docs](/docs)
  
  ## Building from source
- ### Dependencies
+ #### Dependencies
   * [CMake](https://gitlab.kitware.com/cmake/cmake) - minimum version tested on version 3.16
   * A C++11-standard-compliant compiler
+    * (Only currently tested with MinGW on Windows and gcc on Linux)
+  ###### Optional
+  * Doxygen (with option -DBUILD_DOCS=ON)
   
+  ### Run:
  ```
  git clone https://github.com/qoolander/MTK.git
  cd MTK
- mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=debug -DTests=OFF -BUILD_DOCUMENTATION=OFF ..
- cmake --build build --target all -- -j 4
+ mkdir build
+ cd build
+ cmake -DCMAKE_BUILD_TYPE=debug -DBUILD_TESTS=OFF -DBUILD_DOCS=OFF ..
+ cmake --build . --target all -- -j 4
  ```
+##### Note
+If using windows replace
+```cmake -DCMAKE_BUILD_TYPE=debug -DBUILD_TESTS=OFF -DBUILD_DOCS=OFF ..``` with ```cmake -DCMAKE_BUILD_TYPE=debug -DBUILD_TESTS=OFF -DBUILD_DOCS=OFF -G "MinGW Makefiles" ..```
+ 
+ ## Getting started
+ 
+First make sure you have successfully [built MTK](#Building-from-source). 
+
+To play an example file, first confirm audio output is working by navigating to the {build_directory}/bin, and from the command line running `./testBeep(.exe)`.
+If you hear a tone that lasts a few second before stopping then everything appears to be working!
+
+To play a .MuDa file run `./MuDaCLI(.exe) -p <filename.MuDa>`. To begin with we can have the program generate an example file for us by running the command `./MuDaCLI(.exe) -e example.MuDa`. Finally run `./MuDaCLI(.exe) -p example.MuDa` to hear the result.
  
  ## Built using
  * [gtest](https://github.com/google/googletest)
