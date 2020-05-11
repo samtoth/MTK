@@ -12,6 +12,11 @@ jobs:
       - name: get-cmake
         uses: lukka/get-cmake@v2.3
         
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+        
       - name: get-doxygen
         run: sudo apt-get install doxygen
 
@@ -19,7 +24,9 @@ jobs:
         run: sudo apt-get install gcovr
       
       - name: get-python-modules
-        run: sudo pip install markdown mako py-gfm
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r markdown mako py-gfm
       
       - name: Configure
         run:  mkdir build && cd build && cmake -DCMAKE_CXX_COMPILER="/usr/bin/g++" -DCMAKE_C_COMPILER="/usr/bin/gcc" -DCMAKE_BUILD_TYPE=release ..
