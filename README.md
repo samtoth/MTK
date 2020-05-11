@@ -9,11 +9,10 @@
  This project is a work in progress, many features are not implemented and API likely to change. 
 
  ## Contents
- * [Goals](#Goals)
- * [Current features](#Current-features)
- * [Getting started](#Getting-started)
- * [Building from source](#Building-from-source)
- * [License](#License)
+ * [Goals](#goals)
+ * [Current features](#current-features)
+ * [Building from source](#building-from-source)
+ * [License](#license)
  
 
  ## Goals

@@ -1,0 +1,11 @@
+
+    <ul class="tree-view">
+        % for namespaceName in namespaces.keys():
+            <li>${namespaces[namespaceName].name}</li>
+            <ul class="tree-view-1">
+                % for member in namespaces[namespaceName].members:
+                    <li><a href="${member.url}">${member.name}</a></li>
+                % endfor
+            </ul>
+        % endfor
+    </ul>
