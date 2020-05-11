@@ -27,7 +27,7 @@ jobs:
         run: |
           sudo apt-get install python3-wheel
           python -m pip install --upgrade pip
-          pip install markdown mako py-gfm
+          pip install mako py-gfm
       
       - name: Configure
         run:  mkdir build && cd build && cmake -DCMAKE_CXX_COMPILER="/usr/bin/g++" -DCMAKE_C_COMPILER="/usr/bin/gcc" -DCMAKE_BUILD_TYPE=release ..
