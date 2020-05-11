@@ -26,8 +26,8 @@ jobs:
       - name: get-python-modules
         run: |
           sudo apt install python3-wheel
-          python pip install wheels
           python -m pip install --upgrade pip
+          pip install wheels
           pip install markdown mako py-gfm
       
       - name: Configure
