@@ -1,0 +1,71 @@
+body {
+    margin: 0;
+}
+
+@media only screen and (max-width: 600px){
+    .main {
+        width: available;
+        margin: 65px 0 0;
+    }
+}
+@media only screen and (min-width: 600px) {
+    .main {
+        box-sizing: border-box;
+        min-width: 200px;
+        max-width: 980px;
+        margin: 0 auto 0 100px;
+        padding: 45px;
+    }
+}
+
+body, table, div, p, dl {
+    font: 400 14px/22px -apple-system,Segoe UI, Roboto,sans-serif;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+}
+
+/* @group Heading Levels */
+
+h1.groupheader {
+    font-size: 150%;
+}
+
+a {
+    color: #0366d6;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.title {
+    font: 400 14px/28px Roboto,sans-serif;
+    font-size: 130%;
+    font-weight: bold;
+}
+
+ul.topnav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #232428;
+}
+
+ul.topnav li {
+    display: inline;
+    float: left;
+}
+
+ul.topnav li a {
+    display: block;
+    color: white;
+    padding: 14px 16px;
+    text-align: center;
+    text-decoration: none;
+}
+
+

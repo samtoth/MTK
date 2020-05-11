@@ -14,21 +14,22 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-SET(CMAKE_CXX_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
-SET(CMAKE_C_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
-
-
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 include(FetchContent)
 
 include_directories(include)
 
-FetchContent_Declare(
-        portaudio
-        GIT_REPOSITORY https://git.assembla.com/portaudio.git
-)
-FetchContent_MakeAvailable(portaudio)
+find_package(portaudio QUIET)
+if(NOT portaudio_found)
+    message(WARNING "portaudio not found... installing from https://git.assembla.com/portaudio.git")
+    FetchContent_Declare(
+            portaudio
+            GIT_REPOSITORY https://git.assembla.com/portaudio.git
+    )
+    FetchContent_MakeAvailable(portaudio)
+endif()
+
 
 add_subdirectory(core)
 include_directories(core)
@@ -46,13 +47,19 @@ endif()
 find_package(Threads REQUIRED)
 option(BUILD_TESTS "Build the tests" ON)
 if(BUILD_TESTS)
+    SET(CMAKE_CXX_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
+    SET(CMAKE_C_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
     enable_testing()
-    FetchContent_Declare(
-            googletest
-            GIT_REPOSITORY https://github.com/google/googletest.git
-            GIT_TAG        v1.10.x
-    )
-    FetchContent_MakeAvailable(googletest)
+    find_package(googletest QUIET)
+    if(NOT googletest_found)
+        message(WARNING "gtest not found... installing from https://github.com/google/googletest.git")
+        FetchContent_Declare(
+                googletest
+                GIT_REPOSITORY https://github.com/google/googletest.git
+                GIT_TAG        v1.10.x
+        )
+        FetchContent_MakeAvailable(googletest)
+    endif()
     include(GoogleTest)
     include(CodeCoverage)
     add_subdirectory(tests)

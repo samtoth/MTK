@@ -10,10 +10,10 @@
  This project is a work in progress, many features are not implemented and API likely to change. 
 
  ## Contents
- * [Goals](#Goals)
- * [Current features](#Current-features)
- * [Building from source](#Building-from-source)
- * [License](#License)
+ * [Goals](#goals)
+ * [Current features](#current-features)
+ * [Building from source](#building-from-source)
+ * [License](#license)
  
 
  ## Goals
@@ -33,7 +33,6 @@
  ### Dependencies
   * [CMake](https://gitlab.kitware.com/cmake/cmake) - minimum version tested on version 3.16
   * A C++11-standard-compliant compiler
-  * [Eigen3](https://gitlab.com/libeigen/eigen)
   
  ```
  git clone https://github.com/qoolander/MTK.git

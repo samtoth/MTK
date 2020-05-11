@@ -14,6 +14,7 @@
 #include "IAudioUnit.h"
 #include <iostream>
 
+/// Collection of functions for configuring audio output
 namespace audio{
 
 

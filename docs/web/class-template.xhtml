@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <%include file="head.xhtml"/>
+</head>
+<body>
+    <%include file="nav.xhtml"/>
+    <div class="main">
+        <%include file="treeviewpanel.xhtml"/>
+        <div class="main">
+            <h1>${currentClass.name}</h1>
+            <p>${currentClass.brief}</p>
+            % for include in currentClass.includes.keys():
+                <code>#include &lt;<a href="${currentClass.includes[include]}.xhtml">${include}</a>&gt; </code>
+            % endfor
+
+            % for section in currentClass.sections:
+                <h3>${section.name}</h3>
+                <hr></hr>
+                <table>
+                    % for mem in section.members:
+                        <tr>
+                            <td style="padding-right: 10px;">${mem.type}</td>
+                            <td>
+                                <b>${mem.name}</b>${mem.argsstring}
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">${mem.brief}</small></td>
+                        </tr>
+                    % endfor
+                </table>
+            % endfor
+        </div>
+    </div>
+</body>
+</html>
