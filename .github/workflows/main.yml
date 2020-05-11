@@ -31,6 +31,13 @@ jobs:
         uses: codecov/codecov-action@v1.0.6
         with:
           file: ./build/coverage.xml
+
+      - name: Deploy 🚀
+          uses: JamesIves/github-pages-deploy-action@releases/v3
+          with:
+            ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+            BRANCH: gh-pages # The branch the action should deploy to.
+            FOLDER: build/docs/web # The folder the action should deploy.
           
         
   windows:
