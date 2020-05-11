@@ -6,7 +6,7 @@
 #include <AudioUnits/Beep.h>
 #include <MuDaFilePlayer.h>
 
-#define fail() std::cout << "Usage: " << std::endl << "        MuDaCLI -e <file>    : writes the example file to file name" << std::endl << "        MuDaCLI -p <file>    : plays the given file"; return 1
+#define fail() std::cout << "Usage: " << std::endl << "        MuDaCLI -e <file>    : writes the example file to file name" << std::endl << "        MuDaCLI -p <file>    : plays the given file" << std::endl; return 1
 
 int playFile(const std::string& fileName ){
     audio::initialize();
@@ -18,7 +18,7 @@ int playFile(const std::string& fileName ){
     am->setLevel(i, 0.5f);
     audio::setGenerator(am);
     auto fileData = MuDa::MuDaFileFormat::readFromFile(fileName);
-    if(!fileData){std::cout<<"File read failed.... exiting program."; return 1;}
+    if(!fileData){std::cout<<"File read failed.... exiting program." << std::endl; return 1;}
     auto *filePlayer = new MuDa::MuDaFilePlayer((*fileData), am);
     audio::startStream();
 
@@ -53,7 +53,7 @@ int writeFile(std::string fileName){
     if(Mf->writeToFile(std::move(fileName))){
         return 0;
     }else{
-        std::cout << "File writing failed";
+        std::cout << "File writing failed" << std::endl;
         return 1;
     }
 }

@@ -100,7 +100,6 @@ namespace audio {
     }
 
     int terminate(){
-        LOCK_AUDIO;
         auto err = audioInstance->terminate();
         if(err==0) {
             std::call_once(delFlag, []() {
@@ -146,7 +145,6 @@ namespace audio {
     }
 
     int stopStream(){
-        LOCK_AUDIO;
         return audioInstance->stopStream();
     }
 
