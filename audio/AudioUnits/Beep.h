@@ -7,7 +7,7 @@
 
 
 #include <IInstrument.h>
-#include <AudioUnits/Oscilators/IOscilator.h>
+#include <AudioUnits/Oscillators/IOscillator.h>
 #include <AudioUnits/ADSR.h>
 #include <memory>
 #include <utility>
@@ -36,10 +36,10 @@ namespace audio {
 
     private:
         struct voice {
-            voice(std::shared_ptr<IOscilator> sinGen, std::shared_ptr<ADSR> adsr) : Osc(std::move(sinGen)),
+            voice(std::shared_ptr<IOscillator> sinGen, std::shared_ptr<ADSR> adsr) : Osc(std::move(sinGen)),
                                                                                     adsr(std::move(adsr)) {}
 
-            std::shared_ptr<IOscilator> Osc;
+            std::shared_ptr<IOscillator> Osc;
             std::shared_ptr<ADSR> adsr;
         };
 

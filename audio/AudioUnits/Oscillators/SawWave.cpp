@@ -7,7 +7,7 @@
 #include <cmath>
 
 namespace audio {
-    SawWave::SawWave() : IOscilator(){
+    SawWave::SawWave() : IOscillator(){
         phase = 0;
     }
 

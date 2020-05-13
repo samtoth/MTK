@@ -4,16 +4,12 @@
 #include <cmath>
 #include <AudioUnits/Beep.h>
 #include <thread>
-#include <AudioUnits/Oscilators/SawWave.h>
-#include <AudioUnits/Oscilators/SinWave.h>
+#include <AudioUnits/Oscillators/SawWave.h>
+#include <AudioUnits/Oscillators/SinWave.h>
 
 int main(int argc, char *argv[]){
     audio::initialize();
     audio::setup({1, 44100, 0});
-    /*int devices = audio::deviceCount();
-    for(int i = 0; i < devices; i++){
-        std::cout << "Device " << i << ": " << (*audio::getDeviceInfo(i))->name << std::endl;
-    }*/
     auto *beep = new audio::Beep();
     beep->addVoices<audio::SawWave>(1);
     audio::setGenerator(beep);

@@ -5,10 +5,10 @@
 #ifndef MUSICTOOLKIT_SAWWAVE_H
 #define MUSICTOOLKIT_SAWWAVE_H
 
-#include <AudioUnits/Oscilators/IOscilator.h>
+#include <AudioUnits/Oscillators/IOscillator.h>
 
 namespace audio {
-    class SawWave : public IOscilator {
+    class SawWave : public IOscillator {
     public:
         SawWave();
         float output() override;
