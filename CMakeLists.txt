@@ -22,7 +22,7 @@ include_directories(include)
 
 find_package(portaudio QUIET)
 if(NOT portaudio_found)
-    message(WARNING "portaudio not found... installing from https://git.assembla.com/portaudio.git")
+    message(STATUS "portaudio not found... installing from https://git.assembla.com/portaudio.git")
     FetchContent_Declare(
             portaudio
             GIT_REPOSITORY https://git.assembla.com/portaudio.git
@@ -52,7 +52,7 @@ if(BUILD_TESTS)
     enable_testing()
     find_package(googletest QUIET)
     if(NOT googletest_found)
-        message(WARNING "gtest not found... installing from https://github.com/google/googletest.git")
+        message(STATUS "gtest not found... installing from https://github.com/google/googletest.git")
         FetchContent_Declare(
                 googletest
                 GIT_REPOSITORY https://github.com/google/googletest.git

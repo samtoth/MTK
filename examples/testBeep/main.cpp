@@ -4,6 +4,8 @@
 #include <cmath>
 #include <AudioUnits/Beep.h>
 #include <thread>
+#include <AudioUnits/Oscilators/SawWave.h>
+#include <AudioUnits/Oscilators/SinWave.h>
 
 int main(int argc, char *argv[]){
     audio::initialize();
@@ -12,7 +14,8 @@ int main(int argc, char *argv[]){
     for(int i = 0; i < devices; i++){
         std::cout << "Device " << i << ": " << (*audio::getDeviceInfo(i))->name << std::endl;
     }*/
-    auto *beep = new Beep(1);
+    auto *beep = new audio::Beep();
+    beep->addVoices<audio::SawWave>(1);
     audio::setGenerator(beep);
     audio::startStream();
 
