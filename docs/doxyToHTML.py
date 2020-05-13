@@ -14,7 +14,7 @@ def render_markdown(file: str) -> str:
     f = open(file, "r")
     md = f.read()
     f.close()
-    return markdown.markdown(md.lstrip().replace("\n ", "\n"), extensions=[GFM(), 'toc'], output="xhtml")
+    return markdown.markdown(md, extensions=[GFM(), 'toc'], output="xhtml")
 
 
 class Member:
@@ -155,4 +155,5 @@ data = {'PROJECT_NAME': "@CMAKE_PROJECT_NAME@", 'PROJECT_VERSION': "@CMAKE_PROJE
 
 process_file("index.xhtml", lookup, **data)
 process_file("classes.xhtml", lookup, classes=_classes, **data)
+process_file("MuDaSpec.xhtml", lookup, **data)
 generate_classes(_classes, lookup, **data)
