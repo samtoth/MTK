@@ -5,6 +5,7 @@
 #include <utility>
 #include <AudioUnits/Beep.h>
 #include <MuDaFilePlayer.h>
+#include <AudioUnits/Oscillators/SawWave.h>
 
 #define fail() std::cout << "Usage: " << std::endl << "        MuDaCLI -e <file>    : writes the example file to file name" << std::endl << "        MuDaCLI -p <file>    : plays the given file" << std::endl; return 1
 
@@ -13,7 +14,8 @@ int playFile(const std::string& fileName ){
     audio::setup({1, 44100, 0});
     auto *am = new BasicAudioManager();
     //setup AM
-    Beep *instr = new Beep(3);
+    auto *instr = new audio::Beep();
+    instr->addVoices<audio::SawWave>(3);
     auto i = am->addInstrument(instr);
     am->setLevel(i, 0.5f);
     audio::setGenerator(am);
