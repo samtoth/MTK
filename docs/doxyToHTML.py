@@ -20,7 +20,11 @@ def render_markdown(file: str) -> str:
 class Member:
     def __init__(self, memberXML: ET.Element):
         self.name = memberXML.find('name').text
-        self.type = html.escape(memberXML.find('type').text or "")
+        try:
+            self.type = html.escape(memberXML.find('type').text)
+        except:
+            self.type = ""
+
         try:
             self.argsstring = (html.escape(memberXML.find('argsstring').text or ""))
         except:
