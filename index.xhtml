@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+        <title>MusicToolkit</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="markdown.css" rel="stylesheet" type="text/css" />
+    <link href="classes.css" rel="stylesheet" type="text/css"/>
+    <link href="treeview.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <ul class="topnav">
+    <li><a href="index.xhtml" class="title">MusicToolkit 0.1.1</a> </li>
+    <li><a href="classes.xhtml">Classes</a> </li>
+</ul>
+    <div class="main">
+        <div class="markdown-body">
+            <h1 id="mtk-music-toolkit">MTK (Music ToolKit)</h1>
+<p>A C++ API designed for Music software</p>
+<p><img alt="MTK Version" src="https://img.shields.io/github/v/tag/qoolander/MTK?label=Version" /><br />
+<img alt="Build" src="https://github.com/qoolander/MTK/workflows/Build/badge.svg?branch=Development" /><br />
+<img alt="codecov" src="https://codecov.io/gh/qoolander/MTK/branch/Development/graph/badge.svg" /></p>
+<p>This project is a work in progress, many features are not implemented and API likely to change. </p>
+<h2 id="contents">Contents</h2>
+<ul>
+<li><a href="#goals">Goals</a></li>
+<li><a href="#current-features">Current features</a></li>
+<li><a href="#building-from-source">Building from source</a></li>
+<li><a href="#license">License</a></li>
+</ul>
+<h2 id="goals">Goals</h2>
+<h6 id="highest-priority-first">Highest priority first</h6>
+<ul>
+<li>Define an API flexible enough to deal with music outside of Western traditions</li>
+<li>Interface with existing standards: </li>
+<li>Midi</li>
+<li>MusicXML</li>
+<li>A python wrapper to access through scripting language</li>
+<li>Basic synthesis capabilities</li>
+<li>Notation rendering </li>
+</ul>
+<h2 id="current-features">Current features</h2>
+<ul>
+<li>Reading, writing and primitive play back of  <a href="/docs/MuDaSpec.md">MuDa files</a></li>
+<li>See the state of the current API in <a href="/docs">the docs</a></li>
+</ul>
+<h2 id="building-from-source">Building from source</h2>
+<h4 id="dependencies">Dependencies</h4>
+<ul>
+<li><a href="https://gitlab.kitware.com/cmake/cmake">CMake</a> - minimum version tested on version 3.16</li>
+<li>A C++11-standard-compliant compiler</li>
+<li>(Only currently tested with MinGW on Windows and gcc on Linux)<br />
+ ###### Optional</li>
+<li>Doxygen (with option -DBUILD_DOCS=ON)</li>
+</ul>
+<p>### Run:</p>
+<pre class="highlight"><code>git clone https://github.com/qoolander/MTK.git
+cd MTK
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=debug -DBUILD_TESTS=OFF -DBUILD_DOCS=OFF ..
+cmake --build . --target all -- -j 4</code></pre>
+
+
+<h5 id="note">Note</h5>
+<p>If using windows replace<br />
+<code>cmake -DCMAKE_BUILD_TYPE=debug -DBUILD_TESTS=OFF -DBUILD_DOCS=OFF ..</code> with <code>cmake -DCMAKE_BUILD_TYPE=debug -DBUILD_TESTS=OFF -DBUILD_DOCS=OFF -G "MinGW Makefiles" ..</code></p>
+<h2 id="getting-started">Getting started</h2>
+<p>First make sure you have successfully <a href="#Building-from-source">built MTK</a>. </p>
+<p>To play an example file, first confirm audio output is working by navigating to the {build_directory}/bin, and from the command line running <code>./testBeep(.exe)</code>.<br />
+If you hear a tone that lasts a few second before stopping then everything appears to be working!</p>
+<p>To play a .MuDa file run <code>./MuDaCLI(.exe) -p &lt;filename.MuDa&gt;</code>. To begin with we can have the program generate an example file for us by running the command <code>./MuDaCLI(.exe) -e example.MuDa</code>. Finally run <code>./MuDaCLI(.exe) -p example.MuDa</code> to hear the result.</p>
+<h2 id="built-using">Built using</h2>
+<ul>
+<li><a href="https://github.com/google/googletest">gtest</a></li>
+<li><a href="https://github.com/doxygen/doxygen">Doxygen</a></li>
+<li><a href="https://gitlab.com/libeigen/eigen">Eigen3</a></li>
+<li><a href="http://portaudio.com/docs/v19-doxydocs/index.html">PortAudio</a></li>
+</ul>
+<h2 id="license">License</h2>
+<p>Developed under GNU General Public License Version 3. <a href="LICENSE">See full LICENSE</a> </p>
+        </div>
+    </div>
+</body>
+</html>
