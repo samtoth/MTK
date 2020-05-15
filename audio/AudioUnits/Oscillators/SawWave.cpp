@@ -6,13 +6,13 @@
 #include <Audio.h>
 #include <cmath>
 
-namespace audio {
+namespace MTK::Audio {
     SawWave::SawWave() : IOscillator(){
         phase = 0;
     }
 
     float SawWave::output() {
-        phase += (2 * frequency) / (float) audio::getAudioSettings().sampleRate;
+        phase += (2 * frequency) / (float) Audio::getAudioSettings().sampleRate;
         if (phase >= 1) {
             phase -= 2;
         }

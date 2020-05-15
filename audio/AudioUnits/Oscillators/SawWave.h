@@ -7,7 +7,7 @@
 
 #include <AudioUnits/Oscillators/IOscillator.h>
 
-namespace audio {
+namespace MTK::Audio {
     class SawWave : public IOscillator {
     public:
         SawWave();

@@ -14,7 +14,7 @@
 namespace MuDa {
     class MuDaFilePlayer {
     public:
-        MuDaFilePlayer(std::shared_ptr<MuDaFileFormat> MuDaFile, IAudioManager *_audioManager) : audioManager(_audioManager) { format = MuDaFile;}
+        MuDaFilePlayer(std::shared_ptr<MuDaFileFormat> MuDaFile, Audio::IAudioManager *_audioManager) : audioManager(_audioManager) { format = MuDaFile;}
 
         bool start();
         bool startAsync();
@@ -32,7 +32,7 @@ namespace MuDa {
         uint64_t delta;
         bool run;
         std::shared_ptr<MuDaFileFormat> format;
-        IAudioManager *audioManager;
+        Audio::IAudioManager *audioManager;
     };
 }
 

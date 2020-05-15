@@ -7,7 +7,7 @@ from mdx_gfm import GithubFlavoredMarkdownExtension as GFM
 
 
 def element_to_string(element: ET.Element) -> str:
-    return "".join([element.text or ""] + [e.text or "" for e in element])
+    return "".join([element.text or ""] + [element_to_string(e) for e in element])
 
 
 def render_markdown(file: str) -> str:

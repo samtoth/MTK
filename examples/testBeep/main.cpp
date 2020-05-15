@@ -8,12 +8,12 @@
 #include <AudioUnits/Oscillators/SinWave.h>
 
 int main(int argc, char *argv[]){
-    audio::initialize();
-    audio::setup({1, 44100, 0});
-    auto *beep = new audio::Beep();
-    beep->addVoices<audio::SawWave>(1);
-    audio::setGenerator(beep);
-    audio::startStream();
+    Audio::initialize();
+    Audio::setup({1, 44100, 0});
+    auto *beep = new Audio::Beep();
+    beep->addVoices<Audio::SawWave>(1);
+    Audio::setGenerator(beep);
+    Audio::startStream();
 
     beep->NoteOn(0, {{0, 500.f}});
     auto x = std::chrono::steady_clock::now() + std::chrono::milliseconds(4000);
@@ -23,12 +23,12 @@ int main(int argc, char *argv[]){
     std::this_thread::sleep_until(x);
 
 
-    if(auto err = audio::stopStream()!=0) {
+    if(auto err = Audio::stopStream() != 0) {
         std::cout << "stream may not have stopped correctly";
     }
     std::cout << "Stream stopped" << std::endl;
 
-    audio::terminate();
+    Audio::terminate();
 
     std::cout << "Pa terminated";
     delete beep;

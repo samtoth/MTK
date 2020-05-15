@@ -6,7 +6,7 @@
 #include <Audio.h>
 #include "SinWave.h"
 
-namespace audio {
+namespace MTK::Audio {
     SinWave::SinWave() : IOscillator(){
         frequency = 0;
         phase = 0;

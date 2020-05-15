@@ -6,7 +6,7 @@
 #define MUSICTOOLKIT_IOSCILLATOR_H
 
 #include <IAudioUnit.h>
-namespace audio {
+namespace MTK::Audio {
 /// An Audio unit that always outputs sound given a frequency.
     class IOscillator : public IAudioUnit {
     public:

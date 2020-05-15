@@ -11,7 +11,8 @@
 #include <AudioUnits/ADSR.h>
 #include <memory>
 #include <utility>
-namespace audio {
+
+namespace MTK::Audio {
 
     class Beep : public IInstrument {
     public:

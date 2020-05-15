@@ -12,72 +12,45 @@
 #include <memory>
 #include <mutex>
 #include "IAudioUnit.h"
+#include "IAudioAPI.h"
 #include <iostream>
-
 /// Collection of functions for configuring audio output
-namespace audio{
+    namespace MTK::Audio {
+
+#define printErr(em) printf("PortAudio error: %s\n", Pa_GetErrorText(em)) //TODO: throw error
 
 
+        template<typename T>
+        int initialize() {
+            setInstance();
+        }
 
-    /// \brief data structure for setting up output device
-    struct audioSettings{
-        int outputChannels;
-        double sampleRate;
-        int bufferSize; //!< bufferSize in ms. set to 0 to autocalculate optimum bufferSize
-    };
+        namespace {
+            void setInstance(std::unique_ptr<Audio::IAudioAPI> aApi);
+        }
 
-#define USE_PORTAUDIO
-#ifdef USE_PORTAUDIO
-    #define printErr(em) printf("PortAudio error: %s\n", Pa_GetErrorText(em)) //TODO: throw error
+        int terminate();
 
-    class AudioOutput {
-    public:
+        int setup(AudioSettings settings);
 
-        AudioOutput();
+        int deviceCount();
 
-        uint64_t delta = 0;
+        std::optional<const PaDeviceInfo *> getDeviceInfo(int i);
 
-        ~AudioOutput() = default;
-
-        int setup(audioSettings settings);
+        int printDevices();
 
         int startStream();
 
         int stopStream();
 
-        int terminate() ;
+        void setGenerator(IAudioUnit *generator);
 
-        audioSettings devSettings;
-        IAudioUnit *generator;
+        IAudioUnit *generator();
 
-    private:
-        PaStream *stream;
+        AudioSettings getAudioSettings();
 
-
-        static int callback(const void *inputBuffer, void *outputBuffer,
-                            unsigned long framesPerBuffer,
-                            const PaStreamCallbackTimeInfo* timeInfo,
-                            PaStreamCallbackFlags statusFlags,
-                            void *userData );
-    };
-#else
-#endif
-
-
-    int initialize();
-    int terminate();
-    int setup(audioSettings settings);
-    int deviceCount();
-    std::optional<const PaDeviceInfo*> getDeviceInfo(int i);
-    int printDevices();
-    int startStream();
-    int stopStream();
-    void setGenerator(IAudioUnit* generator);
-    IAudioUnit *generator();
-    audioSettings getAudioSettings();
-    uint64_t delta();
-
-    int abortStream();
+        uint64_t delta();
+    }
 }
 
 #endif //MUSICTOOLKIT_AUDIO_H

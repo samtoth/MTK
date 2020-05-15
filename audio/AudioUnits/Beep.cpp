@@ -5,7 +5,7 @@
 #include <map>
 #include "Beep.h"
 
-namespace audio {
+namespace MTK::Audio {
     float Beep::output() {
         float result = 0;
         for (int i = 0; i < generators.size(); i++) {

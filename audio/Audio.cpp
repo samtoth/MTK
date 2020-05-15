@@ -4,100 +4,14 @@
 
 #include <Audio.h>
 
-namespace audio {
-    AudioOutput::AudioOutput(){
-        auto err = Pa_Initialize();
-        if( err != paNoError ) {
-            printErr(err);
-        }
-    }
-
-
-    int AudioOutput::setup(audioSettings settings){
-
-        devSettings = settings;
-
-        /* Open an audio I/O stream. */
-        auto err = Pa_OpenDefaultStream( &stream,
-                                         0,          /* no input channels */
-                                         1,          /* stereo output FOR NOW */
-                                         paFloat32,  /* 32 bit floating point output */
-                                         devSettings.sampleRate,
-                                         devSettings.bufferSize,        /* frames per buffer, i.e. the number
-                                               of sample frames that PortAudio will
-                                               request from the callback. Many apps
-                                               may want to use
-                                               paFramesPerBufferUnspecified, which
-                                               tells PortAudio to pick the best,
-                                               possibly changing, buffer size.*/
-                                         callback, /* this is your callback function */
-                                         this ); /*This is a pointer that will be passed to
-                                               your callback*/
-        if( err != paNoError ) {printErr(err); return err;}
-
-        return 0;
-    }
-
-
-    int AudioOutput::startStream() {
-        //TODO: Assert callback function is set
-        auto err = Pa_StartStream(stream);
-        if(err!= paNoError){printErr(err); return err;}
-        return 0;
-    }
-
-    int AudioOutput::stopStream(){
-        auto err = Pa_StopStream(stream);
-        if(err!= paNoError){printErr(err); return err;}
-        return 0;
-    }
-
-
-    int AudioOutput::terminate() {
-        auto err = Pa_CloseStream(stream);
-        if (err != paNoError) {
-            printErr(err);
-            return err;
-        }
-
-        err = Pa_Terminate();
-        if (err != paNoError) {
-            printErr(err);
-            return err;
-        }
-        return 0;
-    }
-    int AudioOutput::callback(const void *inputBuffer, void *outputBuffer,
-                        unsigned long framesPerBuffer,
-                        const PaStreamCallbackTimeInfo* timeInfo,
-                        PaStreamCallbackFlags statusFlags,
-                        void *userData ) {
-        auto *out = (float*)outputBuffer;
-        unsigned int i;
-        (void) inputBuffer; /* Prevent unused variable warning. */
-
-        auto *audioOutput = (AudioOutput*)userData;
-
-        for( i=0; i<framesPerBuffer; i++ )
-        {
-            *out++ = audioOutput->generator->output();
-            audioOutput->delta++;
-        }
-        return 0;
-    }
-
-    std::unique_ptr<AudioOutput> audioInstance;
-    std::mutex audioInstanceMutex;
+namespace MTK::Audio {
+    std::unique_ptr<IAudioAPI> audioInstance;
     std::once_flag initFlag;
+    std::mutex audioInstanceMutex;
     std::once_flag delFlag;
 
 
 #define LOCK_AUDIO const std::lock_guard<std::mutex> lock(audioInstanceMutex)
-
-    int initialize(){
-        std::call_once(initFlag, [](){ audioInstance = std::make_unique<AudioOutput>();});
-        return 0;
-    }
 
     int terminate(){
         auto err = audioInstance->terminate();
@@ -111,7 +25,7 @@ namespace audio {
         }
     }
 
-    int setup(audioSettings settings){
+    int setup(AudioSettings settings){
         return audioInstance->setup(settings);
     }
 
@@ -158,7 +72,7 @@ namespace audio {
         return audioInstance->generator;
     }
 
-    audioSettings getAudioSettings(){
+    AudioSettings getAudioSettings(){
         LOCK_AUDIO;
         return audioInstance->devSettings;
     }
@@ -168,4 +82,9 @@ namespace audio {
         return audioInstance->delta;
     }
 
+
+    void setInstance(std::unique_ptr<IAudioAPI> aApi){
+        auto *api = aApi.release();
+        std::call_once(initFlag, [api](){ audioInstance = std::unique_ptr<IAudioAPI>(api);});
+   }
 }

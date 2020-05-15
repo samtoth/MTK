@@ -6,28 +6,29 @@
 #include <AudioUnits/Beep.h>
 #include <MuDaFilePlayer.h>
 #include <AudioUnits/Oscillators/SawWave.h>
+#include <PortAudioWrapper.h>
 
 #define fail() std::cout << "Usage: " << std::endl << "        MuDaCLI -e <file>    : writes the example file to file name" << std::endl << "        MuDaCLI -p <file>    : plays the given file" << std::endl; return 1
 
 int playFile(const std::string& fileName ){
-    audio::initialize();
-    audio::setup({1, 44100, 0});
-    auto *am = new BasicAudioManager();
+    Audio::initialize<Audio::PortAudioWrapper>();
+    Audio::setup({1, 44100, 0});
+    auto *am = new Audio::BasicAudioManager();
     //setup AM
-    auto *instr = new audio::Beep();
-    instr->addVoices<audio::SawWave>(3);
+    auto *instr = new Audio::Beep();
+    instr->addVoices<Audio::SawWave>(3);
     auto i = am->addInstrument(instr);
     am->setLevel(i, 0.5f);
-    audio::setGenerator(am);
+    Audio::setGenerator(am);
     auto fileData = MuDa::MuDaFileFormat::readFromFile(fileName);
     if(!fileData){std::cout<<"File read failed.... exiting program." << std::endl; return 1;}
     auto *filePlayer = new MuDa::MuDaFilePlayer((*fileData), am);
-    audio::startStream();
+    Audio::startStream();
 
     filePlayer->start();
 
-    audio::stopStream();
-    audio::terminate();
+    Audio::stopStream();
+    Audio::terminate();
     delete instr;
     delete filePlayer;
     return 0;

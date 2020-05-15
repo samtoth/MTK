@@ -7,7 +7,7 @@
 
 #include "IOscillator.h"
 
-namespace audio {
+namespace MTK::Audio {
     class SinWave : public IOscillator {
     public:
         SinWave();
