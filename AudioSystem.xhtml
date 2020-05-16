@@ -119,9 +119,9 @@
                 <hr></hr>
                 <table>
                         <tr>
-                            <td style="padding-right: 10px;">std::atomic&lt; </td>
+                            <td style="padding-right: 10px;">std::unique_ptr&lt; </td>
                             <td>
-                                <b>instance</b>
+                                <b>instanceSystem</b>
                             </td>
                         </tr>
                         <tr style="height: fit-content;">
@@ -130,24 +130,9 @@
         </small></td>
                         </tr>
                         <tr>
-                            <td style="padding-right: 10px;">std::mutex</td>
+                            <td style="padding-right: 10px;">std::once_flag</td>
                             <td>
-                                <b>instanceMutex</b>
-                            </td>
-                        </tr>
-                        <tr style="height: fit-content;">
-                            <td></td>
-                            <td><small style="color: #757575">
-        </small></td>
-                        </tr>
-                </table>
-                <h3>Public Static functions</h3>
-                <hr></hr>
-                <table>
-                        <tr>
-                            <td style="padding-right: 10px;"></td>
-                            <td>
-                                <b>getAudioInstance</b>()
+                                <b>aSInitFlag</b>
                             </td>
                         </tr>
                         <tr style="height: fit-content;">
@@ -159,6 +144,17 @@
                 <h3>Public functions</h3>
                 <hr></hr>
                 <table>
+                        <tr>
+                            <td style="padding-right: 10px;"></td>
+                            <td>
+                                <b>~AudioSystem</b>()
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
                         <tr>
                             <td style="padding-right: 10px;">int</td>
                             <td>
@@ -250,7 +246,7 @@
                         <tr>
                             <td style="padding-right: 10px;">void</td>
                             <td>
-                                <b>setGenerator</b>(IAudioUnit *generator)
+                                <b>setGenerator</b>(std::shared_ptr&lt; IAudioUnit &gt; generator)
                             </td>
                         </tr>
                         <tr style="height: fit-content;">
@@ -259,7 +255,7 @@
         </small></td>
                         </tr>
                         <tr>
-                            <td style="padding-right: 10px;"></td>
+                            <td style="padding-right: 10px;">std::shared_ptr&lt; </td>
                             <td>
                                 <b>generator</b>()
                             </td>
@@ -292,13 +288,13 @@
         </small></td>
                         </tr>
                 </table>
-                <h3>Private functions</h3>
+                <h3>Public Static functions</h3>
                 <hr></hr>
                 <table>
                         <tr>
                             <td style="padding-right: 10px;"></td>
                             <td>
-                                <b>AudioSystem</b>()=default
+                                <b>getAudioInstance</b>()
                             </td>
                         </tr>
                         <tr style="height: fit-content;">
@@ -306,10 +302,14 @@
                             <td><small style="color: #757575">
         </small></td>
                         </tr>
+                </table>
+                <h3>Private functions</h3>
+                <hr></hr>
+                <table>
                         <tr>
                             <td style="padding-right: 10px;"></td>
                             <td>
-                                <b>~AudioSystem</b>()=default
+                                <b>AudioSystem</b>()=default
                             </td>
                         </tr>
                         <tr style="height: fit-content;">
