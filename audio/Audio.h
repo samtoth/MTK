@@ -11,9 +11,11 @@
 #include <memory>
 #include <mutex>
 #include "IAudioUnit.h"
-#include "IAudioWrapper.h"
+#include "Wrappers/IAudioWrapper.h"
 #include <portaudio.h>
 #include <iostream>
+#include <Wrappers/MockAudioWrapper.h>
+#include <stack>
 
 /// Collection of functions for configuring audio output
 namespace MTK::Audio {
@@ -26,7 +28,7 @@ namespace MTK::Audio {
             std::cout << "AudioSystem destructed"<< std::endl;
         }
 
-        static AudioSystem* getAudioInstance(){
+        static AudioSystem* getAudioSystem(){
             std::call_once(aSInitFlag, [](){ instanceSystem.reset(new AudioSystem);});
             return instanceSystem.get();
         }
@@ -59,6 +61,8 @@ namespace MTK::Audio {
         AudioSettings getAudioSettings();
 
         uint64_t delta();
+
+        std::optional<std::shared_ptr<AudioSampleBuffer<float>>> getTestBuffer();
 
     private:
         AudioSystem() = default;

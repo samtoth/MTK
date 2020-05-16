@@ -12,7 +12,7 @@ namespace MTK::Audio {
     }
 
     float SawWave::output() {
-        phase += (2 * frequency) / (float) AudioSystem::getAudioInstance()->getAudioSettings().sampleRate;
+        phase += (2 * frequency) / (float)AudioSystem::getAudioSystem()->getAudioSettings().sampleRate;
         if (phase >= 1) {
             phase -= 2;
         }

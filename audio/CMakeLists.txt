@@ -7,7 +7,8 @@ add_library(MTKAudio SHARED IAudioManager.h
         Audio.h Audio.cpp
         AudioUnits/Oscillators/SawWave.cpp AudioUnits/Oscillators/SawWave.h
         AudioUnits/Oscillators/IOscillator.h AudioUnits/Delay.cpp AudioUnits/Delay.h
-        PortAudioWrapper.cpp PortAudioWrapper.h
-        IAudioWrapper.h)
+        Wrappers/PortAudioWrapper.cpp Wrappers/PortAudioWrapper.h
+        Wrappers/IAudioWrapper.h Wrappers/MockAudioWrapper.cpp Wrappers/MockAudioWrapper.h
+        AudioSampleBuffer.h AudioUnits/MockAudioUnit.cpp AudioUnits/MockAudioUnit.cpp AudioUnits/MockAudioUnit.h)
 
 target_link_libraries(MTKAudio portaudio)

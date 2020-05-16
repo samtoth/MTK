@@ -19,19 +19,19 @@ namespace MTK::Audio {
 
 
     float ADSR::output() {
-        unsigned long delta = AudioSystem::getAudioInstance()->delta();
+        unsigned long delta = AudioSystem::getAudioSystem()->delta();
         switch (state) {
             case NoState:
                 break;
             case Attack:
-                current += 1 / (attackTime * AudioSystem::getAudioInstance()->getAudioSettings().sampleRate);
+                current += 1 / (attackTime * AudioSystem::getAudioSystem()->getAudioSettings().sampleRate);
                 if (current >= attackLevel) {
                     current = attackLevel;
                     state = Decay;
                 }
                 break;
             case Decay:
-                current -= 1 / (decayTime * AudioSystem::getAudioInstance()->getAudioSettings().sampleRate);
+                current -= 1 / (decayTime * AudioSystem::getAudioSystem()->getAudioSettings().sampleRate);
                 if (current <= sustainLevel) {
                     current = sustainLevel;
                     state = Sustain;
@@ -40,7 +40,7 @@ namespace MTK::Audio {
             case Sustain:
                 break;
             case Release:
-                current -= 1 / (releaseTime * AudioSystem::getAudioInstance()->getAudioSettings().sampleRate);
+                current -= 1 / (releaseTime * AudioSystem::getAudioSystem()->getAudioSettings().sampleRate);
                 if (current <= 0) {
                     current = 0;
                     state = NoState;

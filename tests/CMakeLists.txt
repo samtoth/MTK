@@ -1,5 +1,4 @@
-ADD_EXECUTABLE(runTests PitchTest.cpp main.cpp RegularTuningTest.cpp PeriodicScaleTest.cpp MuDaFileTest.cpp)
-#Audo IO test wont pass on systems that dont have compatible audio drivers... which isn't correct
+ADD_EXECUTABLE(runTests PitchTest.cpp main.cpp RegularTuningTest.cpp PeriodicScaleTest.cpp MuDaFileTest.cpp SampleBufferTest.cpp OscilatorTests.cpp MockAudioWrapperTest.cpp MTKTestEnvironment.h)
 
 TARGET_LINK_LIBRARIES(runTests MTKCore MTKAudio MuDa gtest gtest_main)
 gtest_discover_tests(runTests)

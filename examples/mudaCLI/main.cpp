@@ -6,29 +6,29 @@
 #include <AudioUnits/Beep.h>
 #include <MuDaFilePlayer.h>
 #include <AudioUnits/Oscillators/SawWave.h>
-#include <PortAudioWrapper.h>
+#include <Wrappers/PortAudioWrapper.h>
 
 #define fail() std::cout << "Usage: " << std::endl << "        MuDaCLI -e <file>    : writes the example file to file name" << std::endl << "        MuDaCLI -p <file>    : plays the given file" << std::endl; return 1
 
 int playFile(const std::string& fileName ){
-    MTK::Audio::AudioSystem::getAudioInstance()->initialize<MTK::Audio::PortAudioWrapper>();
-    MTK::Audio::AudioSystem::getAudioInstance()->setup({1, 44100, 0});
+	MTK::Audio::AudioSystem::getAudioSystem()->initialize<MTK::Audio::PortAudioWrapper>();
+	MTK::Audio::AudioSystem::getAudioSystem()->setup({ 1, 44100, 0});
     auto am = std::make_shared<MTK::Audio::BasicAudioManager>();
     //setup AM
     auto *instr = new MTK::Audio::Beep();
     instr->addVoices<MTK::Audio::SawWave>(3);
     auto i = am->addInstrument(instr);
     am->setLevel(i, 0.5f);
-    MTK::Audio::AudioSystem::getAudioInstance()->setGenerator(am);
+	MTK::Audio::AudioSystem::getAudioSystem()->setGenerator(am);
     auto fileData = MTK::MuDa::MuDaFileFormat::readFromFile(fileName);
     if(!fileData){std::cout<<"File read failed.... exiting program." << std::endl; return 1;}
     auto *filePlayer = new MTK::MuDa::MuDaFilePlayer((*fileData), am);
-    MTK::Audio::AudioSystem::getAudioInstance()->startStream();
+	MTK::Audio::AudioSystem::getAudioSystem()->startStream();
 
     filePlayer->start();
 
-    MTK::Audio::AudioSystem::getAudioInstance()->stopStream();
-    MTK::Audio::AudioSystem::getAudioInstance()->terminate();
+	MTK::Audio::AudioSystem::getAudioSystem()->stopStream();
+	MTK::Audio::AudioSystem::getAudioSystem()->terminate();
     delete instr;
     delete filePlayer;
     return 0;

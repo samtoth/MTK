@@ -8,7 +8,7 @@ namespace MTK::Tests {
     class PitchTest : public ::testing::Test {
 
     public:
-        Core::Pitch *p;
+        MTK::Core::Pitch *p;
     protected:
         // Per-test-suite set-up.
         // Called before the first test in this test suite.
