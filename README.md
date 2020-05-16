@@ -3,7 +3,7 @@ A C++ API designed for Music software
 
 ![MTK Version](https://img.shields.io/github/v/tag/qoolander/MTK?label=Version)
 ![Build](https://github.com/qoolander/MTK/workflows/Build/badge.svg?branch=Development)
-![codecov](https://codecov.io/gh/qoolander/MTK/branch/Development/graph/badge.svg)
+[![codecov](https://codecov.io/gh/qoolander/MTK/branch/Development/graph/badge.svg)](https://codecov.io/gh/qoolander/MTK)
 [![CodeFactor](https://www.codefactor.io/repository/github/qoolander/mtk/badge)](https://www.codefactor.io/repository/github/qoolander/mtk)
 
 This project is a work in progress, many features are not implemented and API likely to change. 
