@@ -63,7 +63,7 @@
             </ul>
     </ul>
         <div class="main">
-            <h1>MuDaFilePlayer</h1>
+            <h1>AudioSystem</h1>
             <p>
     </p>
 
@@ -71,9 +71,9 @@
                 <hr></hr>
                 <table>
                         <tr>
-                            <td style="padding-right: 10px;">int</td>
+                            <td style="padding-right: 10px;">std::unique_ptr&lt; </td>
                             <td>
-                                <b>currentMessage</b>
+                                <b>audioInstance</b>
                             </td>
                         </tr>
                         <tr style="height: fit-content;">
@@ -82,9 +82,9 @@
         </small></td>
                         </tr>
                         <tr>
-                            <td style="padding-right: 10px;">uint64_t</td>
+                            <td style="padding-right: 10px;">std::once_flag</td>
                             <td>
-                                <b>delta</b>
+                                <b>initFlag</b>
                             </td>
                         </tr>
                         <tr style="height: fit-content;">
@@ -93,9 +93,9 @@
         </small></td>
                         </tr>
                         <tr>
-                            <td style="padding-right: 10px;">bool</td>
+                            <td style="padding-right: 10px;">std::mutex</td>
                             <td>
-                                <b>run</b>
+                                <b>audioInstanceMutex</b>
                             </td>
                         </tr>
                         <tr style="height: fit-content;">
@@ -104,9 +104,9 @@
         </small></td>
                         </tr>
                         <tr>
-                            <td style="padding-right: 10px;">std::shared_ptr&lt; </td>
+                            <td style="padding-right: 10px;">std::once_flag</td>
                             <td>
-                                <b>format</b>
+                                <b>delFlag</b>
                             </td>
                         </tr>
                         <tr style="height: fit-content;">
@@ -114,10 +114,40 @@
                             <td><small style="color: #757575">
         </small></td>
                         </tr>
+                </table>
+                <h3>Private Static attributes</h3>
+                <hr></hr>
+                <table>
+                        <tr>
+                            <td style="padding-right: 10px;">std::atomic&lt; </td>
+                            <td>
+                                <b>instance</b>
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 10px;">std::mutex</td>
+                            <td>
+                                <b>instanceMutex</b>
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                </table>
+                <h3>Public Static functions</h3>
+                <hr></hr>
+                <table>
                         <tr>
                             <td style="padding-right: 10px;"></td>
                             <td>
-                                <b>audioManager</b>
+                                <b>getAudioInstance</b>()
                             </td>
                         </tr>
                         <tr style="height: fit-content;">
@@ -130,9 +160,9 @@
                 <hr></hr>
                 <table>
                         <tr>
-                            <td style="padding-right: 10px;"></td>
+                            <td style="padding-right: 10px;">int</td>
                             <td>
-                                <b>MuDaFilePlayer</b>(std::shared_ptr&lt; MuDaFileFormat &gt; MuDaFile, Audio::IAudioManager *_audioManager)
+                                <b>initialize</b>()
                             </td>
                         </tr>
                         <tr style="height: fit-content;">
@@ -141,9 +171,9 @@
         </small></td>
                         </tr>
                         <tr>
-                            <td style="padding-right: 10px;">bool</td>
+                            <td style="padding-right: 10px;">int</td>
                             <td>
-                                <b>start</b>()
+                                <b>terminate</b>()
                             </td>
                         </tr>
                         <tr style="height: fit-content;">
@@ -152,9 +182,64 @@
         </small></td>
                         </tr>
                         <tr>
-                            <td style="padding-right: 10px;">bool</td>
+                            <td style="padding-right: 10px;">int</td>
                             <td>
-                                <b>startAsync</b>()
+                                <b>setup</b>(AudioSettings settings)
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 10px;">int</td>
+                            <td>
+                                <b>deviceCount</b>()
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 10px;">std::optional&lt; const PaDeviceInfo * &gt;</td>
+                            <td>
+                                <b>getDeviceInfo</b>(int i)
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 10px;">int</td>
+                            <td>
+                                <b>printDevices</b>()
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 10px;">int</td>
+                            <td>
+                                <b>startStream</b>()
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 10px;">int</td>
+                            <td>
+                                <b>stopStream</b>()
                             </td>
                         </tr>
                         <tr style="height: fit-content;">
@@ -165,7 +250,40 @@
                         <tr>
                             <td style="padding-right: 10px;">void</td>
                             <td>
-                                <b>stop</b>()
+                                <b>setGenerator</b>(IAudioUnit *generator)
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 10px;"></td>
+                            <td>
+                                <b>generator</b>()
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 10px;"></td>
+                            <td>
+                                <b>getAudioSettings</b>()
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 10px;">uint64_t</td>
+                            <td>
+                                <b>delta</b>()
                             </td>
                         </tr>
                         <tr style="height: fit-content;">
@@ -178,9 +296,9 @@
                 <hr></hr>
                 <table>
                         <tr>
-                            <td style="padding-right: 10px;">int</td>
+                            <td style="padding-right: 10px;"></td>
                             <td>
-                                <b>tick</b>()
+                                <b>AudioSystem</b>()=default
                             </td>
                         </tr>
                         <tr style="height: fit-content;">
@@ -189,9 +307,31 @@
         </small></td>
                         </tr>
                         <tr>
-                            <td style="padding-right: 10px;">void</td>
+                            <td style="padding-right: 10px;"></td>
                             <td>
-                                <b>timerStart</b>(unsigned int interval, bool *run)
+                                <b>~AudioSystem</b>()=default
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 10px;"></td>
+                            <td>
+                                <b>AudioSystem</b>(const AudioSystem &amp;)=delete
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 10px;"></td>
+                            <td>
+                                <b>operator=</b>(const AudioSystem &amp;)=delete
                             </td>
                         </tr>
                         <tr style="height: fit-content;">

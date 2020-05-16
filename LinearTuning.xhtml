@@ -20,13 +20,7 @@
     <ul class="tree-view">
             <li>global</li>
             <ul class="tree-view-1">
-                    <li><a href="ADSR.xhtml">ADSR</a></li>
-                    <li><a href="BasicAudioManager.xhtml">BasicAudioManager</a></li>
-                    <li><a href="IAudioManager.xhtml">IAudioManager</a></li>
-                    <li><a href="IAudioUnit.xhtml">IAudioUnit</a></li>
-                    <li><a href="IInstrument.xhtml">IInstrument</a></li>
                     <li><a href="IMuDa.xhtml">IMuDa</a></li>
-                    <li><a href="IMuDaStream.xhtml">IMuDaStream</a></li>
                     <li><a href="IRegularTuning.xhtml">IRegularTuning</a></li>
                     <li><a href="IScale.xhtml">IScale</a></li>
                     <li><a href="LinearTuning.xhtml">LinearTuning</a></li>
@@ -35,118 +29,45 @@
                     <li><a href="PeriodicScale.xhtml">PeriodicScale</a></li>
                     <li><a href="Pitch.xhtml">Pitch</a></li>
             </ul>
-            <li>audio</li>
+            <li>MTK</li>
             <ul class="tree-view-1">
-                    <li><a href="AudioOutput.xhtml">AudioOutput</a></li>
+                    <li><a href="ADSR.xhtml">ADSR</a></li>
+                    <li><a href="AudioSystem.xhtml">AudioSystem</a></li>
+                    <li><a href="BasicAudioManager.xhtml">BasicAudioManager</a></li>
                     <li><a href="Beep.xhtml">Beep</a></li>
+                    <li><a href="Delay.xhtml">Delay</a></li>
+                    <li><a href="IAudioManager.xhtml">IAudioManager</a></li>
+                    <li><a href="IAudioUnit.xhtml">IAudioUnit</a></li>
+                    <li><a href="IAudioWrapper.xhtml">IAudioWrapper</a></li>
+                    <li><a href="IInstrument.xhtml">IInstrument</a></li>
+                    <li><a href="IMuDaStream.xhtml">IMuDaStream</a></li>
                     <li><a href="IOscillator.xhtml">IOscillator</a></li>
+                    <li><a href="IRegularTuning.xhtml">IRegularTuning</a></li>
+                    <li><a href="IScale.xhtml">IScale</a></li>
+                    <li><a href="LinearTuning.xhtml">LinearTuning</a></li>
+                    <li><a href="MuDaFilePlayer.xhtml">MuDaFilePlayer</a></li>
+                    <li><a href="PeriodicScale.xhtml">PeriodicScale</a></li>
+                    <li><a href="Pitch.xhtml">Pitch</a></li>
+                    <li><a href="PortAudioWrapper.xhtml">PortAudioWrapper</a></li>
                     <li><a href="SawWave.xhtml">SawWave</a></li>
                     <li><a href="SinWave.xhtml">SinWave</a></li>
             </ul>
-            <li>MTKCore</li>
+            <li>MTK::Audio</li>
             <ul class="tree-view-1">
-                    <li><a href="IRegularTuning.xhtml">IRegularTuning</a></li>
-                    <li><a href="LinearTuning.xhtml">LinearTuning</a></li>
             </ul>
-            <li>MuDa</li>
+            <li>MTK::Core</li>
             <ul class="tree-view-1">
-                    <li><a href="MuDaFilePlayer.xhtml">MuDaFilePlayer</a></li>
+            </ul>
+            <li>MTK::MuDa</li>
+            <ul class="tree-view-1">
             </ul>
     </ul>
         <div class="main">
             <h1>LinearTuning</h1>
             <p>
-    </p>
+A child of IRegularTuningLinearTuninghttps://en.xen.wiki/w/Tour_of_Regular_Temperaments#Rank-2_.28including_linear.29_temperaments</p>
+                <code>#include &lt;<a href="LinearTuning_8h.xhtml">LinearTuning.h</a>&gt; </code>
 
-                <h3>Private attributes</h3>
-                <hr></hr>
-                <table>
-                        <tr>
-                            <td style="padding-right: 10px;">float</td>
-                            <td>
-                                <b>generator</b>
-                            </td>
-                        </tr>
-                        <tr style="height: fit-content;">
-                            <td></td>
-                            <td><small style="color: #757575">
-        </small></td>
-                        </tr>
-                </table>
-                <h3>Public functions</h3>
-                <hr></hr>
-                <table>
-                        <tr>
-                            <td style="padding-right: 10px;"></td>
-                            <td>
-                                <b>LinearTuning</b>(float period, float generator, float _fundamentalFrequency)
-                            </td>
-                        </tr>
-                        <tr style="height: fit-content;">
-                            <td></td>
-                            <td><small style="color: #757575">
-        </small></td>
-                        </tr>
-                        <tr>
-                            <td style="padding-right: 10px;">std::string</td>
-                            <td>
-                                <b>getNoteName</b>(Vector coordinate) override
-                            </td>
-                        </tr>
-                        <tr style="height: fit-content;">
-                            <td></td>
-                            <td><small style="color: #757575">
-        </small></td>
-                        </tr>
-                        <tr>
-                            <td style="padding-right: 10px;">std::unique_ptr&lt; </td>
-                            <td>
-                                <b>generateScale</b>(int notesPerPeriod) override
-                            </td>
-                        </tr>
-                        <tr style="height: fit-content;">
-                            <td></td>
-                            <td><small style="color: #757575">
-        </small></td>
-                        </tr>
-                        <tr>
-                            <td style="padding-right: 10px;">std::optional&lt; Vector &gt;</td>
-                            <td>
-                                <b>getCoordinate</b>(float frequency) override
-                            </td>
-                        </tr>
-                        <tr style="height: fit-content;">
-                            <td></td>
-                            <td><small style="color: #757575">
-        </small></td>
-                        </tr>
-                        <tr>
-                            <td style="padding-right: 10px;">float</td>
-                            <td>
-                                <b>getFrequency</b>(Vector coordinate) override
-                            </td>
-                        </tr>
-                        <tr style="height: fit-content;">
-                            <td></td>
-                            <td><small style="color: #757575">
-        </small></td>
-                        </tr>
-                </table>
-                <h3>Private Static functions</h3>
-                <hr></hr>
-                <table>
-                        <tr>
-                            <td style="padding-right: 10px;">std::enable_if&lt;!std::numeric_limits&lt; T &gt;::is_integer, bool &gt;::type</td>
-                            <td>
-                                <b>almost_equal</b>(T x, T y, int ulp)
-                            </td>
-                        </tr>
-                        <tr style="height: fit-content;">
-                            <td></td>
-                            <td><small style="color: #757575">
-        </small></td>
-                        </tr>
-                </table>
         </div>
     </div>
 </body>

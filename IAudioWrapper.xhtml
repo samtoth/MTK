@@ -63,18 +63,17 @@
             </ul>
     </ul>
         <div class="main">
-            <h1>IAudioUnit</h1>
+            <h1>IAudioWrapper</h1>
             <p>
-Defines the functionality for a generator. </p>
-                <code>#include &lt;<a href="IAudioUnit_8h.xhtml">IAudioUnit.h</a>&gt; </code>
+    </p>
 
-                <h3>Public functions</h3>
+                <h3>Public attributes</h3>
                 <hr></hr>
                 <table>
                         <tr>
-                            <td style="padding-right: 10px;"></td>
+                            <td style="padding-right: 10px;">uint64_t</td>
                             <td>
-                                <b>IAudioUnit</b>()
+                                <b>delta</b>
                             </td>
                         </tr>
                         <tr style="height: fit-content;">
@@ -83,9 +82,68 @@ Defines the functionality for a generator. </p>
         </small></td>
                         </tr>
                         <tr>
-                            <td style="padding-right: 10px;">float</td>
+                            <td style="padding-right: 10px;"></td>
                             <td>
-                                <b>output</b>()=0
+                                <b>devSettings</b>
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 10px;"></td>
+                            <td>
+                                <b>generator</b>
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                </table>
+                <h3>Public functions</h3>
+                <hr></hr>
+                <table>
+                        <tr>
+                            <td style="padding-right: 10px;">int</td>
+                            <td>
+                                <b>setup</b>(AudioSettings settings)=0
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 10px;">int</td>
+                            <td>
+                                <b>startStream</b>()=0
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 10px;">int</td>
+                            <td>
+                                <b>stopStream</b>()=0
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 10px;">int</td>
+                            <td>
+                                <b>terminate</b>()=0
                             </td>
                         </tr>
                         <tr style="height: fit-content;">
