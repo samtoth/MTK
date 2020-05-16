@@ -30,7 +30,6 @@ if(NOT portaudio_found)
     FetchContent_MakeAvailable(portaudio)
 endif()
 
-
 add_subdirectory(core)
 include_directories(core)
 add_subdirectory(audio)

@@ -3,7 +3,7 @@
 //
 
 #include "LinearTuning.h"
-namespace MTKCore {
+namespace MTK::Core {
     LinearTuning::LinearTuning(float _period, float _generator, float _fundamentalFrequency) {
         fundamentalFrequency = _fundamentalFrequency;
         generator = _generator;

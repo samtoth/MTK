@@ -16,7 +16,7 @@
 #include <memory>
 
 
-namespace MuDa {
+namespace MTK::MuDa {
     #define PARAMS std::map<uint32_t, float>
 
     enum MessageCodes{

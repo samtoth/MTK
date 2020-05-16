@@ -13,7 +13,7 @@
 #include <memory>
 #include "IScale.h"
 
-namespace MTKCore {
+namespace MTK::Core {
     template<typename Vector>
     class IRegularTuning {
     public:

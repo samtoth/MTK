@@ -11,45 +11,45 @@
 #define fail() std::cout << "Usage: " << std::endl << "        MuDaCLI -e <file>    : writes the example file to file name" << std::endl << "        MuDaCLI -p <file>    : plays the given file" << std::endl; return 1
 
 int playFile(const std::string& fileName ){
-    Audio::initialize<Audio::PortAudioWrapper>();
-    Audio::setup({1, 44100, 0});
-    auto *am = new Audio::BasicAudioManager();
+    MTK::Audio::AudioSystem::getAudioInstance()->initialize<MTK::Audio::PortAudioWrapper>();
+    MTK::Audio::AudioSystem::getAudioInstance()->setup({1, 44100, 0});
+    auto *am = new MTK::Audio::BasicAudioManager();
     //setup AM
-    auto *instr = new Audio::Beep();
-    instr->addVoices<Audio::SawWave>(3);
+    auto *instr = new MTK::Audio::Beep();
+    instr->addVoices<MTK::Audio::SawWave>(3);
     auto i = am->addInstrument(instr);
     am->setLevel(i, 0.5f);
-    Audio::setGenerator(am);
-    auto fileData = MuDa::MuDaFileFormat::readFromFile(fileName);
+    MTK::Audio::AudioSystem::getAudioInstance()->setGenerator(am);
+    auto fileData = MTK::MuDa::MuDaFileFormat::readFromFile(fileName);
     if(!fileData){std::cout<<"File read failed.... exiting program." << std::endl; return 1;}
-    auto *filePlayer = new MuDa::MuDaFilePlayer((*fileData), am);
-    Audio::startStream();
+    auto *filePlayer = new MTK::MuDa::MuDaFilePlayer((*fileData), am);
+    MTK::Audio::AudioSystem::getAudioInstance()->startStream();
 
     filePlayer->start();
 
-    Audio::stopStream();
-    Audio::terminate();
+    MTK::Audio::AudioSystem::getAudioInstance()->stopStream();
+    MTK::Audio::AudioSystem::getAudioInstance()->terminate();
     delete instr;
     delete filePlayer;
     return 0;
 }
 
 int writeFile(std::string fileName){
-    auto Mf = std::make_shared<MuDa::MuDaFileFormat>(140);
+    auto Mf = std::make_shared<MTK::MuDa::MuDaFileFormat>(140);
     std::map<uint32_t, float> params = {{0, 525.f}};
 
     Mf->appendStartMessage();
 
-    Mf->appendNoteMessage(0, MuDa::MessageCodes::noteOn, {0, 0, params});
-    Mf->appendNoteMessage(30, MuDa::MessageCodes::noteOff, {0, 0, {}});
+    Mf->appendNoteMessage(0, MTK::MuDa::MessageCodes::noteOn, {0, 0, params});
+    Mf->appendNoteMessage(30, MTK::MuDa::MessageCodes::noteOff, {0, 0, {}});
 
-    Mf->appendNoteMessage(50, MuDa::MessageCodes::noteOn, {0, 0, params});
-    Mf->appendNoteMessage(80, MuDa::MessageCodes::noteOff, {0, 0, {}});
+    Mf->appendNoteMessage(50, MTK::MuDa::MessageCodes::noteOn, {0, 0, params});
+    Mf->appendNoteMessage(80, MTK::MuDa::MessageCodes::noteOff, {0, 0, {}});
 
-    Mf->appendNoteMessage(100, MuDa::MessageCodes::noteOn, {0, 0, params});
+    Mf->appendNoteMessage(100, MTK::MuDa::MessageCodes::noteOn, {0, 0, params});
 
-    Mf->appendNoteMessage(150, MuDa::MessageCodes::noteChange, {0, 0, {{0, 440.f}}});
-    Mf->appendNoteMessage(300, MuDa::MessageCodes::noteOff,{0, 0, {}});
+    Mf->appendNoteMessage(150, MTK::MuDa::MessageCodes::noteChange, {0, 0, {{0, 440.f}}});
+    Mf->appendNoteMessage(300, MTK::MuDa::MessageCodes::noteOff,{0, 0, {}});
 
     Mf->appendEndMessage(500);
 

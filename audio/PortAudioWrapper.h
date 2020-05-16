@@ -14,10 +14,10 @@
 #include <iostream>
 #include "IAudioUnit.h"
 #include "Audio.h"
-#include "IAudioAPI.h"
+#include "IAudioWrapper.h"
 
 namespace MTK::Audio {
-    class PortAudioWrapper : IAudioAPI{
+    class PortAudioWrapper : public IAudioWrapper{
 
         PaStream *stream;
 

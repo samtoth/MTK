@@ -4,7 +4,7 @@
 
 #include <LinearTuning.h>
 #include <gtest/gtest.h>
-using namespace MTKCore;
+using namespace MTK::Core;
 
 #define tuningPar std::tuple<float, float, float>
 

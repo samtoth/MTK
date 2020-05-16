@@ -10,7 +10,7 @@
 
 #define ASSERT_SAME(a, b, value) ASSERT_EQ(a.value,b.value)
 
-using namespace MuDa;
+using namespace MTK::MuDa;
 
 TEST(MuDaFileTest, writeFile){
     auto Mf = std::make_shared<MuDaFileFormat>(512);

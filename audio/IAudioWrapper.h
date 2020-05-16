@@ -2,8 +2,8 @@
 // Created by sammy on 14/05/2020.
 //
 
-#ifndef MUSICTOOLKIT_IAUDIOAPI_H
-#define MUSICTOOLKIT_IAUDIOAPI_H
+#ifndef MUSICTOOLKIT_IAUDIOWRAPPER_H
+#define MUSICTOOLKIT_IAUDIOWRAPPER_H
 
 #include <cstdint>
 #include "IAudioUnit.h"
@@ -16,7 +16,7 @@ namespace MTK::Audio {
         int bufferSize; //!< bufferSize in ms. set to 0 to autocalculate optimum bufferSize
     };
 
-    class IAudioAPI {
+    class IAudioWrapper {
     public:
         virtual int setup(AudioSettings settings) = 0;
 
@@ -32,4 +32,4 @@ namespace MTK::Audio {
         virtual int terminate() = 0;
     };
 }
-#endif //MUSICTOOLKIT_IAUDIOAPI_H
+#endif //MUSICTOOLKIT_IAUDIOWRAPPER_H

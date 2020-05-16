@@ -3,20 +3,14 @@
 //
 
 #include <Audio.h>
-
-namespace MTK::Audio {
-    std::unique_ptr<IAudioAPI> audioInstance;
-    std::once_flag initFlag;
-    std::mutex audioInstanceMutex;
-    std::once_flag delFlag;
-
-
 #define LOCK_AUDIO const std::lock_guard<std::mutex> lock(audioInstanceMutex)
 
-    int terminate(){
+namespace MTK::Audio {
+
+    int AudioSystem::terminate(){
         auto err = audioInstance->terminate();
         if(err==0) {
-            std::call_once(delFlag, []() {
+            std::call_once(delFlag, [this]() {
                 delete audioInstance.release();
             });
             return 0;
@@ -25,11 +19,11 @@ namespace MTK::Audio {
         }
     }
 
-    int setup(AudioSettings settings){
+    int AudioSystem::setup(AudioSettings settings){
         return audioInstance->setup(settings);
     }
 
-    int deviceCount(){
+    int AudioSystem::deviceCount(){
         int numDevices;
         numDevices = Pa_GetDeviceCount();
         if(numDevices<0){
@@ -39,13 +33,13 @@ namespace MTK::Audio {
         return numDevices;
     }
 
-    std::optional<const PaDeviceInfo*> getDeviceInfo(int i){
+    std::optional<const PaDeviceInfo*> AudioSystem::getDeviceInfo(int i){
         auto n = deviceCount();
         if(i<0 || i>n){return std::nullopt;}
         return Pa_GetDeviceInfo(i);
     }
 
-    int printDevices(){
+    int AudioSystem::printDevices(){
         auto n = deviceCount();
         for(int i = 0; i<n; i++){
             std::cout << getDeviceInfo(i).value()->name << std::endl;
@@ -53,38 +47,36 @@ namespace MTK::Audio {
         return 0;
     }
 
-    int startStream(){
+    int AudioSystem::startStream(){
         LOCK_AUDIO;
         return audioInstance->startStream();
     }
 
-    int stopStream(){
+    int AudioSystem::stopStream(){
         return audioInstance->stopStream();
     }
 
-    void setGenerator(IAudioUnit* generator){
+    void AudioSystem::setGenerator(IAudioUnit* generator){
         LOCK_AUDIO;
         audioInstance->generator = generator;
     }
 
-    IAudioUnit *generator(){
+    IAudioUnit *AudioSystem::generator(){
         LOCK_AUDIO;
         return audioInstance->generator;
     }
 
-    AudioSettings getAudioSettings(){
+    AudioSettings AudioSystem::getAudioSettings(){
         LOCK_AUDIO;
         return audioInstance->devSettings;
     }
 
-    uint64_t delta(){
+    uint64_t AudioSystem::delta(){
         LOCK_AUDIO;
         return audioInstance->delta;
     }
 
 
-    void setInstance(std::unique_ptr<IAudioAPI> aApi){
-        auto *api = aApi.release();
-        std::call_once(initFlag, [api](){ audioInstance = std::unique_ptr<IAudioAPI>(api);});
-   }
+    std::atomic<AudioSystem*> AudioSystem::instance;
+    std::mutex AudioSystem::instanceMutex;
 }

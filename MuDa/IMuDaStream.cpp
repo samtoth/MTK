@@ -3,3 +3,6 @@
 //
 
 #include "IMuDaStream.h"
+namespace MTK::MuDa{
+
+}

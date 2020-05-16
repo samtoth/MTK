@@ -11,7 +11,7 @@
 #include "MuDaFileFormat.h"
 #include <thread>
 #include <functional>
-namespace MuDa {
+namespace MTK::MuDa {
     class MuDaFilePlayer {
     public:
         MuDaFilePlayer(std::shared_ptr<MuDaFileFormat> MuDaFile, Audio::IAudioManager *_audioManager) : audioManager(_audioManager) { format = MuDaFile;}

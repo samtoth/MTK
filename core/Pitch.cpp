@@ -3,4 +3,6 @@
 //
 
 #include "Pitch.h"
-Pitch::Pitch(float frequency) : frequency(frequency) {}
+namespace MTK::Core {
+    Pitch::Pitch(float frequency) : frequency(frequency) {}
+}

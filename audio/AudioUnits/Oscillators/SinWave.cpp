@@ -13,7 +13,7 @@ namespace MTK::Audio {
     }
 
     float SinWave::output() {
-        phase += (2 * M_PI * frequency) / (float) getAudioSettings().sampleRate;
+        phase += (2 * M_PI * frequency) / (float) AudioSystem::getAudioInstance()->getAudioSettings().sampleRate;
         if (phase >= 2 * M_PI) {
             phase -= 2 * M_PI;
         }

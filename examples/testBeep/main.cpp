@@ -6,14 +6,15 @@
 #include <thread>
 #include <AudioUnits/Oscillators/SawWave.h>
 #include <AudioUnits/Oscillators/SinWave.h>
+#include <PortAudioWrapper.h>
 
 int main(int argc, char *argv[]){
-    Audio::initialize();
-    Audio::setup({1, 44100, 0});
-    auto *beep = new Audio::Beep();
-    beep->addVoices<Audio::SawWave>(1);
-    Audio::setGenerator(beep);
-    Audio::startStream();
+    MTK::Audio::AudioSystem::getAudioInstance()->initialize<MTK::Audio::PortAudioWrapper>();
+    MTK::Audio::AudioSystem::getAudioInstance()->setup({1, 44100, 0});
+    auto *beep = new MTK::Audio::Beep();
+    beep->addVoices<MTK::Audio::SawWave>(1);
+    MTK::Audio::AudioSystem::getAudioInstance()->setGenerator(beep);
+    MTK::Audio::AudioSystem::getAudioInstance()->startStream();
 
     beep->NoteOn(0, {{0, 500.f}});
     auto x = std::chrono::steady_clock::now() + std::chrono::milliseconds(4000);
@@ -23,12 +24,12 @@ int main(int argc, char *argv[]){
     std::this_thread::sleep_until(x);
 
 
-    if(auto err = Audio::stopStream() != 0) {
+    if(auto err = MTK::Audio::AudioSystem::getAudioInstance()->stopStream() != 0) {
         std::cout << "stream may not have stopped correctly";
     }
     std::cout << "Stream stopped" << std::endl;
 
-    Audio::terminate();
+    MTK::Audio::AudioSystem::getAudioInstance()->terminate();
 
     std::cout << "Pa terminated";
     delete beep;

@@ -5,8 +5,7 @@
 #include <cmath>
 #include "MuDaFilePlayer.h"
 
-namespace MuDa {
-
+namespace MTK::MuDa {
     /// Starts the file player in new thread
     /// \returns success of start
     bool MuDaFilePlayer::startAsync() {

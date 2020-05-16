@@ -7,7 +7,8 @@
 
 #include <IRegularTuning.h>
 #define Vector Eigen::Vector2i
-namespace MTKCore{
+
+namespace MTK::Core{
         class LinearTuning :
         public IRegularTuning<Vector> {
             public:

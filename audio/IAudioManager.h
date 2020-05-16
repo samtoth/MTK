@@ -9,7 +9,7 @@
 #include <IAudioUnit.h>
 #include <map>
 
-namespace Audio {
+namespace MTK::Audio {
     class IAudioManager : public IAudioUnit {
     public:
         IAudioManager() {}
