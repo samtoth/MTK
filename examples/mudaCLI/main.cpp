@@ -13,7 +13,7 @@
 int playFile(const std::string& fileName ){
     MTK::Audio::AudioSystem::getAudioInstance()->initialize<MTK::Audio::PortAudioWrapper>();
     MTK::Audio::AudioSystem::getAudioInstance()->setup({1, 44100, 0});
-    auto *am = new MTK::Audio::BasicAudioManager();
+    auto am = std::make_shared<MTK::Audio::BasicAudioManager>();
     //setup AM
     auto *instr = new MTK::Audio::Beep();
     instr->addVoices<MTK::Audio::SawWave>(3);

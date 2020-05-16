@@ -11,10 +11,11 @@
 #include "MuDaFileFormat.h"
 #include <thread>
 #include <functional>
+#include <utility>
 namespace MTK::MuDa {
     class MuDaFilePlayer {
     public:
-        MuDaFilePlayer(std::shared_ptr<MuDaFileFormat> MuDaFile, Audio::IAudioManager *_audioManager) : audioManager(_audioManager) { format = MuDaFile;}
+        MuDaFilePlayer(std::shared_ptr<MuDaFileFormat> MuDaFile, std::shared_ptr<Audio::IAudioManager> _audioManager) : audioManager(std::move(_audioManager)) { format = std::move(MuDaFile); currentMessage = 0; delta = 0; run = false;}
 
         bool start();
         bool startAsync();
@@ -32,7 +33,7 @@ namespace MTK::MuDa {
         uint64_t delta;
         bool run;
         std::shared_ptr<MuDaFileFormat> format;
-        Audio::IAudioManager *audioManager;
+        std::shared_ptr<Audio::IAudioManager> audioManager;
     };
 }
 

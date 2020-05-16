@@ -6,6 +6,7 @@
 #define MUSICTOOLKIT_IAUDIOWRAPPER_H
 
 #include <cstdint>
+#include <utility>
 #include "IAudioUnit.h"
 
 namespace MTK::Audio {
@@ -18,18 +19,23 @@ namespace MTK::Audio {
 
     class IAudioWrapper {
     public:
+        IAudioWrapper(){
+            generator = nullptr;
+        }
+
         virtual int setup(AudioSettings settings) = 0;
 
         uint64_t delta = 0;
 
         AudioSettings devSettings;
-        IAudioUnit *generator;
 
         virtual int startStream() = 0;
 
         virtual int stopStream() = 0;
 
         virtual int terminate() = 0;
+
+        std::shared_ptr<IAudioUnit> generator;
     };
 }
 #endif //MUSICTOOLKIT_IAUDIOWRAPPER_H

@@ -11,8 +11,8 @@
 int main(int argc, char *argv[]){
     MTK::Audio::AudioSystem::getAudioInstance()->initialize<MTK::Audio::PortAudioWrapper>();
     MTK::Audio::AudioSystem::getAudioInstance()->setup({1, 44100, 0});
-    auto *beep = new MTK::Audio::Beep();
-    beep->addVoices<MTK::Audio::SawWave>(1);
+    auto beep = std::make_shared<MTK::Audio::Beep>();
+    beep->addVoices<MTK::Audio::SinWave>(1);
     MTK::Audio::AudioSystem::getAudioInstance()->setGenerator(beep);
     MTK::Audio::AudioSystem::getAudioInstance()->startStream();
 
@@ -31,7 +31,6 @@ int main(int argc, char *argv[]){
 
     MTK::Audio::AudioSystem::getAudioInstance()->terminate();
 
-    std::cout << "Pa terminated";
-    delete beep;
+    std::cout << "Pa terminated" << std::endl;
     return 0;
 }

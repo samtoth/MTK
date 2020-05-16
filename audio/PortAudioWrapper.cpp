@@ -6,7 +6,7 @@
 #include "PortAudioWrapper.h"
 
 namespace MTK::Audio {
-    PortAudioWrapper::PortAudioWrapper() {
+    PortAudioWrapper::PortAudioWrapper() : IAudioWrapper() {
         auto err = Pa_Initialize();
         if (err != paNoError) {
             printErr(err);
@@ -66,7 +66,6 @@ namespace MTK::Audio {
             printErr(err);
             return err;
         }
-
         err = Pa_Terminate();
         if (err != paNoError) {
             printErr(err);
@@ -91,5 +90,9 @@ namespace MTK::Audio {
             audioOutput->delta++;
         }
         return 0;
+    }
+
+    PortAudioWrapper::~PortAudioWrapper() {
+        std::cout << "PAW desatructed" << std::endl;
     }
 }

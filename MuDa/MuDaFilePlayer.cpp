@@ -68,7 +68,7 @@ namespace MTK::MuDa {
                 case MessageCodes::end: {
                     stop();
                     //TODO: notify audio manager
-                    std::cout << "End of file reached";
+                    std::cout << "End of file reached" << std::endl;
                     return 0;
                 }
                 case MessageCodes::noteOn: {

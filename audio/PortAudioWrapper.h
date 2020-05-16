@@ -31,13 +31,7 @@ namespace MTK::Audio {
         PortAudioWrapper();
 
         int setup(AudioSettings settings) override;
-
-        uint64_t delta = 0;
-
-        ~PortAudioWrapper() = default;
-
-        AudioSettings devSettings;
-        IAudioUnit *generator;
+        ~PortAudioWrapper();
 
         int startStream() override;
 

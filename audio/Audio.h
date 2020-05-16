@@ -10,7 +10,6 @@
 #include <optional>
 #include <memory>
 #include <mutex>
-#include <atomic>
 #include "IAudioUnit.h"
 #include "IAudioWrapper.h"
 #include <portaudio.h>
@@ -22,17 +21,14 @@ namespace MTK::Audio {
 
     class AudioSystem{
     public:
+        ~AudioSystem(){
+            audioInstance.reset();
+            std::cout << "AudioSystem destructed"<< std::endl;
+        }
+
         static AudioSystem* getAudioInstance(){
-            AudioSystem* aS = instance.load(std::memory_order_acquire);
-            if (!aS){
-                std::lock_guard<std::mutex> lock(instanceMutex);
-                aS = instance.load(std::memory_order_relaxed);
-                if (!aS){
-                    aS = new AudioSystem();
-                    instance.store(aS, std::memory_order_release);
-                }
-            }
-            return aS;
+            std::call_once(aSInitFlag, [](){ instanceSystem.reset(new AudioSystem);});
+            return instanceSystem.get();
         }
 
         template<typename T>
@@ -56,9 +52,9 @@ namespace MTK::Audio {
 
         int stopStream();
 
-        void setGenerator(IAudioUnit *generator);
+        void setGenerator(std::shared_ptr<IAudioUnit> generator);
 
-        IAudioUnit *generator();
+        std::shared_ptr<IAudioUnit> generator();
 
         AudioSettings getAudioSettings();
 
@@ -66,7 +62,6 @@ namespace MTK::Audio {
 
     private:
         AudioSystem() = default;
-        ~AudioSystem() = default;
         AudioSystem(const AudioSystem&) = delete;
         AudioSystem& operator=(const AudioSystem&) = delete;
 
@@ -76,8 +71,8 @@ namespace MTK::Audio {
         std::once_flag delFlag;
 
 
-        static std::atomic<AudioSystem*> instance;
-        static std::mutex instanceMutex;
+        static std::unique_ptr<AudioSystem> instanceSystem;
+        static std::once_flag aSInitFlag;
     };
 
 }

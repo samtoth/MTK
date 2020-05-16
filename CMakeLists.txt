@@ -26,6 +26,7 @@ if(NOT portaudio_found)
     FetchContent_Declare(
             portaudio
             GIT_REPOSITORY https://git.assembla.com/portaudio.git
+            GIT_TAG  pa_stable_v190600_20161030
     )
     FetchContent_MakeAvailable(portaudio)
 endif()

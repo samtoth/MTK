@@ -3,6 +3,8 @@
 //
 
 #include <Audio.h>
+
+#include <utility>
 #define LOCK_AUDIO const std::lock_guard<std::mutex> lock(audioInstanceMutex)
 
 namespace MTK::Audio {
@@ -48,7 +50,6 @@ namespace MTK::Audio {
     }
 
     int AudioSystem::startStream(){
-        LOCK_AUDIO;
         return audioInstance->startStream();
     }
 
@@ -56,27 +57,22 @@ namespace MTK::Audio {
         return audioInstance->stopStream();
     }
 
-    void AudioSystem::setGenerator(IAudioUnit* generator){
-        LOCK_AUDIO;
-        audioInstance->generator = generator;
+    void AudioSystem::setGenerator(std::shared_ptr<IAudioUnit> generator){
+        audioInstance->generator = std::move(generator);
     }
 
-    IAudioUnit *AudioSystem::generator(){
-        LOCK_AUDIO;
+    std::shared_ptr<IAudioUnit> AudioSystem::generator(){
         return audioInstance->generator;
     }
 
     AudioSettings AudioSystem::getAudioSettings(){
-        LOCK_AUDIO;
         return audioInstance->devSettings;
     }
 
     uint64_t AudioSystem::delta(){
-        LOCK_AUDIO;
         return audioInstance->delta;
     }
 
-
-    std::atomic<AudioSystem*> AudioSystem::instance;
-    std::mutex AudioSystem::instanceMutex;
+    std::unique_ptr<AudioSystem> AudioSystem::instanceSystem;
+    std::once_flag AudioSystem::aSInitFlag;
 }
