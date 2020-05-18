@@ -32,6 +32,7 @@
             <li>MTK</li>
             <ul class="tree-view-1">
                     <li><a href="ADSR.xhtml">ADSR</a></li>
+                    <li><a href="AudioSampleBuffer.xhtml">AudioSampleBuffer</a></li>
                     <li><a href="AudioSystem.xhtml">AudioSystem</a></li>
                     <li><a href="BasicAudioManager.xhtml">BasicAudioManager</a></li>
                     <li><a href="Beep.xhtml">Beep</a></li>
@@ -45,6 +46,8 @@
                     <li><a href="IRegularTuning.xhtml">IRegularTuning</a></li>
                     <li><a href="IScale.xhtml">IScale</a></li>
                     <li><a href="LinearTuning.xhtml">LinearTuning</a></li>
+                    <li><a href="MockAudioUnit.xhtml">MockAudioUnit</a></li>
+                    <li><a href="MockAudioWrapper.xhtml">MockAudioWrapper</a></li>
                     <li><a href="MuDaFilePlayer.xhtml">MuDaFilePlayer</a></li>
                     <li><a href="PeriodicScale.xhtml">PeriodicScale</a></li>
                     <li><a href="Pitch.xhtml">Pitch</a></li>
@@ -65,9 +68,38 @@
         <div class="main">
             <h1>IScale</h1>
             <p>
-An interface to classes that define finite, linear collections of notes. </p>
-                <code>#include &lt;<a href="IScale_8h.xhtml">IScale.h</a>&gt; </code>
+    </p>
 
+                <h3>Protected attributes</h3>
+                <hr></hr>
+                <table>
+                        <tr>
+                            <td style="padding-right: 10px;">const std::vector&lt; float &gt;</td>
+                            <td>
+                                <b>frequencyCollection</b>
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+collection of frequency ratios mapped by the scale </small></td>
+                        </tr>
+                </table>
+                <h3>Public functions</h3>
+                <hr></hr>
+                <table>
+                        <tr>
+                            <td style="padding-right: 10px;">float</td>
+                            <td>
+                                <b>distanceFromNote</b>(float frequency)=0
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                </table>
         </div>
     </div>
 </body>

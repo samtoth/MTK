@@ -66,51 +66,102 @@
             </ul>
     </ul>
         <div class="main">
-            <h1>IInstrument</h1>
+            <h1>MockAudioWrapper</h1>
             <p>
-Interface that defines an IAudioUnitIAudioManager</p>
-                <code>#include &lt;<a href="IInstrument_8h.xhtml">IInstrument.h</a>&gt; </code>
+    </p>
 
+                <h3>Private attributes</h3>
+                <hr></hr>
+                <table>
+                        <tr>
+                            <td style="padding-right: 10px;">std::unique_ptr&lt; </td>
+                            <td>
+                                <b>buffer</b>
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 10px;">bool</td>
+                            <td>
+                                <b>run</b>
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                </table>
                 <h3>Public functions</h3>
+                <hr></hr>
+                <table>
+                        <tr>
+                            <td style="padding-right: 10px;">int</td>
+                            <td>
+                                <b>setup</b>(AudioSettings settings) override
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 10px;">int</td>
+                            <td>
+                                <b>startStream</b>() override
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 10px;">int</td>
+                            <td>
+                                <b>stopStream</b>() override
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 10px;">std::optional&lt; </td>
+                            <td>
+                                <b>getBuffer</b>()
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-right: 10px;">int</td>
+                            <td>
+                                <b>terminate</b>() override
+                            </td>
+                        </tr>
+                        <tr style="height: fit-content;">
+                            <td></td>
+                            <td><small style="color: #757575">
+        </small></td>
+                        </tr>
+                </table>
+                <h3>Private functions</h3>
                 <hr></hr>
                 <table>
                         <tr>
                             <td style="padding-right: 10px;">void</td>
                             <td>
-                                <b>NoteOn</b>(uint32_t voiceID, PARAM_t parameters)=0
-                            </td>
-                        </tr>
-                        <tr style="height: fit-content;">
-                            <td></td>
-                            <td><small style="color: #757575">
-        </small></td>
-                        </tr>
-                        <tr>
-                            <td style="padding-right: 10px;">void</td>
-                            <td>
-                                <b>NoteChange</b>(uint32_t voiceID, PARAM_t parameters)=0
-                            </td>
-                        </tr>
-                        <tr style="height: fit-content;">
-                            <td></td>
-                            <td><small style="color: #757575">
-        </small></td>
-                        </tr>
-                        <tr>
-                            <td style="padding-right: 10px;">void</td>
-                            <td>
-                                <b>NoteOff</b>(uint32_t voiceID, PARAM_t parameters)=0
-                            </td>
-                        </tr>
-                        <tr style="height: fit-content;">
-                            <td></td>
-                            <td><small style="color: #757575">
-        </small></td>
-                        </tr>
-                        <tr>
-                            <td style="padding-right: 10px;">void</td>
-                            <td>
-                                <b>Panic</b>()=0
+                                <b>tick</b>()
                             </td>
                         </tr>
                         <tr style="height: fit-content;">
