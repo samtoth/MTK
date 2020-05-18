@@ -3,7 +3,7 @@ A C++ API designed for Music software
 
 ![MTK Version](https://img.shields.io/github/v/tag/samtoth/MTK?label=Version)
 ![Build](https://github.com/samtoth/MTK/workflows/Build/badge.svg?branch=Development)
-[![codecov](https://codecov.io/gh/qoolander/MTK/branch/Development/graph/badge.svg)](https://codecov.io/gh/qoolander/MTK)
+[![codecov](https://codecov.io/gh/samtoth/MTK/branch/Development/graph/badge.svg)](https://codecov.io/gh/samtoth/MTK)
 [![CodeFactor](https://www.codefactor.io/repository/github/samtoth/mtk/badge)](https://www.codefactor.io/repository/github/samtoth/mtk)
 
 This project is a work in progress, many features are not implemented and API likely to change. 
