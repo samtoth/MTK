@@ -19,6 +19,7 @@ class MTKTestEnvironment : public ::testing::Environment {
 
   // Override this to define how to tear down the environment.
   void TearDown() override {
+  	MTK::Audio::AudioSystem::getAudioSystem()->terminate();
   }
 };
 

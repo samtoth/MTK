@@ -17,10 +17,10 @@ namespace MTK::Audio {
 		int setup(AudioSettings settings) override;
 		int startStream() override;
 		int stopStream() override;
-		std::optional<std::shared_ptr<AudioSampleBuffer<float>>> getBuffer();
+		std::optional<AudioSampleBuffer<float>*> getBuffer();
 		int terminate() override;
 	private:
-		std::shared_ptr<AudioSampleBuffer<float>> buffer;
+		std::unique_ptr<AudioSampleBuffer<float>> buffer;
 		bool run;
 
 		void tick();

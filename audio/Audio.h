@@ -62,7 +62,7 @@ namespace MTK::Audio {
 
         uint64_t delta();
 
-        std::optional<std::shared_ptr<AudioSampleBuffer<float>>> getTestBuffer();
+        std::optional<AudioSampleBuffer<float>*> getTestBuffer();
 
     private:
         AudioSystem() = default;

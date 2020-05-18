@@ -72,10 +72,11 @@ namespace MTK::Audio {
     uint64_t AudioSystem::delta(){
         return audioInstance->delta;
     }
-	std::optional<std::shared_ptr<AudioSampleBuffer<float>>> AudioSystem::getTestBuffer() {
+	std::optional<AudioSampleBuffer<float>*> AudioSystem::getTestBuffer() {
 		try {
-			auto *testWrapper = (MockAudioWrapper*)audioInstance.get();
-			return testWrapper->getBuffer();
+			IAudioWrapper* tempBase = audioInstance.get();
+			auto* tempDerived = dynamic_cast<MockAudioWrapper*>(tempBase);
+			return tempDerived->getBuffer();
 		}catch (std::exception &e){
 			return std::nullopt;
 		}

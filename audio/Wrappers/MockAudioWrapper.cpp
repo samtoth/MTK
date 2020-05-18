@@ -10,7 +10,7 @@
 namespace MTK::Audio {
 
 	int MockAudioWrapper::setup(AudioSettings settings) {
-		buffer = std::make_shared<AudioSampleBuffer<float>>();
+		buffer = std::make_unique<AudioSampleBuffer<float>>();
 		devSettings = settings;
 		run = false;
 		if(devSettings.bufferSize==0){
@@ -38,7 +38,7 @@ namespace MTK::Audio {
 		return 0;
 	}
 	int MockAudioWrapper::terminate() {
-		return 0;
+		buffer = nullptr;
 	}
 	void MockAudioWrapper::tick() {
 		for(int i = 0 ; i<devSettings.bufferSize; i++)
@@ -47,10 +47,10 @@ namespace MTK::Audio {
 			delta ++;
 		}
 	}
-	std::optional<std::shared_ptr<AudioSampleBuffer<float>>> MockAudioWrapper::getBuffer() {
+	std::optional<AudioSampleBuffer<float>*> MockAudioWrapper::getBuffer() {
 		if(!run)
 		{
-			return buffer;
+			return buffer.get();
 		}else{
 			std::cout << "Must stop stream before accessing buffer" << std::endl;
 			return std::nullopt;
