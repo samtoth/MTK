@@ -2,9 +2,9 @@
 A C++ API designed for Music software
 
 ![MTK Version](https://img.shields.io/github/v/tag/qoolander/MTK?label=Version)
-![Build](https://github.com/qoolander/MTK/workflows/Build/badge.svg?branch=Development)
+![Build](https://github.com/samtoth/MTK/workflows/Build/badge.svg?branch=Development)
 [![codecov](https://codecov.io/gh/qoolander/MTK/branch/Development/graph/badge.svg)](https://codecov.io/gh/qoolander/MTK)
-[![CodeFactor](https://www.codefactor.io/repository/github/qoolander/mtk/badge)](https://www.codefactor.io/repository/github/qoolander/mtk)
+[![CodeFactor](https://www.codefactor.io/repository/github/samtoth/mtk/badge)](https://www.codefactor.io/repository/github/samtoth/mtk)
 
 This project is a work in progress, many features are not implemented and API likely to change. 
 
@@ -26,8 +26,8 @@ This project is a work in progress, many features are not implemented and API li
 * Notation rendering 
  
 ## Current features
-* Reading, writing and primitive play back of  [MuDa files](https://qoolander.github.io/MTK/MuDaSpec.xhtml)
-* See the state of the current API in [the docs](https://qoolander.github.io/MTK/classes.xhtml)
+* Reading, writing and primitive play back of  [MuDa files](https://samtoth.github.io/MTK/MuDaSpec.xhtml)
+* See the state of the current API in [the docs](https://samtoth.github.io/MTK/classes.xhtml)
  
 ## Building from source
 #### Dependencies
