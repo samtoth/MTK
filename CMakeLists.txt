@@ -11,14 +11,21 @@ MESSAGE(STATUS "Music ToolKit Version ${PROJECT_VERSION}")
 OPTION(TARGET_WEB "Compile to WASM using emscripten" OFF)
 if(TARGET_WEB)
     add_definitions(-DTARGET_WEB)
+    if(NOT DEFINED ENV{EMSDK})
+        MESSAGE(FATAL_ERROR "Cannot find EMSDK environment variable")
+    endif()
 
-    set(EMSDK_ROOT "/usr/lib/emscripten")
+
+    set(EMSDK_ROOT $ENV{EMSDK})
     set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${EMSDK_ROOT}/cmake/Modules")
     set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${EMSDK_ROOT}/cmake/Modules")
 
-    include_directories(${EMSDK_ROOT}/system/include)
+    include_directories(${EMSDK_ROOT}/upstream/emscripten/system/include)
 
     MESSAGE(STATUS "Targeting WASM for Web assembly")
+
+    set(CMAKE_C_COMPILER "${EMSDK_ROOT}/upstream/emcripten/emcc")
+    set(CMAKE_CXX_COMPILER "${EMSDK_ROOT}/upstream/emcripten/em++")
 
     SET(CMAKE_TOOLCHAIN_FILE ${EMSDK_ROOT}/cmake/Modules/Platform/Emscripten.cmake)
     SET(CMAKE_CROSSCOMPILING_EMULATOR path/to/node)
@@ -38,18 +45,18 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 include(FetchContent)
 
 include_directories(include)
-
-find_package(portaudio QUIET)
-if(NOT portaudio_found)
-    message(STATUS "portaudio not found... installing from https://git.assembla.com/portaudio.git")
-    FetchContent_Declare(
-            portaudio
-            GIT_REPOSITORY https://git.assembla.com/portaudio.git
-            GIT_TAG  pa_stable_v190600_20161030
-    )
-    FetchContent_MakeAvailable(portaudio)
+if(NOT TARGET_WEB)
+    find_package(portaudio QUIET)
+    if(NOT portaudio_found)
+        message(STATUS "portaudio not found... installing from https://git.assembla.com/portaudio.git")
+        FetchContent_Declare(
+                portaudio
+                GIT_REPOSITORY https://git.assembla.com/portaudio.git
+                GIT_TAG  pa_stable_v190600_20161030
+        )
+        FetchContent_MakeAvailable(portaudio)
+    endif()
 endif()
-
 add_subdirectory(core)
 include_directories(core)
 add_subdirectory(audio)
