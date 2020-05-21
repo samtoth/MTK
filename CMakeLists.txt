@@ -1,10 +1,29 @@
 cmake_minimum_required(VERSION 3.12)
 project(MusicToolkit VERSION 0.1.1)
 
+add_definitions(-DMTK_VERSION="${PROJECT_VERSION}")
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 MESSAGE(STATUS "Music ToolKit Version ${PROJECT_VERSION}")
+
+OPTION(TARGET_WEB "Compile to WASM using emscripten" OFF)
+if(TARGET_WEB)
+    add_definitions(-DTARGET_WEB)
+
+    set(EMSDK_ROOT "/usr/lib/emscripten")
+    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${EMSDK_ROOT}/cmake/Modules")
+    set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${EMSDK_ROOT}/cmake/Modules")
+
+    include_directories(${EMSDK_ROOT}/system/include)
+
+    MESSAGE(STATUS "Targeting WASM for Web assembly")
+
+    SET(CMAKE_TOOLCHAIN_FILE ${EMSDK_ROOT}/cmake/Modules/Platform/Emscripten.cmake)
+    SET(CMAKE_CROSSCOMPILING_EMULATOR path/to/node)
+endif()
+
 
 if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
     message(SEND_ERROR "In-source builds are not allowed.")
@@ -37,6 +56,10 @@ add_subdirectory(audio)
 include_directories(audio)
 add_subdirectory(MuDa)
 include_directories(MuDa)
+
+if(TARGET_WEB)
+    add_subdirectory(web)
+endif()
 
 option(BUILD_EXAMPLES "Build the example projects" ON)
 if(BUILD_EXAMPLES)

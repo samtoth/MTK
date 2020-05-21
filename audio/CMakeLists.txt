@@ -9,6 +9,7 @@ add_library(MTKAudio SHARED IAudioManager.h
         AudioUnits/Oscillators/IOscillator.h AudioUnits/Delay.cpp AudioUnits/Delay.h
         Wrappers/PortAudioWrapper.cpp Wrappers/PortAudioWrapper.h
         Wrappers/IAudioWrapper.h Wrappers/MockAudioWrapper.cpp Wrappers/MockAudioWrapper.h
-        AudioSampleBuffer.h AudioUnits/MockAudioUnit.cpp AudioUnits/MockAudioUnit.cpp AudioUnits/MockAudioUnit.h)
-
-target_link_libraries(MTKAudio portaudio)
+        AudioSampleBuffer.h AudioUnits/MockAudioUnit.cpp AudioUnits/MockAudioUnit.cpp AudioUnits/MockAudioUnit.h Wrappers/WebAudioWrapper.cpp Wrappers/WebAudioWrapper.h)
+if(NOT TARGET_WEB)
+    target_link_libraries(MTKAudio portaudio)
+endif()

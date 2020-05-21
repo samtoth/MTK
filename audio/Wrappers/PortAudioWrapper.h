@@ -1,7 +1,7 @@
 //
 // Created by sammy on 14/05/2020.
 //
-
+#ifndef TARGET_WEB
 #ifndef MUSICTOOLKIT_PORTAUDIOWRAPPER_H
 #define MUSICTOOLKIT_PORTAUDIOWRAPPER_H
 
@@ -44,3 +44,4 @@ namespace MTK::Audio {
 
 
 #endif //MUSICTOOLKIT_PORTAUDIOWRAPPER_H
+#endif //TARGET_WEB

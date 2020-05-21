@@ -12,7 +12,9 @@
 #include <mutex>
 #include "IAudioUnit.h"
 #include "Wrappers/IAudioWrapper.h"
+#ifndef TARGET_WEB
 #include <portaudio.h>
+#endif
 #include <iostream>
 #include <Wrappers/MockAudioWrapper.h>
 #include <stack>
@@ -24,7 +26,7 @@ namespace MTK::Audio {
     class AudioSystem{
     public:
         ~AudioSystem(){
-            audioInstance.reset();
+            audioInstance = nullptr;
             std::cout << "AudioSystem destructed"<< std::endl;
         }
 
@@ -43,13 +45,13 @@ namespace MTK::Audio {
 
         int setup(AudioSettings settings);
 
+#ifndef TARGET_WEB
         int deviceCount();
-
         //TODO: Remove from the generic audio system class and so remove the portaudio include
         std::optional<const PaDeviceInfo *> getDeviceInfo(int i);
 
         int printDevices();
-
+#endif
         int startStream();
 
         int stopStream();
