@@ -13,6 +13,7 @@ std::string getVersion(){
 
 int initAudio(){
     MTK::Audio::AudioSystem::getAudioSystem()->initialize<MTK::Audio::WebAudioWrapper>();
+    return 0;
 }
 
 EMSCRIPTEN_BINDINGS(MTK_module) {
