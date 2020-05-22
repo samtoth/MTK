@@ -1,7 +1,7 @@
 //
 // Created by sammy on 14/05/2020.
 //
-
+#ifndef TARGET_WEB
 #include <Audio.h>
 #include "PortAudioWrapper.h"
 
@@ -96,3 +96,4 @@ namespace MTK::Audio {
         std::cout << "PAW desatructed" << std::endl;
     }
 }
+#endif

@@ -25,6 +25,7 @@ namespace MTK::Audio {
         return audioInstance->setup(settings);
     }
 
+#ifndef TARGET_WEB
     int AudioSystem::deviceCount(){
         int numDevices;
         numDevices = Pa_GetDeviceCount();
@@ -34,7 +35,6 @@ namespace MTK::Audio {
         }
         return numDevices;
     }
-
     std::optional<const PaDeviceInfo*> AudioSystem::getDeviceInfo(int i){
         auto n = deviceCount();
         if(i<0 || i>n){return std::nullopt;}
@@ -48,6 +48,7 @@ namespace MTK::Audio {
         }
         return 0;
     }
+#endif
 
     int AudioSystem::startStream(){
         return audioInstance->startStream();

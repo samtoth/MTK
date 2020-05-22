@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 project(MusicToolkit VERSION 0.1.1)
+add_definitions(-DMTK_VERSION="${PROJECT_VERSION}")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -16,19 +17,41 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
+OPTION(TARGET_WEB "Compile to WASM using emscripten" OFF)
+if(TARGET_WEB)
+    add_definitions(-DTARGET_WEB)
+    if(NOT DEFINED ENV{EMSDK})
+        MESSAGE(FATAL_ERROR "Cannot find EMSDK environment variable")
+    endif()
+
+    set(EMSDK_ROOT $ENV{EMSDK})
+    set(EMSCRIPTEN_ROOT $ENV{EMSCRIPTEN_ROOT})
+    MESSAGE(STATUS "Found emscripten at: ${EMSDK_ROOT}")
+    include_directories(${EMSCRIPTEN_ROOT}/system/include)
+
+    SET(CMAKE_TOOLCHAIN_FILE ${EMSDK_ROOT}/cmake/Modules/Platform/Emscripten.cmake)
+    SET(CMAKE_CROSSCOMPILING_EMULATOR ${EMSDK_NODE})
+
+    set(EMCC_LINKER_FLAGS "-o ${CMAKE_BINARY_DIR}/dist/HelloWorld.js -s WASM=1 -s MODULARIZE=1 -s ALLOW_MEMORY_GROWTH=1 --bind")
+
+    MESSAGE(STATUS "Targeting WASM for Web assembly")
+endif()
+
 include(FetchContent)
 
 include_directories(include)
 
-find_package(portaudio QUIET)
-if(NOT portaudio_found)
-    message(STATUS "portaudio not found... installing from https://git.assembla.com/portaudio.git")
-    FetchContent_Declare(
-            portaudio
-            GIT_REPOSITORY https://git.assembla.com/portaudio.git
-            GIT_TAG  pa_stable_v190600_20161030
-    )
-    FetchContent_MakeAvailable(portaudio)
+if(NOT TARGET_WEB)
+    find_package(portaudio QUIET)
+    if(NOT portaudio_found)
+        message(STATUS "portaudio not found... installing from https://git.assembla.com/portaudio.git")
+        FetchContent_Declare(
+                portaudio
+                GIT_REPOSITORY https://git.assembla.com/portaudio.git
+                GIT_TAG  pa_stable_v190600_20161030
+        )
+        FetchContent_MakeAvailable(portaudio)
+    endif()
 endif()
 
 add_subdirectory(core)
@@ -37,6 +60,10 @@ add_subdirectory(audio)
 include_directories(audio)
 add_subdirectory(MuDa)
 include_directories(MuDa)
+
+if(TARGET_WEB)
+    add_subdirectory(web)
+endif()
 
 option(BUILD_EXAMPLES "Build the example projects" ON)
 if(BUILD_EXAMPLES)

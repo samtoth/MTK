@@ -1,7 +1,3 @@
-//
-// Created by samt on 03/05/2020.
-//
-
 #ifndef MUSICTOOLKIT_AUDIO_H
 #define MUSICTOOLKIT_AUDIO_H
 
@@ -12,7 +8,11 @@
 #include <mutex>
 #include "IAudioUnit.h"
 #include "Wrappers/IAudioWrapper.h"
-#include <portaudio.h>
+#ifndef TARGET_WEB
+    #include <portaudio.h>
+#else
+    #include <emscripten/bind.h>
+#endif
 #include <iostream>
 #include <Wrappers/MockAudioWrapper.h>
 #include <stack>
@@ -24,7 +24,7 @@ namespace MTK::Audio {
     class AudioSystem{
     public:
         ~AudioSystem(){
-            audioInstance.reset();
+            audioInstance = nullptr;
             std::cout << "AudioSystem destructed"<< std::endl;
         }
 
@@ -43,13 +43,13 @@ namespace MTK::Audio {
 
         int setup(AudioSettings settings);
 
+#ifndef TARGET_WEB
         int deviceCount();
-
         //TODO: Remove from the generic audio system class and so remove the portaudio include
         std::optional<const PaDeviceInfo *> getDeviceInfo(int i);
 
         int printDevices();
-
+#endif
         int startStream();
 
         int stopStream();

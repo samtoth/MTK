@@ -39,6 +39,7 @@ namespace MTK::Audio {
 	}
 	int MockAudioWrapper::terminate() {
 		buffer = nullptr;
+		return 0;
 	}
 	void MockAudioWrapper::tick() {
 		for(int i = 0 ; i<devSettings.bufferSize; i++)
