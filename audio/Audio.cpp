@@ -13,7 +13,7 @@ namespace MTK::Audio {
         auto err = audioInstance->terminate();
         if(err==0) {
             std::call_once(delFlag, [this]() {
-                delete audioInstance.release();
+                audioInstance = nullptr;
             });
             return 0;
         }else{

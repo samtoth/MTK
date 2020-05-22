@@ -42,4 +42,4 @@ namespace MTK::Audio {
 
 }
 #endif //MUSICTOOLKIT_PORTAUDIOWRAPPER_H
-#endif
+#endif //TARGET_WEB

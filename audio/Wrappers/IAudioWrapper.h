@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <utility>
 #include "IAudioUnit.h"
+#include <memory>
 
 namespace MTK::Audio
 {
@@ -26,6 +27,8 @@ namespace MTK::Audio
 		{
 			generator = nullptr;
 		}
+
+		virtual ~IAudioWrapper() = default;
 
 		virtual int setup(AudioSettings settings) = 0;
 
