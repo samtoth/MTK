@@ -4,13 +4,18 @@
 #ifdef TARGET_WEB
 #include "WebAudioWrapper.h"
 #include <emscripten.h>
+#include <emscripten/val.h>
+#include <iostream>
 
 namespace MTK::Audio {
-	WebAudioWrapper::WebAudioWrapper() {
-		/*EM_ASM(
-		    console.log("Initializing WebAudio");
+	WebAudioWrapper::WebAudioWrapper(){
+	    EM_ASM(console.log("Initializing WebAudio"););
+        EM_ASM(
+                Module.audioContext = new AudioContext();
+                );
 
-			class GainProcessor extends AudioWorkletProcessor {
+		EM_ASM((
+			class MTKAudioProcessor extends AudioWorkletProcessor {
 				constructor() {
 					// The super constructor call is required.
 					super();
@@ -20,21 +25,20 @@ namespace MTK::Audio {
 					const input = inputs[0];
 					const output = outputs[0];
 					for (let channel = 0; channel < input.length; ++channel) {
-						const outputChannel = output[channel];
-						outputChannel[0] = 0.5;
+                            const outputChannel = output[channel];
+                            outputChannel[0] = Module.output();
 						}
 					}
 
-					return true;
+					return;
 				}
 
-				registerProcessor('gain-processor', GainProcessor);
-		);*/
+				registerProcessor('MTKAudioProcessor', GainProcessor);
+		));
 	}
 
 	int WebAudioWrapper::setup(AudioSettings settings) {
 		EM_ASM(
-			/*const context = new AudioContext();
 			context.audioWorklet.addModule('mtk-audio-processor.js').then(() => {
 
 				// After the resolution of module loading, an AudioWorkletNode can be
@@ -44,7 +48,7 @@ namespace MTK::Audio {
 				// AudioWorkletNode can be interoperable with other native AudioNodes.
 				oscillator.connect(gainWorkletNode).connect(context.destination);
 				oscillator.start();
-			});*/
+			});
 		);
 		return 0;
 	}
