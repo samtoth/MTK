@@ -28,7 +28,6 @@ if(TARGET_WEB)
     set(EMSCRIPTEN_ROOT $ENV{EMSCRIPTEN_ROOT})
     MESSAGE(STATUS "Found emscripten at: ${EMSDK_ROOT}")
     include_directories(${EMSCRIPTEN_ROOT}/system/include)
-
     SET(CMAKE_TOOLCHAIN_FILE ${EMSDK_ROOT}/cmake/Modules/Platform/Emscripten.cmake)
     SET(CMAKE_CROSSCOMPILING_EMULATOR ${EMSDK_NODE})
 

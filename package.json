@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/samtoth/MTK/issues"
   },
-  "homepage": "https://samtoth.github.io/MTK"
+  "homepage": "https://samtoth.github.io/MTK",
+  "dependencies": {
+    "copyfiles": "^2.2.0"
+  }
 }
