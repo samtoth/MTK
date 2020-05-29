@@ -12,7 +12,6 @@
 #include <mutex>
 #include "IAudioUnit.h"
 #include "Wrappers/IAudioWrapper.h"
-#include <portaudio.h>
 #include <iostream>
 #include <Wrappers/MockAudioWrapper.h>
 #include <stack>
@@ -24,7 +23,7 @@ namespace MTK::Audio {
     class AudioSystem{
     public:
         ~AudioSystem(){
-            audioInstance.reset();
+            audioInstance = nullptr;
             std::cout << "AudioSystem destructed"<< std::endl;
         }
 
@@ -39,16 +38,20 @@ namespace MTK::Audio {
             return 0;
         }
 
+        template<typename T>
+		T *getAudioWrapper(){
+			try {
+				IAudioWrapper* tempBase = audioInstance.get();
+				auto* tempDerived = dynamic_cast<T*>(tempBase);
+				return tempDerived;
+			}catch (std::exception &e){
+				return nullptr;
+			}
+        }
+
         int terminate();
 
         int setup(AudioSettings settings);
-
-        int deviceCount();
-
-        //TODO: Remove from the generic audio system class and so remove the portaudio include
-        std::optional<const PaDeviceInfo *> getDeviceInfo(int i);
-
-        int printDevices();
 
         int startStream();
 
@@ -62,8 +65,6 @@ namespace MTK::Audio {
 
         uint64_t delta();
 
-        std::optional<AudioSampleBuffer<float>*> getTestBuffer();
-
     private:
         AudioSystem() = default;
         AudioSystem(const AudioSystem&) = delete;
@@ -73,7 +74,6 @@ namespace MTK::Audio {
         std::once_flag initFlag;
         std::mutex audioInstanceMutex;
         std::once_flag delFlag;
-
 
         static std::unique_ptr<AudioSystem> instanceSystem;
         static std::once_flag aSInitFlag;

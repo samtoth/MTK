@@ -38,9 +38,13 @@ namespace MTK::Audio {
         int stopStream() override;
 
         int terminate() override;
+
+		int deviceCount();
+
+		std::optional<const PaDeviceInfo*> getDeviceInfo(int i);
+
+		int printDevices();
     };
 
 }
-
-
 #endif //MUSICTOOLKIT_PORTAUDIOWRAPPER_H

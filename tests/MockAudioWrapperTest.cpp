@@ -16,7 +16,7 @@ TEST(MockAudioWrapperTest, bufferTest){
 	std::this_thread::sleep_until(x);
 
 	MTK::Audio::AudioSystem::getAudioSystem()->stopStream();
-	auto buffer = MTK::Audio::AudioSystem::getAudioSystem()->getTestBuffer();
+	auto buffer = MTK::Audio::AudioSystem::getAudioSystem()->getAudioWrapper<MTK::Audio::MockAudioWrapper>()->getBuffer();
 	if(!buffer){
 		FAIL();
 	}

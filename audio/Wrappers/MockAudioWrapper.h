@@ -19,6 +19,7 @@ namespace MTK::Audio {
 		int stopStream() override;
 		std::optional<AudioSampleBuffer<float>*> getBuffer();
 		int terminate() override;
+		AudioSampleBuffer<float> *generateBuffer();
 	private:
 		std::unique_ptr<AudioSampleBuffer<float>> buffer;
 		bool run;

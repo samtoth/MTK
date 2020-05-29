@@ -9,7 +9,7 @@
 
 #include <string>
 #include <optional>
-#include <Eigen/Dense>
+#include <eigen3/Eigen/Dense>
 #include <memory>
 #include "IScale.h"
 

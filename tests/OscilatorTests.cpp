@@ -44,20 +44,13 @@ TYPED_TEST(OscilatorTests, doesOutput) {
 	osc->setFrequency(440.f);
 	MTK::Audio::AudioSystem::getAudioSystem()->setGenerator(osc);
 
-	auto x = std::chrono::steady_clock::now() + std::chrono::milliseconds(1000);
-	MTK::Audio::AudioSystem::getAudioSystem()->startStream();
-	std::this_thread::sleep_until(x);
+	auto buffer = MTK::Audio::AudioSystem::getAudioSystem()->getAudioWrapper<MTK::Audio::MockAudioWrapper>()->generateBuffer();
 
-	MTK::Audio::AudioSystem::getAudioSystem()->stopStream();
-	auto buffer = MTK::Audio::AudioSystem::getAudioSystem()->getTestBuffer();
-	if(!buffer){
-		FAIL();
-	}
-	int n = (*buffer)->size();
+	int n = (buffer)->size();
 	float rootMeanSqr = 0;
-	while(!(*buffer)->empty()){
-		rootMeanSqr += powf((float)(*buffer)->front(), 2.f);
-		(*buffer)->pop();
+	while(!(buffer->empty())){
+		rootMeanSqr += powf((float)buffer->front(), 2.f);
+		(buffer)->pop();
 	}
 	rootMeanSqr = powf(rootMeanSqr/(float)n, 0.5f);
 

@@ -92,6 +92,30 @@ namespace MTK::Audio {
         return 0;
     }
 
+
+	int PortAudioWrapper::deviceCount(){
+		int numDevices;
+		numDevices = Pa_GetDeviceCount();
+		if(numDevices<0){
+			printErr(numDevices);
+			return 0;
+		}
+		return numDevices;
+	}
+	std::optional<const PaDeviceInfo*> PortAudioWrapper::getDeviceInfo(int i){
+		auto n = deviceCount();
+		if(i<0 || i>n){return std::nullopt;}
+		return Pa_GetDeviceInfo(i);
+	}
+
+	int PortAudioWrapper::printDevices(){
+		auto n = deviceCount();
+		for(int i = 0; i<n; i++){
+			std::cout << getDeviceInfo(i).value()->name << std::endl;
+		}
+		return 0;
+	}
+
     PortAudioWrapper::~PortAudioWrapper() {
         std::cout << "PAW desatructed" << std::endl;
     }

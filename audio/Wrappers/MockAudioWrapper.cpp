@@ -39,6 +39,7 @@ namespace MTK::Audio {
 	}
 	int MockAudioWrapper::terminate() {
 		buffer = nullptr;
+		return 0;
 	}
 	void MockAudioWrapper::tick() {
 		for(int i = 0 ; i<devSettings.bufferSize; i++)
@@ -55,6 +56,10 @@ namespace MTK::Audio {
 			std::cout << "Must stop stream before accessing buffer" << std::endl;
 			return std::nullopt;
 		}
+	}
+	AudioSampleBuffer<float> *MockAudioWrapper::generateBuffer() {
+		this->tick();
+		return buffer.get();
 	}
 
 }
