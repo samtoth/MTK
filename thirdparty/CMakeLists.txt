@@ -1,5 +1,3 @@
-include_directories(eigen/Eigen)
-
 if(BUILD_PYAPI)
     add_subdirectory(pybind11)
 endif()

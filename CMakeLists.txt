@@ -24,6 +24,7 @@ option(BUILD_TESTS "Build the tests" ON)
 option(BUILD_DOCS "Build documentation" ON)
 
 add_subdirectory(thirdparty)
+include_directories(thirdparty)
 
 add_subdirectory(core)
 include_directories(core)
