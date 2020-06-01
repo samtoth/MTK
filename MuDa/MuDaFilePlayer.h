@@ -1,8 +1,3 @@
-/**
- * \class MuDa
- * \brief MuDaFilePlayer takes a raw streambuffer derived IMuDaStream and interprets the data and sends appropriate calls to the audioManager class its given
- */
-
 #ifndef MUSICTOOLKIT_MUDAFILEPLAYER_H
 #define MUSICTOOLKIT_MUDAFILEPLAYER_H
 

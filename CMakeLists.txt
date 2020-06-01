@@ -33,6 +33,10 @@ include_directories(audio)
 add_subdirectory(MuDa)
 include_directories(MuDa)
 
+if(BUILD_PYAPI)
+    add_subdirectory(python)
+endif()
+
 if(BUILD_EXAMPLES)
     add_subdirectory(examples)
     include_directories(examples)

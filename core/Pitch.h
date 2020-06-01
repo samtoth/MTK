@@ -1,9 +1,3 @@
-/**
- * \class Pitch
- * \brief
- * \author Sam
- */
-
 #ifndef MUSICTOOLKIT_PITCH_H
 #define MUSICTOOLKIT_PITCH_H
 

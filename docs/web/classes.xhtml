@@ -12,14 +12,28 @@
         <div class="main">
             <h1>Classes</h1>
             <table class="class-table">
-                % for _class in classes:
-                    <tr>
-                        <td><b><a href="${_class.url}">${_class.name}</a></b></td>
-                        <td>${_class.brief}</td>
-                    </tr>
-                % endfor
+                ${listItem(project)}
             </table>
         </div>
     </div>
 </body>
 </html>
+
+<%def name="listItem(object)">
+        % if object.kind == "Namespace":
+            <tr>
+                <th>
+                    <b>${object.name}</b>
+                </th>
+            </tr>
+        % endif
+        % if object.kind == "Class":
+            <tr>
+                <td>${object.name}</td>
+                <td>${object.brief}</td>
+            </tr>
+        % endif
+        % for member in object.members:
+            ${listItem(member)}
+        % endfor
+</%def>

@@ -1,13 +1,11 @@
-/**
- * \class IScale
- * \brief An interface to classes that define finite, linear collections of notes
- */
 #ifndef MUSICTOOLKIT_ISCALE_H
 #define MUSICTOOLKIT_ISCALE_H
 
 
 #include <vector>
 namespace MTK::Core {
+
+	///\brief An interface to classes that define finite, linear collections of notes
     class IScale {
     public:
         virtual float distanceFromNote(float frequency) = 0;

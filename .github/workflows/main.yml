@@ -26,19 +26,24 @@ jobs:
         run: |
           sudo apt-get install python3-wheel
           python -m pip install --upgrade pip
-          pip install mako py-gfm
+          pip install pipenv
+          pipenv install
 
       - name: get Git Submodules
         run: git submodule update --init --recursive
 
       - name: Configure
-        run:  mkdir build && cd build && cmake -DCMAKE_CXX_COMPILER="/usr/bin/g++" -DCMAKE_C_COMPILER="/usr/bin/gcc" -DCMAKE_BUILD_TYPE=release ..
+        run:  |
+          mkdir build && cd build && cmake -DCMAKE_CXX_COMPILER="/usr/bin/g++" -DCMAKE_C_COMPILER="/usr/bin/gcc" -DCMAKE_BUILD_TYPE=release ..
+          pipenv run genPyDocs
 
       - name: Build
         run: cmake --build build --target all -- -j 4
       
       - name: Build docs
-        run: cmake --build build --target buildDocs -- -j 4
+        run: |
+          cmake --build build --target buildDocs -- -j 4
+          pipenv run ./build/docs/doxyToHTML.py
 
       - name: Run-tests
         run: cmake --build build --target generateCoverage -- -j 4

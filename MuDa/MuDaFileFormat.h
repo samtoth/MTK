@@ -1,8 +1,3 @@
-/**
- * \class MuDaFileFormat
- * \brief MuDaFileFormat holds information about the contents of a MuDa file or stream
- */
-
 #ifndef MUSICTOOLKIT_MUDAFILEFORMAT_H
 #define MUSICTOOLKIT_MUDAFILEFORMAT_H
 

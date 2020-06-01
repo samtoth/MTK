@@ -14,5 +14,5 @@ FILE_PATTERNS          = *.h \
                          *.cpp
 
 RECURSIVE              = YES
-
+EXTRACT_ALL            = YES
 GENERATE_XML           = YES

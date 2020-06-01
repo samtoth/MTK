@@ -1,13 +1,10 @@
-/**
- * \class PeriodicScale
- * \brief A set of frequency ratios that repeat at a given period
- */
 #ifndef MUSICTOOLKIT_PERIODICSCALE_H
 #define MUSICTOOLKIT_PERIODICSCALE_H
 
 #include <cmath>
 #include "IScale.h"
 namespace MTK::Core {
+	/// \brief A set of frequency ratios that repeat at a given period
     class PeriodicScale : public IScale {
     public:
         /// \param period The point at which the scale repeats itself (most often at the octave (2) but not necessarily)

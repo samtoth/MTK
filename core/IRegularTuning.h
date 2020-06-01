@@ -1,11 +1,5 @@
-/**
- * \class IRegularTuning
- * \brief An interfaces that defines the functionality of a "regular tuning system". This is the base class for regular temperaments of any rank - including equal division tuning system
- * \author Sam
- */
 #ifndef MUSICTOOLKIT_IREGULARTUNING_H
 #define MUSICTOOLKIT_IREGULARTUNING_H
-
 
 #include <string>
 #include <optional>
@@ -14,6 +8,8 @@
 #include "IScale.h"
 
 namespace MTK::Core {
+
+ 	///\brief An interfaces that defines the functionality of a "regular tuning system". This is the base class for regular temperaments of any rank - including equal division tuning system
     template<typename Vector>
     class IRegularTuning {
     public:

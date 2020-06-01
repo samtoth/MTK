@@ -5,11 +5,7 @@
 #include <IAudioManager.h>
 #include <IInstrument.h>
 namespace MTK::Audio {
-    /**
-     * \class BasicAudioManager
-     * \brief A basic implementation of IAudioManager that has a list of instruments and a basic mixer
-     * \author Sam
-     */
+	/// \brief A basic implementation of IAudioManager that has a list of instruments and a basic mixer
     class BasicAudioManager : public IAudioManager {
     public:
         explicit BasicAudioManager() {}

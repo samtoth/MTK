@@ -35,12 +35,11 @@ if(BUILD_DOCUMENTATION)
         configure_file(${script_in} ${script} @ONLY)
         add_custom_command(TARGET buildDocs COMMAND ${CMAKE_COMMAND} -E copy ${README_IN} ${README} VERBATIM)
         add_custom_command(TARGET buildDocs COMMAND ${CMAKE_COMMAND} -E copy_directory ${web_in} ${web} VERBATIM )
-
-        add_custom_command(TARGET buildDocs
-                COMMAND ${Python3_EXECUTABLE} doxyToHTML.py "xml" "web"
-                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/docs
-                COMMENT "Building HTML file"
-                VERBATIM)
+    #    add_custom_command(TARGET buildDocs
+   #             COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_BINARY_DIR}/docs/doxyToHTML.py "xml" "web"
+  #              WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+ #               COMMENT "Building HTML files"
+#                VERBATIM)
     endif()
 
     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/html DESTINATION share/doc)
