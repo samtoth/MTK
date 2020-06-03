@@ -6,3 +6,7 @@
 	path = thirdparty/eigen
 	url = https://gitlab.com/libeigen/eigen.git
 
+[submodule "thirdparty/spirit"]
+	path = thirdparty/spirit
+	url = https://github.com/boostorg/spirit.git
+	branch = develop
