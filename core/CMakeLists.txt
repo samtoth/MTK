@@ -1,1 +1,1 @@
-add_library(MTKCore SHARED Pitch.cpp IRegularTuning.h LinearTuning.cpp LinearTuning.h IScale.h PeriodicScale.cpp PeriodicScale.h)
+add_library(MTKCore SHARED Pitch.cpp IRegularTuning.h LinearTuning.cpp LinearTuning.h IScale.h PeriodicScale.cpp PeriodicScale.h RhythmTree.cpp RhythmTree.h)
