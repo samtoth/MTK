@@ -3,7 +3,7 @@
 
 #include <string>
 #include <optional>
-#include <eigen/Eigen/Dense>
+#include <Eigen/Dense>
 #include <memory>
 #include "IScale.h"
 

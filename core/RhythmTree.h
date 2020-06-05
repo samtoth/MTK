@@ -16,6 +16,7 @@
 
 #include <vector>
 #include <string>
+#include <tao/pegtl.hpp>
 
 namespace MTK::Core {
 	class RhythmTreeNode {

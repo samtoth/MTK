@@ -4,6 +4,9 @@ endif()
 
 include(FetchContent)
 
+set(include_pegtl "thirdparty/PEGTL/include" PARENT_SCOPE)
+set(include_eigen "thirdparty/eigen" PARENT_SCOPE)
+
 find_package(portaudio QUIET)
 if(NOT portaudio_found)
     #message(STATUS "checking for portaudio... installing from https://git.assembla.com/portaudio.git")

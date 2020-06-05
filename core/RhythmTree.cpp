@@ -10,11 +10,4 @@ float MTK::Core::RhythmTreeNode::getLength() {
 }
 MTK::Core::RhythmTreeNode MTK::Core::RhythmTreeNode::parseTree(std::string tree) {
 	//tree.erase (std::remove_if(tree.begin(), tree.end(), isspace), tree.end());
-
-	if(tree[0] == '{' && tree[tree.length()-1] == '}'){
-		std::string::spl  (',');
-	}else{
-		tree;
-	}
-	return MTK::Core::RhythmTreeNode();
 }

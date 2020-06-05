@@ -24,7 +24,7 @@ option(BUILD_TESTS "Build the tests" ON)
 option(BUILD_DOCS "Build documentation" ON)
 
 add_subdirectory(thirdparty)
-include_directories(thirdparty)
+include_directories(${include_eigen} ${include_pegtl})
 
 add_subdirectory(core)
 include_directories(core)
@@ -32,6 +32,7 @@ add_subdirectory(audio)
 include_directories(audio)
 add_subdirectory(MuDa)
 include_directories(MuDa)
+
 
 if(BUILD_PYAPI)
     add_subdirectory(python)
