@@ -6,8 +6,3 @@
 [submodule "thirdparty/eigen"]
 	path = thirdparty/eigen
 	url = https://gitlab.com/libeigen/eigen.git
-
-[submodule "thirdparty/PEGTL"]
-	path = thirdparty/PEGTL
-	url = https://github.com/taocpp/PEGTL.git
-	branch = master

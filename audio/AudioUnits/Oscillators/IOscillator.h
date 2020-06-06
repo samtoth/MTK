@@ -7,7 +7,7 @@
 
 #include <IAudioUnit.h>
 namespace MTK::Audio {
-/// An Audio unit that always outputs sound given a frequency.
+	/// An Audio unit that always outputs sound given a frequency.
     class IOscillator : public IAudioUnit {
     public:
         IOscillator(){ frequency=0;}

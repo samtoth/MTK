@@ -4,7 +4,6 @@ endif()
 
 include(FetchContent)
 
-set(include_pegtl "thirdparty/PEGTL/include" PARENT_SCOPE)
 set(include_eigen "thirdparty/eigen" PARENT_SCOPE)
 
 find_package(portaudio QUIET)

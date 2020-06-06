@@ -24,7 +24,7 @@ option(BUILD_TESTS "Build the tests" ON)
 option(BUILD_DOCS "Build documentation" ON)
 
 add_subdirectory(thirdparty)
-include_directories(${include_eigen} ${include_pegtl})
+include_directories(${include_eigen})
 
 add_subdirectory(core)
 include_directories(core)

@@ -16,7 +16,6 @@
 
 #include <vector>
 #include <string>
-#include <tao/pegtl.hpp>
 
 namespace MTK::Core {
 	class RhythmTreeNode {
@@ -27,6 +26,8 @@ namespace MTK::Core {
 				delete child;
 			}
 		}
+
+		RhythmTreeNode(std::string);
 
 		std::vector<RhythmTreeNode*> children;
 		float getLength();
