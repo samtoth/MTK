@@ -6,20 +6,24 @@
 #define MUSICTOOLKIT_DELAY_H
 
 #include "IFilter.h"
-#include <AudioSampleBuffer.h>
+#include <VarLenSampleBuffer.h>
 
 namespace MTK::Audio {
-    class Delay : IFilter {
+    class Delay : public IFilter {
     public:
 		Delay(int delay, int maxDelay);
 
     	float output(float sample) override;
 
+    	float front();
+
+    	/// Sets the delay in samples. Must be less than maxDelay
+    	void setDelay(int samples);
     protected:
     	int maxDelay;
     	int delay;
 
-    	AudioSampleBuffer<float> buf;
+    	VarLenSampleBuffer<float> buf;
 	};
 }
 

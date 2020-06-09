@@ -7,7 +7,7 @@
 #include <AudioUnits/MockAudioUnit.h>
 #include <thread>
 
-TEST(MockAudioWrapperTest, bufferTest){
+TEST(MockAudioWrapperTest, asyncBufferTest){
 	auto mockAUnit = std::make_shared<MTK::Audio::MockAudioUnit>();
 	MTK::Audio::AudioSystem::getAudioSystem()->setGenerator(mockAUnit);
 
@@ -24,4 +24,14 @@ TEST(MockAudioWrapperTest, bufferTest){
 		EXPECT_FLOAT_EQ((*buffer)->front(), 0.5f);
 		(*buffer)->pop();
 	}
+}
+
+TEST(MockAudioWrapperTest, BufferTest){
+    auto mockAUnit = std::make_shared<MTK::Audio::MockAudioUnit>();
+    MTK::Audio::AudioSystem::getAudioSystem()->setGenerator(mockAUnit);
+    auto *buffer = MTK::Audio::AudioSystem::getAudioSystem()->getAudioWrapper<MTK::Audio::MockAudioWrapper>()->generateBuffer();
+    while((buffer)->empty()){
+        EXPECT_FLOAT_EQ((buffer)->front(), 0.5f);
+        (buffer)->pop();
+    }
 }

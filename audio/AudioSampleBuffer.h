@@ -10,23 +10,37 @@
 #include <memory>
 namespace MTK::Audio {
 	template<typename T, typename Container = std::deque<T>>
-	class AudioSampleBuffer : public std::queue<T, Container> {
+	class AudioSampleBuffer {
 	public:
-		void setLength(int _maxLength)
-		{
-			maxLength = _maxLength;
-		}
+	    explicit AudioSampleBuffer(int _length) : length(_length) {
+	    }
 
 		void push(const T& value) {
-			if (this->size() == maxLength)
+			if (c.size() == length)
 			{
-				this->c.pop_front();
+				c.pop_front();
 			}
-			std::queue<T, Container>::push(value);
+			c.push_back(value);
 		}
 
-	private:
-		int maxLength;
+		void pop() {
+	        c.pop_front();
+	    }
+
+	    T front(){
+	        return c.front();
+	    }
+
+        bool empty() {
+            return c.empty();
+        }
+        size_t size(){
+            return c.size();
+        }
+
+    protected:
+		int length;
+	    std::deque<T> c;
 	};
 }
 

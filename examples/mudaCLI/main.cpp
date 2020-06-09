@@ -3,7 +3,7 @@
 #include <Audio.h>
 #include <BasicAudioManager.h>
 #include <utility>
-#include <AudioUnits/Beep.h>
+#include <AudioUnits/PluckedString.h>
 #include <MuDaFilePlayer.h>
 #include <AudioUnits/Oscillators/SawWave.h>
 #include <Wrappers/PortAudioWrapper.h>
@@ -15,8 +15,7 @@ int playFile(const std::string& fileName ){
 	MTK::Audio::AudioSystem::getAudioSystem()->setup({ 1, 44100, 0});
     auto am = std::make_shared<MTK::Audio::BasicAudioManager>();
     //setup AM
-    auto *instr = new MTK::Audio::Beep();
-    instr->addVoices<MTK::Audio::SawWave>(3);
+    auto *instr = new MTK::Audio::PluckedString(100);
     auto i = am->addInstrument(instr);
     am->setLevel(i, 0.5f);
 	MTK::Audio::AudioSystem::getAudioSystem()->setGenerator(am);
@@ -36,7 +35,7 @@ int playFile(const std::string& fileName ){
 
 int writeFile(std::string fileName){
     auto Mf = std::make_shared<MTK::MuDa::MuDaFileFormat>(140);
-    std::map<uint32_t, float> params = {{0, 525.f}};
+    std::map<uint32_t, float> params = {{0, 525.f/2.f}};
 
     Mf->appendStartMessage();
 
@@ -47,8 +46,9 @@ int writeFile(std::string fileName){
     Mf->appendNoteMessage(80, MTK::MuDa::MessageCodes::noteOff, {0, 0, {}});
 
     Mf->appendNoteMessage(100, MTK::MuDa::MessageCodes::noteOn, {0, 0, params});
+    Mf->appendNoteMessage(145, MTK::MuDa::MessageCodes::noteOff, {0, 0, {}});
 
-    Mf->appendNoteMessage(150, MTK::MuDa::MessageCodes::noteChange, {0, 0, {{0, 440.f}}});
+    Mf->appendNoteMessage(150, MTK::MuDa::MessageCodes::noteOn, {0, 0, {{0, 220.f}}});
     Mf->appendNoteMessage(300, MTK::MuDa::MessageCodes::noteOff,{0, 0, {}});
 
     Mf->appendEndMessage(500);

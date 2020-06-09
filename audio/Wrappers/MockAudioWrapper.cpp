@@ -10,13 +10,12 @@
 namespace MTK::Audio {
 
 	int MockAudioWrapper::setup(AudioSettings settings) {
-		buffer = std::make_unique<AudioSampleBuffer<float>>();
 		devSettings = settings;
 		run = false;
 		if(devSettings.bufferSize==0){
 			devSettings.bufferSize=devSettings.sampleRate/4.f;
 		}
-		buffer->setLength(devSettings.bufferSize);
+        buffer = std::make_unique<AudioSampleBuffer<float>>(devSettings.bufferSize);
 		return 0;
 	}
 

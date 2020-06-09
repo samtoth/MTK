@@ -20,6 +20,8 @@
 namespace MTK::Audio {
 #define printErr(em) printf("PortAudio error: %s\n", Pa_GetErrorText(em)) //TODO: throw error
 
+#define AUDIO_SYSTEM AudioSystem::getAudioSystem()
+
     class AudioSystem{
     public:
         ~AudioSystem(){

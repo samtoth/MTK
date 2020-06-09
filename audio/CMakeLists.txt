@@ -1,3 +1,6 @@
+include_directories(audioUnits)
+include_directories(audioUnits/Filters)
+
 add_library(MTKAudio SHARED IAudioManager.h
         IAudioUnit.h IInstrument.h
         BasicAudioManager.cpp BasicAudioManager.h
@@ -12,6 +15,6 @@ add_library(MTKAudio SHARED IAudioManager.h
         Wrappers/IAudioWrapper.h Wrappers/MockAudioWrapper.cpp Wrappers/MockAudioWrapper.h
         AudioSampleBuffer.h
         AudioUnits/MockAudioUnit.cpp AudioUnits/MockAudioUnit.h
-        AudioUnits/Filters/IFilter.h)
+        AudioUnits/Filters/IFilter.h VarLenSampleBuffer.cpp VarLenSampleBuffer.h AudioUnits/PluckedString.cpp AudioUnits/PluckedString.h AudioUnits/WhiteNoise.cpp AudioUnits/WhiteNoise.h)
 
 target_link_libraries(MTKAudio portaudio)

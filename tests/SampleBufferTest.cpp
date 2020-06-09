@@ -8,8 +8,7 @@
 #include <memory>
 
 TEST(SampleBufferTest, pushMax){
-	MTK::Audio::AudioSampleBuffer<int> queue;
-	queue.setLength(10);
+	auto queue = MTK::Audio::AudioSampleBuffer<int>(10);
 	for(int i = 0; i<10; i++){
 		queue.push(i);
 	}
@@ -20,8 +19,7 @@ TEST(SampleBufferTest, pushMax){
 }
 
 TEST(SampleBufferTest, pushWraparound){
-	MTK::Audio::AudioSampleBuffer<int> queue;
-	queue.setLength(10);
+    auto queue = MTK::Audio::AudioSampleBuffer<int>(10);
 	for(int i = 0; i<12; i++){
 		queue.push(i);
 	}
