@@ -29,16 +29,12 @@ jobs:
           pip install pipenv
           pipenv install
 
-      - name: get Git Submodules
-        run: git submodule update --init --recursive
+      - name: Get deps
+        run: mkdir build && cd build && pipenv run conan install .. --build
 
       - name: Configure
         run:  |
-          mkdir build && cd build && cmake -DCMAKE_CXX_COMPILER="/usr/bin/g++" -DCMAKE_C_COMPILER="/usr/bin/gcc" -DCMAKE_BUILD_TYPE=release ..
-          # pipenv run genPyDocs
-
-      - name: Build
-        run: cmake --build build --target all -- -j 4
+          cd build && pipenv run conan build ..
       
       - name: Build docs
         run: |
@@ -73,14 +69,12 @@ jobs:
         with:
           packages: gcovr
 
-      - name: get Git Submodules
-        run: git submodule update --init --recursive
+      - name: Get deps
+        run: mkdir build && cd build && pipenv run conan install .. --build
 
       - name: Configure
-        run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=release -G "MinGW Makefiles" -DBUILD_DOCS=OFF ..
-
-      - name: Build
-        run: cmake --build build --target all -- -j 4
+        run:  |
+          cd build && pipenv run conan build ..
 
       - name: Run-tests
         run: cmake --build build --target generateCoverage -- -j 4

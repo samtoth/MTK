@@ -8,6 +8,9 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 MESSAGE(STATUS "Music ToolKit Version ${PROJECT_VERSION}")
 
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+
 if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
     message(SEND_ERROR "In-source builds are not allowed.")
 endif("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
@@ -22,9 +25,6 @@ option(BUILD_EXAMPLES "Build the example projects" ON)
 option(BUILD_PYAPI "Build Python bindings" OFF)
 option(BUILD_TESTS "Build the tests" ON)
 option(BUILD_DOCS "Build documentation" ON)
-
-add_subdirectory(thirdparty)
-include_directories(${include_eigen})
 
 add_subdirectory(core)
 include_directories(core)
