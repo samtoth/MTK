@@ -1,4 +1,4 @@
-ADD_EXECUTABLE(runTests PitchTest.cpp main.cpp RegularTuningTest.cpp PeriodicScaleTest.cpp MuDaFileTest.cpp SampleBufferTest.cpp OscilatorTests.cpp MockAudioWrapperTest.cpp MTKTestEnvironment.h)
+ADD_EXECUTABLE(runTests PitchTest.cpp main.cpp RegularTuningTest.cpp PeriodicScaleTest.cpp MuDaFileTest.cpp SampleBufferTest.cpp OscilatorTests.cpp MockAudioWrapperTest.cpp MTKTestEnvironment.h VarLenSampleBufferTest.cpp noiseTest.cpp)
 
 TARGET_LINK_LIBRARIES(runTests MTKCore MTKAudio MuDa gtest gtest_main)
 gtest_discover_tests(runTests)

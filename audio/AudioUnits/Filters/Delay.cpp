@@ -5,11 +5,21 @@
 #include "Delay.h"
 namespace MTK::Audio {
 	float Delay::output(float sample){
-		return 0;
+		auto ret = buf.front();
+        buf.push(sample);
+		return ret;
 	}
 
-	Delay::Delay(int _delay, int _maxDelay) : delay(_delay), maxDelay(_maxDelay) {
-		buf = AudioSampleBuffer<float>();
-		buf.setLength(maxDelay);
+	Delay::Delay(int _delay, int _maxDelay) : delay(_delay), maxDelay(_maxDelay), buf(delay, maxDelay) {
+
 	}
+
+    void Delay::setDelay(int samples) {
+        buf.setLength(samples);
+        delay = samples;
+    }
+
+    float Delay::front() {
+        return buf.front();
+    }
 }

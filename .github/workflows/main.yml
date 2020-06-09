@@ -43,7 +43,6 @@ jobs:
       - name: Build docs
         run: |
           cmake --build build --target buildDocs -- -j 4
-          pipenv run ./build/docs/doxyToHTML.py
 
       - name: Run-tests
         run: cmake --build build --target generateCoverage -- -j 4
@@ -53,12 +52,12 @@ jobs:
         with:
           file: ./build/coverage.xml
 
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@3.4.9
-        with:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: build/docs/web # The folder the action should deploy.
+     # - name: Deploy 🚀
+     #   uses: JamesIves/github-pages-deploy-action@3.4.9
+     #   with:
+     #     ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+     #     BRANCH: gh-pages # The branch the action should deploy to.
+     #     FOLDER: build/docs/web # The folder the action should deploy.
           
 
   windows:
@@ -84,4 +83,4 @@ jobs:
         run: cmake --build build --target all -- -j 4
 
       - name: Run-tests
-        run: cmake --build build --target runTests -- -j 4
+        run: cmake --build build --target generateCoverage -- -j 4
