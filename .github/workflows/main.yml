@@ -29,7 +29,7 @@ jobs:
           pip install pipenv
           
       - name: get-py-deps
-        run: pipenv install
+        run: pipenv install --dev
 
       - name: Get deps
         run: pipenv run conan install . --build
@@ -77,7 +77,7 @@ jobs:
           pip install pipenv
 
       - name: get-py-deps
-        run: pipenv install
+        run: pipenv install --dev
      
       - name: Get deps
         run: pipenv run conan install . --build
