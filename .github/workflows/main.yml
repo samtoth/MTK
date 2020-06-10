@@ -10,32 +10,27 @@ jobs:
 
       - name: get-cmake
         uses: lukka/get-cmake@v2.3
-        
+
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
           python-version: 3.8
-        
+
       - name: get-doxygen
         run: sudo apt-get install doxygen
 
       - name: get-gcovr
         run: sudo apt-get install gcovr
-      
-      - name: get-python-modules
+
+      - name: get-pipenv
         run: |
           sudo apt-get install python3-wheel
           python -m pip install --upgrade pip
           pip install pipenv
-          pipenv install
 
-      - name: Get deps
-        run: pipenv run conan install . --build
+      - name: setup
+        run: ./setup
 
-      - name: Configure
-        run:  |
-          pipenv run conan build .
-      
       - name: Build docs
         run: |
           cmake --build build --target buildDocs -- -j 4
@@ -48,13 +43,13 @@ jobs:
         with:
           file: ./build/coverage.xml
 
-     # - name: Deploy 🚀
-     #   uses: JamesIves/github-pages-deploy-action@3.4.9
-     #   with:
-     #     ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-     #     BRANCH: gh-pages # The branch the action should deploy to.
-     #     FOLDER: build/docs/web # The folder the action should deploy.
-          
+          # - name: Deploy 🚀
+          #   uses: JamesIves/github-pages-deploy-action@3.4.9
+          #   with:
+          #     ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          #     BRANCH: gh-pages # The branch the action should deploy to.
+          #     FOLDER: build/docs/web # The folder the action should deploy.
+
 
   windows:
     runs-on: [windows-latest]
@@ -69,12 +64,13 @@ jobs:
         with:
           packages: gcovr
 
-      - name: Get deps
-        run: pipenv run conan install . --build
+      - name: get-pipenv
+        run: |
+          python -m pip install --upgrade pip
+          pip install pipenv
 
-      - name: Configure
-        run:  |
-          pipenv run conan build .
+      - name: setup
+        run: ./setup
 
       - name: Run-tests
         run: cmake --build build --target generateCoverage -- -j 4
