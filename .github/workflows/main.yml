@@ -22,12 +22,14 @@ jobs:
       - name: get-gcovr
         run: sudo apt-get install gcovr
       
-      - name: get-python-modules
+      - name: get-pipenv
         run: |
           sudo apt-get install python3-wheel
           python -m pip install --upgrade pip
           pip install pipenv
-          pipenv install
+          
+      - name: get-py-deps
+        run: pipenv install
 
       - name: Get deps
         run: pipenv run conan install . --build
@@ -69,6 +71,14 @@ jobs:
         with:
           packages: gcovr
 
+      - name: get-pipenv
+        run: |
+          python -m pip install --upgrade pip
+          pip install pipenv
+
+      - name: get-py-deps
+        run: pipenv install
+     
       - name: Get deps
         run: pipenv run conan install . --build
 
