@@ -29,7 +29,7 @@ jobs:
           pip install pipenv
 
       - name: setup
-        run: ./setup
+        run: python setup.py
 
       - name: Build docs
         run: |
@@ -70,7 +70,7 @@ jobs:
           pip install pipenv
 
       - name: setup
-        run: ./setup
+        run: python setup.py
 
       - name: Run-tests
         run: cmake --build build --target generateCoverage -- -j 4
