@@ -8,6 +8,7 @@ sphinx = "*"
 breathe = "*"
 conan = "*"
 colorama = "*"
+gcovr = "*"
 
 [packages]
 mako = "*"

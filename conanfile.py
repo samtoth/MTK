@@ -11,8 +11,9 @@ class MTKConan(ConanFile):
     topics = ("<Put some tag here>", "<here>", "<and here>")
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
-    default_options = {"shared": True}
-    requires = ['gtest/1.10.0', 'pybind11/2.4.3', 'eigen/3.3.7',
+    default_options = {"shared": True, "gtest:build_gmock": False}
+    build_requires = ['gtest/1.10.0', 'pybind11/2.4.3', 'doxygen/1.8.17']
+    requires = ['eigen/3.3.7',
                 'portaudio/v190600.20161030@bincrafters/stable']
     generators = "cmake"
 
@@ -21,6 +22,7 @@ class MTKConan(ConanFile):
         self.run("git clone https://github.com/samtoth/MTK.git")
 
     def build(self):
+        self.options['gtest'].shared = True
         cmake = CMake(self)
         cmake.configure()
         cmake.build()

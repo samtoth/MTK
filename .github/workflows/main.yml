@@ -16,12 +16,6 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: get-doxygen
-        run: sudo apt-get install doxygen
-
-      - name: get-gcovr
-        run: sudo apt-get install gcovr
-
       - name: get-pipenv
         run: |
           sudo apt-get install python3-wheel
@@ -71,6 +65,3 @@ jobs:
 
       - name: setup
         run: python setup.py
-
-      - name: Run-tests
-        run: cmake --build build --target generateCoverage -- -j 4
