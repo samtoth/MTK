@@ -17,4 +17,4 @@ add_library(MTKAudio SHARED IAudioManager.h
         AudioUnits/MockAudioUnit.cpp AudioUnits/MockAudioUnit.h
         AudioUnits/Filters/IFilter.h VarLenSampleBuffer.cpp VarLenSampleBuffer.h AudioUnits/PluckedString.cpp AudioUnits/PluckedString.h AudioUnits/WhiteNoise.cpp AudioUnits/WhiteNoise.h)
 
-target_link_libraries(MTKAudio portaudio)
+target_link_libraries(MTKAudio PUBLIC CONAN_PKG::portaudio)

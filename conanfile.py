@@ -22,9 +22,9 @@ class MTKConan(ConanFile):
 
     def build(self):
         cmake = CMake(self)
-        cmake.configure(build_dir='build')
-        cmake.test()
+        cmake.configure()
         cmake.build()
+        cmake.test()
 
     def package(self):
         self.copy("*.dll", dst="bin", keep_path=False)
@@ -34,4 +34,4 @@ class MTKConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libdir = ['lib', 'lib64']
-        self.cpp_info.libs = ["MTK"]
+        self.cpp_info.libs = ["MTKCore", "MTKAudio", "MuDa"]

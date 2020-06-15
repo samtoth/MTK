@@ -1,0 +1,39 @@
+{
+ "profile_host": "[settings]\narch=x86_64\narch_build=x86_64\nbuild_type=Release\ncompiler=gcc\ncompiler.libcxx=libstdc++11\ncompiler.version=8\nos=Windows\nos_build=Windows\n[options]\n[build_requires]\n[env]\n",
+ "graph_lock": {
+  "nodes": {
+   "0": {
+    "pref": "MTK/0.1.1:b06e4e0428e69769784858c026c7532a032f529f",
+    "options": "shared=True\ngtest:build_gmock=True\ngtest:hide_symbols=False\ngtest:no_main=False\ngtest:shared=False\nportaudio:shared=False",
+    "requires": [
+     "1",
+     "2",
+     "3",
+     "4"
+    ],
+    "path": "C:\\Users\\sammy\\CLionProjects\\MTK\\conanfile.py"
+   },
+   "1": {
+    "pref": "gtest/1.10.0#0:c1b3e01f3df2b2121e07e4b4967fdf9296c79866#9d6487594eba82d18ea84bdc4dcad29f",
+    "options": "build_gmock=True\nhide_symbols=False\nno_main=False\nshared=False",
+    "modified": "built"
+   },
+   "2": {
+    "pref": "pybind11/2.4.3#0:5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9#b0bf252f5e02ba6249381fd93f5ece1e",
+    "options": "",
+    "modified": "built"
+   },
+   "3": {
+    "pref": "eigen/3.3.7#0:5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9#c3e1ceee31a2a3bcfc890ddcb3643c1c",
+    "options": "",
+    "modified": "built"
+   },
+   "4": {
+    "pref": "portaudio/v190600.20161030@bincrafters/stable#0:9965605309592d7e617ec929633249a2031e4263#d85eb01591f957754f8e53e418a83995",
+    "options": "shared=False",
+    "modified": "built"
+   }
+  }
+ },
+ "version": "0.3"
+}
