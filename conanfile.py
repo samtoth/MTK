@@ -10,8 +10,8 @@ class MTKConan(ConanFile):
     description = "A C++ API designed for Music software"
     topics = ("<Put some tag here>", "<here>", "<and here>")
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True, False], "generator": ['Ninja Makefiles', 'MinGw Makefiles', None]}
-    default_options = {"shared": True, "gtest:build_gmock": False, "generator": None}
+    options = {"shared": [True, False], "generator": ['Ninja', 'MinGw Makefiles', None]}
+    default_options = {"shared": True, "gtest:build_gmock": False, "generator": 'Ninja'}
     build_requires = ['gtest/1.10.0', 'pybind11/2.4.3', 'doxygen/1.8.17']
     requires = ['eigen/3.3.7',
                 'portaudio/v190600.20161030@bincrafters/stable']
@@ -24,7 +24,7 @@ class MTKConan(ConanFile):
     def build(self):
         self.options['gtest'].shared = True
         print(f" --INFO      Generator used is {'auto' if self.options.generator is None else self.options.generator}")
-        cmake = CMake(self, generator=self.options.generator)
+        cmake = CMake(self, generator=str(self.options.generator))
         cmake.configure()
         cmake.build()
         cmake.test()

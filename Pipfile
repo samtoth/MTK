@@ -9,6 +9,7 @@ breathe = "*"
 conan = "*"
 colorama = "*"
 gcovr = "*"
+ninja = "*"
 
 [packages]
 mako = "*"
