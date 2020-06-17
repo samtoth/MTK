@@ -1,7 +1,7 @@
 //
 // Created by samt on 28/04/2020.
 //
-
+#define _USE_MATH_DEFINES		// Needed for MSVC
 #include <cmath>
 #include <Audio.h>
 #include "SinWave.h"
