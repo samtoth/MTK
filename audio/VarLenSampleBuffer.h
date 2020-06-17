@@ -6,7 +6,7 @@
 #define MUSICTOOLKIT_VARLENSAMPLEBUFFER_H
 
 #include <AudioSampleBuffer.h>
-#include <exception>
+#include <stdexcept>
 
 namespace MTK::Audio {
     template<typename T, typename Container = std::deque<T>>

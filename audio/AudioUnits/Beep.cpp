@@ -4,6 +4,7 @@
 
 #include <map>
 #include "Beep.h"
+#include <stdexcept>
 
 namespace MTK::Audio {
     float Beep::output() {
